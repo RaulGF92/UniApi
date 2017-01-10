@@ -13,6 +13,7 @@ import es.uniapi.modules.execution_enviroment.model.exceptions.ExecutionExceptio
 import es.uniapi.modules.execution_enviroment.model.exceptions.ServiceException;
 import es.uniapi.modules.execution_enviroment.model.infoService.InfoPython;
 import es.uniapi.modules.execution_enviroment.model.infoService.InfoService;
+import es.uniapi.modules.execution_enviroment.service.ProgrammingService;
 
 public class ServicePython implements es.uniapi.modules.execution_enviroment.service.programming.Intf.ServicePython {
 	
@@ -55,6 +56,8 @@ public class ServicePython implements es.uniapi.modules.execution_enviroment.ser
 
 	public ExecutionState getState() {
 		// TODO Auto-generated method stub
+		if(!this.currentExecution.isAlive())
+			this.state=ProgrammingService.ExecutionState.Stopped;
 		return state;
 	}
 
