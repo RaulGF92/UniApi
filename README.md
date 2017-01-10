@@ -1,9 +1,9 @@
 ## UniApi Trabajo fin de grado UNIOVI
 
-## ¿Que es UniApi?
+# ¿Que es UniApi?
 UniApi es un servicio que utiliza las tecnologías WEB para facilitar el despliegue de los programas académicos y científicos en aplicaciones web. Para que desarrolladores de aplicaciones y científicos solo tengan que pensar en optimizar su trabajo. Así de fácil.
 
-## ¿Como funciona?
+# ¿Como funciona?
 La primera versión utiliza tres grandes tecnologias para proporcionar el servicio.
 * GIT. Para la comunicación de archivos.
 * HTTP. Para la comunicación con las aplicaciones web.
