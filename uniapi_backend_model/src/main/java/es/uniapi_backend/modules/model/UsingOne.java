@@ -1,4 +1,4 @@
-package es.uniapi_backend.modules.business.model;
+package es.uniapi_backend.modules.model;
 
 import java.util.Date;
 
@@ -64,7 +64,27 @@ public class UsingOne {
 		this.finalizationDate = finalizationDate;
 	}
 	
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public long getProyectId() {
+		return proyectId;
+	}
+
+	public void setProyectId(long proyectId) {
+		this.proyectId = proyectId;
+	}
+
+	
 	private long id;
+	
+	private long userId;
+	private long proyectId;
 	
 	private String responsePATH;
 	private String outputPATH;
@@ -73,11 +93,12 @@ public class UsingOne {
 	
 	private Date creationDate;
 	private Date finalizationDate;
-	
+
 	@Override
 	public String toString() {
-		return "UsingOne [id=" + id + ", responsePATH=" + responsePATH + ", outputPATH=" + outputPATH + ", input="
-				+ input + ", creationDate=" + creationDate + ", finalizationDate=" + finalizationDate + "]";
+		return "UsingOne [id=" + id + ", userId=" + userId + ", proyectId=" + proyectId + ", responsePATH="
+				+ responsePATH + ", outputPATH=" + outputPATH + ", input=" + input + ", creationDate=" + creationDate
+				+ ", finalizationDate=" + finalizationDate + "]";
 	}
 	
 }

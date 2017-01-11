@@ -4,7 +4,7 @@
 	<groupId>es.uniapi.modules</groupId>
 	<artifactId>enviroment_execution</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>UniApi_Backend</name>
+	<name>UniApi_Backend_Enviroment_Execution</name>
 	<description>Backend part of the uniapi service</description>
 
 	<build>
@@ -22,8 +22,11 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>jgit-repository</id>
-			<url>https://repo.eclipse.org/content/groups/releases/</url>
+			<id>jgit-snapshot-repository</id>
+			<url>https://repo.eclipse.org/content/groups/jgit/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 
@@ -33,31 +36,38 @@
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>2.9.6</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit</artifactId>
-			<version>4.5.0.201609210915-r</version>
+			<version>4.6.0.201612231935-r</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit.http.server</artifactId>
-			<version>4.5.0.201609210915-r</version>
+			<version>4.6.0.201612231935-r</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit.ui</artifactId>
-			<version>4.5.0.201609210915-r</version>
+			<version>4.6.0.201612231935-r</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit.junit</artifactId>
-			<version>4.5.0.201609210915-r</version>
+			<version>4.6.0.201612231935-r</version>
 		</dependency>
+
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -71,8 +81,8 @@
 	</dependencies>
 	<properties>
 		<java.version>1.8</java.version>
-        <project.encoding>UTF-8</project.encoding>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+		<project.encoding>UTF-8</project.encoding>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
 </project>

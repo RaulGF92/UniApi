@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     
-    <groupId>es.uniapi</groupId> 
+    <groupId>es.uniapi.modules</groupId> 
     <artifactId>apirest</artifactId>
     <version>0.0.1-SNAPSHOT</version> 
 
@@ -59,4 +59,6 @@
             <url>https://repo.spring.io/libs-release</url>
         </pluginRepository>
     </pluginRepositories>
+    <name>Uniapi_Backend_Apirest</name>
+    <description>Part of the aplication that contais the rest services, for connect with the users</description>
 </project>

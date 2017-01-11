@@ -7,7 +7,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>maven-neo4j-archetype</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -79,4 +78,5 @@
             </plugin>
         </plugins>
     </build>
+    <name>Uniapi_Backend_Bussiness</name>
 </project>
