@@ -1,6 +1,6 @@
 package es.uniapi_backend.modules.business.dao.intf;
 
-import es.uniapi_backend.modules.model.Person;
+import es.uniapi.modules.model.Person;
 
 public interface PersonDAO {
 

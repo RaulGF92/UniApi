@@ -1,7 +1,7 @@
 package es.uniapi.modules.execution_enviroment.execution;
 
 import es.uniapi.modules.execution_enviroment.model.*;
-import es.uniapi.modules.execution_enviroment.model.exceptions.ExecutionException;
+import es.uniapi.modules.execution_enviroment.model.ExecutionException;
 
 public class Execution extends Thread {
 

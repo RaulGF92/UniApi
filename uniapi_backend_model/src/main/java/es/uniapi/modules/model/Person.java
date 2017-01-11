@@ -1,4 +1,4 @@
-package es.uniapi_backend.modules.model;
+package es.uniapi.modules.model;
 
 import java.util.ArrayList;
 import java.util.Date;

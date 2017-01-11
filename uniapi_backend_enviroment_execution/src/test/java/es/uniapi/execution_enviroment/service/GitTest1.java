@@ -4,8 +4,8 @@ import es.uniapi.modules.execution_enviroment.model.Proyect;
 import es.uniapi.modules.execution_enviroment.model.ProyectType;
 import es.uniapi.modules.execution_enviroment.model.exceptions.ServiceException;
 import es.uniapi.modules.execution_enviroment.model.infoService.InfoGit;
+import es.uniapi.modules.execution_enviroment.service.especial.Impl.ServiceGit;
 import es.uniapi.modules.execution_enviroment.service.factory.Impl.ServiceFileFactory;
-import es.uniapi.modules.execution_enviroment.service.file.Impl.ServiceGit;
 
 public class GitTest1 {
 /**

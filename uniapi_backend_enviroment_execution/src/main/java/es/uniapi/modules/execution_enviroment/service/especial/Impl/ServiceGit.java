@@ -1,4 +1,4 @@
-package es.uniapi.modules.execution_enviroment.service.file.Impl;
+package es.uniapi.modules.execution_enviroment.service.especial.Impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,24 +14,23 @@ import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.joda.time.DateTime;
 
 import es.uniapi.modules.execution_enviroment.git.GitControl;
-import es.uniapi.modules.execution_enviroment.model.Proyect;
-import es.uniapi.modules.execution_enviroment.model.ProyectType;
-import es.uniapi.modules.execution_enviroment.model.exceptions.ServiceException;
-import es.uniapi.modules.execution_enviroment.model.infoService.InfoGit;
+import es.uniapi.modules.execution_enviroment.model.ServiceException;
+import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService;
+import es.uniapi.modules.model.Proyect;
 
-public class ServiceGit implements es.uniapi.modules.execution_enviroment.service.file.Intf.ServiceGit {
+public class ServiceGit extends ProgrammingService implements es.uniapi.modules.execution_enviroment.service.especial.Intf.ServiceGit {
 
 	Proyect proyectGit;
 	InfoGit chacheInfo=null;
 	
-	public void InicializateService(Proyect proyect) throws ServiceException {
+	public void inicializateService(Proyect proyect) throws ServiceException {
 		// TODO Auto-generated method stub
 		this.proyectGit=proyect;
-		if(!ExistProyect());
+		if(!existProyect());
 			//throw new ServiceException();
 	}
 
-	public boolean ExistProyect() {
+	public boolean existProyect() throws ServiceException{
 		// TODO Auto-generated method stub
 		File directory=new File(proyectGit.getOriginPath());
 		return directory.exists();
@@ -120,5 +119,6 @@ public class ServiceGit implements es.uniapi.modules.execution_enviroment.servic
 		}
 		
 	}
+
 
 }

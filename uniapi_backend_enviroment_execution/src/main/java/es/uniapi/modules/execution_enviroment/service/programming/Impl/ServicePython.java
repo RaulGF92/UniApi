@@ -2,108 +2,104 @@ package es.uniapi.modules.execution_enviroment.service.programming.Impl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.joda.time.DateTime;
 
 import es.uniapi.modules.execution_enviroment.execution.Execution;
-import es.uniapi.modules.execution_enviroment.model.Proyect;
-import es.uniapi.modules.execution_enviroment.model.ProyectType;
+import es.uniapi.modules.model.Proyect;
 import es.uniapi.modules.execution_enviroment.model.TicketExecution;
-import es.uniapi.modules.execution_enviroment.model.exceptions.ExecutionException;
-import es.uniapi.modules.execution_enviroment.model.exceptions.ServiceException;
-import es.uniapi.modules.execution_enviroment.model.infoService.InfoPython;
-import es.uniapi.modules.execution_enviroment.model.infoService.InfoService;
-import es.uniapi.modules.execution_enviroment.service.ProgrammingService;
+import es.uniapi.modules.execution_enviroment.model.ExecutionException;
+import es.uniapi.modules.execution_enviroment.model.ServiceException;
+import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService;
 
-public class ServicePython implements es.uniapi.modules.execution_enviroment.service.programming.Intf.ServicePython {
-	
+public class ServicePython extends ProgrammingService
+		implements es.uniapi.modules.execution_enviroment.service.programming.Intf.ServicePython {
+
 	Proyect pythonProyect;
-	private File responsePython[]={null,null};
-	private DateTime initialServiceTime=null;
-	private ExecutionState state=ExecutionState.Stopped;
+	private File responsePython[] = { null, null };
 	private Execution currentExecution;
-	
-	public void InicializateService(Proyect proyect) throws ServiceException {
+
+	public void inicializateService(Proyect proyect) throws ServiceException {
 		// TODO Auto-generated method stub
-		this.pythonProyect=proyect;
-		if(!ExistProyect())
+		this.pythonProyect = proyect;
+		if (!existProyect())
 			throw new ServiceException();
-		
+
 	}
 
-	public boolean ExistProyect() {
+	public boolean existProyect() throws ServiceException {
 		// TODO Auto-generated method stub
-		File directory=new File(pythonProyect.getOriginPath());
+		if (pythonProyect == null)
+			throw new ServiceException();
+		File directory = new File(super.getAbsoluteProyectPath(this.pythonProyect));
 		return directory.exists();
 	}
 
 	public File[] getResponse() throws ServiceException {
 		// TODO Auto-generated method stub
-		if(responsePython[0]==null || responsePython[1]==null)
+		if (responsePython[0] == null || responsePython[1] == null)
 			throw new ServiceException();
 		return responsePython;
 	}
 
-	public long getActivatedTime() {
-		// TODO Auto-generated method stub
-		if(initialServiceTime==null)
-			return 0;
-		
-		DateTime now=new DateTime();
-		
-		return now.getMillis()-initialServiceTime.getMillis();
-	}
 
-	public ExecutionState getState() {
+	public void executedService(String[] inputs, String outputPath) throws ServiceException {
 		// TODO Auto-generated method stub
-		if(!this.currentExecution.isAlive())
-			this.state=ProgrammingService.ExecutionState.Stopped;
-		return state;
-	}
 
-	public long executedProyect(String outputPath) throws ServiceException {
-		// TODO Auto-generated method stub
-		
-		initialServiceTime=new DateTime();
-		
-		TicketExecution ticket=null;
-		String mainPath=this.pythonProyect.getOriginPath();
+		TicketExecution ticket = null;
+		String mainPath = super.getAbsoluteProyectPath(pythonProyect) + "\\" + pythonProyect.getMainName();
 		ArrayList<String> arguments;
-		
-		for(int i=0;i<this.pythonProyect.getServiceInfo().size();i++){
-			InfoService container=this.pythonProyect.getServiceInfo().get(i);
-			
-			if(container.type==ProyectType.PYTHON){
-				InfoPython pythoncontainer=(InfoPython) this.pythonProyect.getServiceInfo().get(i);
-				mainPath="python "+mainPath+'\\'+pythoncontainer.main;
-				arguments=pythoncontainer.arguments;
-				arguments.add(outputPath);
-				ticket=new TicketExecution(mainPath, arguments,outputPath+'\\'+pythoncontainer.nameResponse);
-			}
+
+		mainPath = "python " + mainPath;
+		for (int i = 0; i < inputs.length; i++) {
+			arguments = new ArrayList<String>();
+			arguments.add(inputs[i]);
+			arguments.add(outputPath);
+			ticket = new TicketExecution(mainPath, arguments, outputPath + '\\' + pythonProyect.getResponseName());
+
 		}
-		
-		if(ticket==null)
+
+		if (ticket == null)
 			throw new ServiceException();
-		
-		currentExecution=new Execution(ticket);
-		this.state=ExecutionState.Running;
-		
+
+		currentExecution = new Execution(ticket);
+		this.state = ExecutionState.Running;
+
 		currentExecution.run();
-		
-		return getActivatedTime();
+
 	}
 
-	public void stopedCurrentExecution() throws ServiceException {
+	public void stopedCurrentService() throws ServiceException {
 		// TODO Auto-generated method stub
-		if(currentExecution!=null){
+		if (currentExecution != null) {
 			try {
 				currentExecution.getProcess().destroy();
-				state=ExecutionState.Stopped;
+				super.state = ExecutionState.Stopped;
+				super.finishServiceDate=new DateTime().toDate();
 			} catch (ExecutionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public String getAbsoluteProyectPath() {
+		// TODO Auto-generated method stub
+		if (this.pythonProyect == null)
+			return null;
+		return super.getAbsoluteProyectPath(pythonProyect);
+	}
+
+	@Override
+	public boolean isWorking() {
+		// TODO Auto-generated method stub
+		if(currentExecution.isAlive())
+			return true;
+		super.state=ExecutionState.Stopped;
+		super.finishServiceDate=new DateTime().toDate();
+		return false;
 	}
 
 }
