@@ -20,7 +20,7 @@ public abstract class ProgrammingService implements GeneralService {
 		//Cojer del archivo de propiedades el path de los proyectos
 		String instalationProyectPath="C:\\UniApi\\proyects";
 		
-		String proyectsPath=proyect.getName()+"id["+proyect.getid+"]";
+		String proyectsPath=proyect.getName()+"id["+proyect.getId()+"]";
 		String response=instalationProyectPath+"\\"+proyectsPath;
 		
 		return response;

@@ -1,12 +1,15 @@
 package es.uniapi.modules.model;
 
 import java.util.Arrays;
+import java.util.Date;
 
 public class Proyect {
 
+
+
 	public Proyect(long id, String name, ProyectType type, String description, String gitRepositoryURL, String email,
-			String password, String mainName, String[] defaultInputs, String inputDescription,
-			String outputDescription) {
+			String password, Date modifyDate, String mainName, String responseName, String[] defaultInputs,
+			String inputDescription, String outputDescription) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -15,15 +18,17 @@ public class Proyect {
 		this.gitRepositoryURL = gitRepositoryURL;
 		this.email = email;
 		this.password = password;
+		this.modifyDate = modifyDate;
 		this.mainName = mainName;
+		this.responseName = responseName;
 		this.defaultInputs = defaultInputs;
 		this.inputDescription = inputDescription;
 		this.outputDescription = outputDescription;
 	}
 
 	public Proyect(String name, ProyectType type, String description, String gitRepositoryURL, String email,
-			String password, String mainName, String[] defaultInputs, String inputDescription,
-			String outputDescription) {
+			String password, Date modifyDate, String mainName, String responseName, String[] defaultInputs,
+			String inputDescription, String outputDescription) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -31,7 +36,9 @@ public class Proyect {
 		this.gitRepositoryURL = gitRepositoryURL;
 		this.email = email;
 		this.password = password;
+		this.modifyDate = modifyDate;
 		this.mainName = mainName;
+		this.responseName = responseName;
 		this.defaultInputs = defaultInputs;
 		this.inputDescription = inputDescription;
 		this.outputDescription = outputDescription;
@@ -46,11 +53,15 @@ public class Proyect {
 	private String gitRepositoryURL;
 	private String email;
 	private String password;
+	private Date modifyDate;
 	
+	
+
 	//main
 	private String mainName;
 	private String responseName;
 	
+
 	//input-Output
 	private String[] defaultInputs;
 	private String inputDescription;
@@ -58,6 +69,22 @@ public class Proyect {
 	
 	public enum ProyectType {
 		JAVA,R,OCTAVE,GIT,PYTHON
+	}
+	
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+	
+	public String getResponseName() {
+		return responseName;
+	}
+
+	public void setResponseName(String responseName) {
+		this.responseName = responseName;
 	}
 
 	public String getName() {
@@ -144,8 +171,9 @@ public class Proyect {
 	public String toString() {
 		return "Proyect [id=" + id + ", name=" + name + ", type=" + type + ", description=" + description
 				+ ", gitRepositoryURL=" + gitRepositoryURL + ", email=" + email + ", password=" + password
-				+ ", mainName=" + mainName + ", defaultInputs=" + Arrays.toString(defaultInputs) + ", inputDescription="
-				+ inputDescription + ", outputDescription=" + outputDescription + "]";
+				+ ", modifyDate=" + modifyDate + ", mainName=" + mainName + ", responseName=" + responseName
+				+ ", defaultInputs=" + Arrays.toString(defaultInputs) + ", inputDescription=" + inputDescription
+				+ ", outputDescription=" + outputDescription + "]";
 	}
 
 	public long getId() {

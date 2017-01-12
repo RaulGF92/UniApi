@@ -2,6 +2,7 @@ package es.uniapi.modules.execution_enviroment.service.especial.Impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.DetachedHeadException;
@@ -15,13 +16,13 @@ import org.joda.time.DateTime;
 
 import es.uniapi.modules.execution_enviroment.git.GitControl;
 import es.uniapi.modules.execution_enviroment.model.ServiceException;
+import es.uniapi.modules.execution_enviroment.service.especial.EspecialService;
 import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService;
 import es.uniapi.modules.model.Proyect;
 
-public class ServiceGit extends ProgrammingService implements es.uniapi.modules.execution_enviroment.service.especial.Intf.ServiceGit {
+public class ServiceGit extends EspecialService implements es.uniapi.modules.execution_enviroment.service.especial.Intf.ServiceGit {
 
 	Proyect proyectGit;
-	InfoGit chacheInfo=null;
 	
 	public void inicializateService(Proyect proyect) throws ServiceException {
 		// TODO Auto-generated method stub
@@ -32,14 +33,14 @@ public class ServiceGit extends ProgrammingService implements es.uniapi.modules.
 
 	public boolean existProyect() throws ServiceException{
 		// TODO Auto-generated method stub
-		File directory=new File(proyectGit.getOriginPath());
+		File directory=new File(super.getAbsoluteProyectPath(proyectGit));
 		return directory.exists();
 	}
 
 	public void loadProject() throws ServiceException{
 		// TODO Auto-generated method stub
 		try {
-			GitControl git=new GitControl(proyectGit.getOriginPath(),takeInfo().url, takeInfo().user, takeInfo().password);
+			GitControl git=new GitControl(super.getAbsoluteProyectPath(proyectGit),proyectGit.getGitRepositoryURL(),proyectGit.getEmail(),proyectGit.getPassword());
 			git.pullFromRepo();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -68,8 +69,7 @@ public class ServiceGit extends ProgrammingService implements es.uniapi.modules.
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		chacheInfo.modifyDate=new DateTime();
-		loadInfo(chacheInfo);
+		proyectGit.setModifyDate(new DateTime().toDate());
 		
 	}
 
@@ -77,7 +77,7 @@ public class ServiceGit extends ProgrammingService implements es.uniapi.modules.
 		// TODO Auto-generated method stub
 		try {
 			//GitControl.init(proyectGit.getOriginPath());
-			GitControl git=new GitControl(proyectGit.getOriginPath(),takeInfo().url, takeInfo().user, takeInfo().password);
+			GitControl git=new GitControl(super.getAbsoluteProyectPath(proyectGit),proyectGit.getGitRepositoryURL(),proyectGit.getEmail(),proyectGit.getPassword());
 			git.cloneRepo();
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
@@ -90,35 +90,13 @@ public class ServiceGit extends ProgrammingService implements es.uniapi.modules.
 			e.printStackTrace();
 		}
 		
-		takeInfo();
-		chacheInfo.modifyDate=new DateTime();
-		loadInfo(chacheInfo);
-	}
-	private InfoGit takeInfo(){
-		if(chacheInfo!=null)
-			return chacheInfo;
-		
-		InfoGit info=null;
-		for(int i=0;i<proyectGit.getServiceInfo().size();i++){
-			if(proyectGit.getServiceInfo().get(i).type==ProyectType.GIT){
-				info=(InfoGit) proyectGit.getServiceInfo().get(i);
-			chacheInfo=info;
-			}
-		}
-		
-		return info;
-		
-	}
-	private void loadInfo(InfoGit info){
-		for(int i=0;i<proyectGit.getServiceInfo().size();i++){
-			if(proyectGit.getServiceInfo().get(i).type==ProyectType.GIT){
-				proyectGit.getServiceInfo().add(i,info);
-				chacheInfo=info;
-				return;
-			}
-		}
-		
+		proyectGit.setModifyDate(new DateTime().toDate());
 	}
 
-
+	@Override
+	@Deprecated
+	public String getAbsoluteProyectPath() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
