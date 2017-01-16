@@ -1,12 +1,22 @@
 package es.uniapi_backend.modules.business.servicegestion.gestorsworkers;
 
-import es.uniapi.modules.execution_enviroment.service.programming.Impl.ServiceProgramming;
+
 import es.uniapi_backend.modules.business.exception.GestorServiceException;
-import es.uniapi_backend.modules.model.*;
+import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService;
+import es.uniapi.modules.model.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import es.uniapi_backend.modules.business.servicegestion.GestorWork;
+import es.uniapi_backend.modules.business.servicegestion.gestorsworkers.tools.Bingo;
+import es.uniapi_backend.modules.business.servicegestion.gestorsworkers.tools.ComandasOfServices;
+import es.uniapi_backend.modules.business.servicegestion.gestorsworkers.tools.Dobby;
 
 public class GestorWorkerMap implements GestorWork{
-
+ 
+	private Dobby theDobby;
+	private Bingo theBingo; 
+	private ComandasOfServices servicesOrderByUsers;
+	
 	@Override
 	public UsingOne createService(UserLogin user, Proyect proyect) throws GestorServiceException {
 		// TODO Auto-generated method stub
@@ -14,13 +24,13 @@ public class GestorWorkerMap implements GestorWork{
 	}
 
 	@Override
-	public void DestroyService(ServiceProgramming service) throws GestorServiceException {
+	public void DestroyService(ProgrammingService service) throws GestorServiceException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public String treatmentForNewService(String userPath, ServiceProgramming service) throws GestorServiceException {
+	public String treatmentForNewService(String userPath, ProgrammingService service) throws GestorServiceException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -38,21 +48,22 @@ public class GestorWorkerMap implements GestorWork{
 	}
 
 	@Override
-	public ServiceProgramming[] destroyFileExecutionHierarchy(boolean destroyALL) throws GestorServiceException {
+	public ProgrammingService[] destroyFileExecutionHierarchy(boolean destroyALL) throws GestorServiceException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ServiceProgramming[] getAllActiveService() throws GestorServiceException {
+	public ProgrammingService[] getAllActiveService() throws GestorServiceException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ServiceProgramming[] getUserActiveService(long userID) throws GestorServiceException {
+	public ProgrammingService[] getUserActiveService(long userID) throws GestorServiceException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

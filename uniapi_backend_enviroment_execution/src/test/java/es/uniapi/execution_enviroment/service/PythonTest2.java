@@ -2,13 +2,7 @@ package es.uniapi.execution_enviroment.service;
 
 import java.util.ArrayList;
 
-import es.uniapi.modules.execution_enviroment.model.Proyect;
-import es.uniapi.modules.execution_enviroment.model.ProyectType;
-import es.uniapi.modules.execution_enviroment.model.exceptions.ServiceException;
-import es.uniapi.modules.execution_enviroment.model.infoService.InfoPython;
-import es.uniapi.modules.execution_enviroment.service.ProgrammingService.ExecutionState;
-import es.uniapi.modules.execution_enviroment.service.factory.Impl.ServiceProgrammingFactory;
-import es.uniapi.modules.execution_enviroment.service.programming.Intf.ServicePython;
+
 
 public class PythonTest2 {
 
@@ -20,6 +14,7 @@ public class PythonTest2 {
 	 * 
 	 * @param args
 	 */
+	/*
 	public static void main(String[] args){
 		Proyect proyectoPython=new Proyect("ProyectoBasico2","C:\\pruebasUniApi\\ProyectoBasico2", ProyectType.PYTHON);
 		
@@ -50,4 +45,5 @@ public class PythonTest2 {
 			e.printStackTrace();
 		}
 	}
+	*/
 }
