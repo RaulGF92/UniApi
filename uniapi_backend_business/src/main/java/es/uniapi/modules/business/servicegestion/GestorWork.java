@@ -1,8 +1,8 @@
-package es.uniapi_backend.modules.business.servicegestion;
+package es.uniapi.modules.business.servicegestion;
 
 import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService;
 import es.uniapi.modules.model.*;
-import es.uniapi_backend.modules.business.exception.GestorServiceException;
+import es.uniapi.modules.business.exception.GestorServiceException;
 
 public interface GestorWork {
 
@@ -24,7 +24,7 @@ public interface GestorWork {
 	 * @param service Servicio que se quiere destruir
 	 * @throws GestorServiceException
 	 */
-	public void DestroyService(ProgrammingService service) throws GestorServiceException;
+	public void DestroyService(UserLogin user,ProgrammingService service) throws GestorServiceException;
 	
 	/**
 	 * Para cada servicio que sea previamente creado y posteriormmente lanzado. Sera necesario preparar una jerarquia para que disponga de espacio.
@@ -43,12 +43,14 @@ public interface GestorWork {
 	 * @return UserPath Devuelve la jerarquia donde se almacenara los programas realizados por el usuario
 	 * @throws GestorServiceException
 	 */
+	
 	public String createNewUserExecutionHierarchy(long userID) throws GestorServiceException; //UserPath
 	
 	/**
 	 * Para desarrollar la ejecución de los servicios, sera necesario el crear una jerarquia dentro del sistema de ficheros del 
 	 * sistema operativo donde se ejecute la aplicación. En ello seran almacenados todos los servicios, que sean ejecutados por los usuarios. 
-	 * 
+	 *
+	 * Si existe ya, devolvera la jerarquia ya existente
 	 * @return PATH de la jerarquia de la aplicación
 	 * @throws GestorServiceException
 	 */
@@ -69,14 +71,21 @@ public interface GestorWork {
 	 * @return ServiceProgramming[] Devuelve todas las aplicaciones que estan en ejecucion
 	 * @throws GestorServiceException
 	 */
-	public ProgrammingService[] getAllActiveService() throws GestorServiceException;
+	public ProgrammingService[] getAllActiveServices() throws GestorServiceException;
 	/**
 	 * Retorna todos los servicios que estan activos por parte de un usuario
 	 * @param userID ID del usuario que se quiere conocer los servicios
-	 * @return
+	 * @return ProgrammingService[] devuelve un conjunto de aplicaciones activas
 	 * @throws GestorServiceException
 	 */
-	public ProgrammingService[] getUserActiveService(long userID) throws GestorServiceException;
+	public ProgrammingService[] getUserActiveServices(long userID) throws GestorServiceException;
+	/**
+	 * Retorna todos los servicios lanzados por el usuario
+	 * @param userID ID del usuario que quiere conocer los servicios
+	 * @return ProgrammingService[] devuelve un conjunto de aplicaciones activas
+	 * @throws GestorServiceException
+	 */
+	public ProgrammingService[] getAllUserServices(long userID) throws GestorServiceException;
 	
 	
 }

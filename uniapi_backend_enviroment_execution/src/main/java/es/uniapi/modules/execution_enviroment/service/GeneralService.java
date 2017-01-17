@@ -8,5 +8,6 @@ public interface GeneralService {
 	public void inicializateService(Proyect proyect) throws ServiceException;
 	boolean existProyect() throws ServiceException;
 	public String getAbsoluteProyectPath();
+	public Proyect getProyect();
 	
 }

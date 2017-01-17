@@ -1,4 +1,4 @@
-package es.uniapi_backend.modules.business.servicegestion.gestorsworkers.tools;
+package es.uniapi.modules.business.servicegestion.gestorsworkers.tools;
 /**
  * 
  * @author raulgf92

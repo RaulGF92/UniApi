@@ -1,4 +1,4 @@
-package es.uniapi_backend.modules.business.exception;
+package es.uniapi.modules.business.exception;
 
 public class GestorServiceException extends Exception {
 

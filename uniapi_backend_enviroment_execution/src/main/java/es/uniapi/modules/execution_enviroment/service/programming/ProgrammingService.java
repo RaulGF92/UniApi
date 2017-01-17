@@ -10,7 +10,11 @@ import es.uniapi.modules.model.Proyect;
 
 public abstract class ProgrammingService implements GeneralService {
 	
-	public ProgrammingService(){
+	private final String INSTALATION_PROJECT_PATH="C:\\UniApi\\data\\Proyects";
+	
+	private long id;
+	
+	public ProgrammingService(long id){
 		this.createServiceDate=new DateTime().toDate();
 		this.state=state.Running;
 	}
@@ -18,10 +22,9 @@ public abstract class ProgrammingService implements GeneralService {
 	public String getAbsoluteProyectPath(Proyect proyect){
 		
 		//Cojer del archivo de propiedades el path de los proyectos
-		String instalationProyectPath="C:\\UniApi\\proyects";
 		
 		String proyectsPath=proyect.getName()+"id["+proyect.getId()+"]";
-		String response=instalationProyectPath+"\\"+proyectsPath;
+		String response=INSTALATION_PROJECT_PATH+"\\"+proyectsPath;
 		
 		return response;
 	}
@@ -47,6 +50,38 @@ public abstract class ProgrammingService implements GeneralService {
 	public abstract void stopedCurrentService() throws ServiceException;
 	public abstract void executedService(String[] inputs,String outputPath) throws ServiceException;
 	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public ExecutionState getState() {
+		return state;
+	}
+
+	public void setState(ExecutionState state) {
+		this.state = state;
+	}
+
+	public Date getCreateServiceDate() {
+		return createServiceDate;
+	}
+
+	public void setCreateServiceDate(Date createServiceDate) {
+		this.createServiceDate = createServiceDate;
+	}
+
+	public Date getFinishServiceDate() {
+		return finishServiceDate;
+	}
+
+	public void setFinishServiceDate(Date finishServiceDate) {
+		this.finishServiceDate = finishServiceDate;
+	}
+
 	protected ExecutionState state;
 	private Date createServiceDate;
 	protected Date finishServiceDate;

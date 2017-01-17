@@ -1,4 +1,4 @@
-package es.uniapi_backend.modules.business.servicegestion.gestorsworkers.tools;
+package es.uniapi.modules.business.servicegestion.gestorsworkers.tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,7 +73,7 @@ public class ComandasOfServices {
 			}
 	}
 	
-	public ArrayList<ProgrammingService> getAllService(){
+	public ArrayList<ProgrammingService> getAllServices(){
 		ArrayList<ProgrammingService> response=new ArrayList<ProgrammingService>();
 		//Concurrent
 		try {
@@ -92,7 +92,7 @@ public class ComandasOfServices {
 			}
 		return response;
 	}
-	public ArrayList<ProgrammingService> getUserService(Long id){
+	public ArrayList<ProgrammingService> getUserServices(Long id){
 		ArrayList<ProgrammingService> response=new ArrayList<ProgrammingService>();
 		//Concurrent
 		try {

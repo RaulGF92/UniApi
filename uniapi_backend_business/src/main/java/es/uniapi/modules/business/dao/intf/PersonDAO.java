@@ -1,4 +1,4 @@
-package es.uniapi_backend.modules.business.dao.intf;
+package es.uniapi.modules.business.dao.intf;
 
 import es.uniapi.modules.model.Person;
 

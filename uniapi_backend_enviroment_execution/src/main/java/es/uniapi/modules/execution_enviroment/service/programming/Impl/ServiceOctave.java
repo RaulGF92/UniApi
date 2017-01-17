@@ -8,9 +8,9 @@ public class ServiceOctave extends ProgrammingService {
 
 	private Proyect octaveProyect;
 	
-	public ServiceOctave() {
+	public ServiceOctave(long id) {
 		// TODO Auto-generated constructor stub
-		super();
+		super(id);
 	}
 
 	@Override
@@ -41,6 +41,12 @@ public class ServiceOctave extends ProgrammingService {
 	public void executedService(String[] inputs, String outputPath) throws ServiceException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Proyect getProyect() {
+		// TODO Auto-generated method stub
+		return this.octaveProyect;
 	}
 
 

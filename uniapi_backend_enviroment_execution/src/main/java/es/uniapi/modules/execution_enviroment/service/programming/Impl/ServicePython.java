@@ -16,6 +16,11 @@ import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingSer
 public class ServicePython extends ProgrammingService
 		implements es.uniapi.modules.execution_enviroment.service.programming.Intf.ServicePython {
 
+	public ServicePython(long id) {
+		super(id);
+		// TODO Auto-generated constructor stub
+	}
+
 	Proyect pythonProyect;
 	private File responsePython[] = { null, null };
 	private Execution currentExecution;
@@ -100,6 +105,12 @@ public class ServicePython extends ProgrammingService
 		super.state=ExecutionState.Stopped;
 		super.finishServiceDate=new DateTime().toDate();
 		return false;
+	}
+
+	@Override
+	public Proyect getProyect() {
+		// TODO
+		return this.pythonProyect;
 	}
 
 }

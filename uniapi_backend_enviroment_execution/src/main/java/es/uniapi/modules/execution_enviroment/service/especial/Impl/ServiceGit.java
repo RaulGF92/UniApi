@@ -99,4 +99,10 @@ public class ServiceGit extends EspecialService implements es.uniapi.modules.exe
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Proyect getProyect() {
+		// TODO Auto-generated method stub
+		return proyectGit;
+	}
 }
