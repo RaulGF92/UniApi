@@ -1,4 +1,4 @@
-package es.uniapi.modules.config;
+package es.uniapi.modules.model.config;
 
 import es.uniapi.modules.model.exception.ConfigurationException;
 import es.uniapi.modules.model.exception.CriticalAppExcepction;
@@ -8,14 +8,14 @@ import java.util.Date;
 public class AppConfiguration {
 
 	/**
-	 * @author Raúl García Fdz
+	 * @author Raï¿½l Garcï¿½a Fdz
 	 * 
-	 *         Archivo que centraliza todas las opciones de configuración que
+	 *         Archivo que centraliza todas las opciones de configuraciï¿½n que
 	 *         seran almacenadas en un properties este properties sera creado en
-	 *         un proceso de instalación.
+	 *         un proceso de instalaciï¿½n.
 	 * 
-	 *         Se entiende que el proceso de instalación fue correcto y no hay
-	 *         fallos. No obtante se integra un proceso de evaluación de los
+	 *         Se entiende que el proceso de instalaciï¿½n fue correcto y no hay
+	 *         fallos. No obtante se integra un proceso de evaluaciï¿½n de los
 	 *         properties
 	 * 
 	 *         -NOTA: Properties tiene que estar en buildPath del jar
@@ -80,8 +80,8 @@ public class AppConfiguration {
 	/**
 	 * @throws ConfigurationException 
 	 * @throws CriticalException
-	 *             si existe una excepción de este calibre se recomienda, con la
-	 *             aplicación.
+	 *             si existe una excepciï¿½n de este calibre se recomienda, con la
+	 *             aplicaciï¿½n.
 	 */
 
 	public void loadProperties() throws CriticalAppExcepction, ConfigurationException {

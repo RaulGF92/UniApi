@@ -7,11 +7,12 @@ import org.joda.time.DateTime;
 import es.uniapi.modules.execution_enviroment.model.ServiceException;
 import es.uniapi.modules.execution_enviroment.service.GeneralService;
 import es.uniapi.modules.model.Proyect;
+import es.uniapi.modules.model.config.AppConfiguration;
 
 public abstract class ProgrammingService implements GeneralService {
 	
-	private final String INSTALATION_PROJECT_PATH="C:\\UniApi\\data\\Proyects";
-	
+	//private final String INSTALATION_PROJECT_PATH="C:\\UniApi\\data\\Proyects";
+	private final String INSTALATION_PROJECT_PATH=AppConfiguration.getConfiguration().getProyectSite();
 	private long id;
 	
 	public ProgrammingService(long id){

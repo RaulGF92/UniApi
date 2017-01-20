@@ -1,4 +1,4 @@
-package es.uniapi.modules.config;
+package es.uniapi.modules.model.config;
 
 import java.io.IOException;
 import java.io.InputStream;

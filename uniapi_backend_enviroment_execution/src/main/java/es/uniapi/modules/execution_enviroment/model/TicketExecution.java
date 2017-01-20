@@ -5,19 +5,31 @@ import java.util.ArrayList;
 
 public class TicketExecution {
 	
-	private String orderPath;
+	private String order;
+	private String mainPath;
 	private ArrayList<String> arguments;
 	private String outputPath;
 
-	public TicketExecution(String orderPath,ArrayList<String> arguments,String outputPath){
-		this.orderPath=orderPath;
+	public TicketExecution(String order,String mainPath,ArrayList<String> arguments,String outputPath){
+		this.order=order;
+		this.mainPath=mainPath;
 		this.arguments=arguments;
 		this.outputPath=outputPath;
 	}
+	
 
-	public String getOrderPath() {
-		return orderPath;
+
+	public String getOrder() {
+		return order;
 	}
+
+
+
+	public String getMainPath() {
+		return mainPath;
+	}
+
+
 
 	public ArrayList<String> getArguments() {
 		return arguments;

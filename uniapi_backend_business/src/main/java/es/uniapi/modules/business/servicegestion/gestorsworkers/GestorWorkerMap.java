@@ -9,6 +9,7 @@ import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingSer
 import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService.ExecutionState;
 import es.uniapi.modules.model.*;
 import es.uniapi.modules.model.Proyect.ProyectType;
+import es.uniapi.modules.model.config.AppConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ import es.uniapi.modules.business.servicegestion.gestorsworkers.tools.Dobby;
 
 public class GestorWorkerMap implements GestorWork{
  
-	private final String INSTALATION_PROJECT_PATH="C:\\UniApi\\data\\FileExecutionHierarchy";
+	//private final String INSTALATION_PROJECT_PATH="C:\\UniApi\\data\\FileExecutionHierarchy";
+	private final String INSTALATION_PROJECT_PATH=AppConfiguration.getConfiguration().getExecutionSite();
 	
 	private Dobby theDobby;
 	private Bingo theBingo; 

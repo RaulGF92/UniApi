@@ -29,14 +29,14 @@ public class ServicePython extends ProgrammingService
 		// TODO Auto-generated method stub
 		this.pythonProyect = proyect;
 		if (!existProyect())
-			throw new ServiceException();
+			throw new ServiceException("El servicio ha fallado por no existir el proyecto "+proyect.getMainName());
 
 	}
 
 	public boolean existProyect() throws ServiceException {
 		// TODO Auto-generated method stub
 		if (pythonProyect == null)
-			throw new ServiceException();
+			throw new ServiceException("El servicio ha fallado por no existir el proyecto ");
 		File directory = new File(super.getAbsoluteProyectPath(this.pythonProyect));
 		return directory.exists();
 	}
@@ -44,7 +44,7 @@ public class ServicePython extends ProgrammingService
 	public File[] getResponse() throws ServiceException {
 		// TODO Auto-generated method stub
 		if (responsePython[0] == null || responsePython[1] == null)
-			throw new ServiceException();
+			throw new ServiceException("La respuesta entregada es vacia y contiene null en algunos de sus elementos");
 		return responsePython;
 	}
 
@@ -54,19 +54,17 @@ public class ServicePython extends ProgrammingService
 
 		TicketExecution ticket = null;
 		String mainPath = super.getAbsoluteProyectPath(pythonProyect) + "\\" + pythonProyect.getMainName();
-		ArrayList<String> arguments;
+		ArrayList<String> arguments=new ArrayList<String>();
 
-		mainPath = "python " + mainPath;
 		for (int i = 0; i < inputs.length; i++) {
-			arguments = new ArrayList<String>();
 			arguments.add(inputs[i]);
 			arguments.add(outputPath);
-			ticket = new TicketExecution(mainPath, arguments, outputPath + '\\' +pythonProyect.getResponseName());
-
 		}
+		
+		ticket = new TicketExecution("python",mainPath, arguments, outputPath + '\\' +pythonProyect.getResponseName());
 
 		if (ticket == null)
-			throw new ServiceException();
+			throw new ServiceException("ticket para ejecución nulo");
 
 		currentExecution = new Execution(ticket);
 		this.state = ExecutionState.Running;
