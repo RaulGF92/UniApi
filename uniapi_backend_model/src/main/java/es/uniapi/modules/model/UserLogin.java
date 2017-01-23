@@ -11,6 +11,12 @@ public class UserLogin {
 		this.creationDate = creationDate;
 		this.id = id;
 	}
+	public UserLogin(String user, String pass, Date creationDate) {
+		super();
+		this.user = user;
+		this.pass = pass;
+		this.creationDate = creationDate;
+	}
 
 	private String user;
 	private String pass;

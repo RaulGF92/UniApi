@@ -6,19 +6,21 @@ import es.uniapi.modules.business.dao.intf.PersonDAO;
 import es.uniapi.modules.business.dao.intf.ProyectDAO;
 import es.uniapi.modules.business.dao.intf.UniapiDAO;
 import es.uniapi.modules.business.dao.intf.UserLoginDAO;
+import es.uniapi.modules.business.dao.neo4j.entities.PersonNeo4j;
+import es.uniapi.modules.business.dao.neo4j.entities.UserLoginNeo4j;
 
 public class UniapiNeo4jDAO implements UniapiDAO {
 
 	@Override
 	public PersonDAO getPersonDAO() {
 		// TODO Auto-generated method stub
-		return ;
+		return new PersonNeo4j();
 	}
 
 	@Override
 	public UserLoginDAO getUserLoginDAO() {
 		// TODO Auto-generated method stub
-		return null;
+		return new UserLoginNeo4j();
 	}
 
 	@Override
