@@ -60,10 +60,20 @@ public class AppConfiguration {
 
 	private static AppConfiguration configuration;
 	private static boolean created = false;
+	
+	private String comments="This are the Uniapi configuration\n the app need this to work good.\n \n¡Try not modificated without knowledge,use the instaler!";
 
-	public AppConfiguration() {
+	public AppConfiguration(){
 		File file = new File(" ");
 		this.configPath = file.getAbsolutePath();
+		String[] vector=configPath.split("uniapi");
+		this.configPath=vector[0]+"data/conf/";
+		try {
+			this.loadProperties();
+		} catch (CriticalAppExcepction | ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -74,6 +84,7 @@ public class AppConfiguration {
 
 		created = true;
 		configuration = new AppConfiguration();
+		
 		return configuration;
 	}
 
@@ -96,6 +107,7 @@ public class AppConfiguration {
 			this.passDataBase = this.read.getProperties(KEY_PASS_DB);
 			this.userDataBase = this.read.getProperties(KEY_USER_DB);
 			this.urlDataBase = this.read.getProperties(KEY_URL_DB);
+			this.proyectSite=this.read.getProperties(KEY_PROYECT_SITE);
 
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -124,7 +136,7 @@ public class AppConfiguration {
 	
 	public void writeProperties(String path) throws ConfigurationException{
 		
-		System.out.println("Uniapi is saving the properties\n in a new file\n "+path+this.NAME_APP_PROPERTIES);
+		System.out.println("Uniapi is saving the properties in a new file:\n "+path+this.NAME_APP_PROPERTIES);
 		
 		try {
 			
@@ -135,8 +147,10 @@ public class AppConfiguration {
 			this.write.setProperties(KEY_EXECUTION_SITE, executionSite);
 			this.write.setProperties(KEY_PROYECT_SITE,proyectSite);
 			this.write.setProperties(KEY_SERVICE_PER_USER, ""+maxServicePerUser);
-			this.write.setProperties(KEY_URL_DB, urlDataBase);
+			this.write.setProperties(KEY_URL_DB,urlDataBase);
+			this.write.setProperties(KEY_USER_DB, userDataBase);
 			this.write.setProperties(KEY_PASS_DB, passDataBase);
+			this.write.storeProperties(this.comments);
 			
 			
 			
@@ -240,8 +254,11 @@ public class AppConfiguration {
 	}
 
 	public InputStream getInput() throws FileNotFoundException {
-		InputStream in = new FileInputStream(this.appSite + this.NAME_APP_PROPERTIES);
+		InputStream in = new FileInputStream(this.configPath + this.NAME_APP_PROPERTIES);
 		return in;
+	}
+	public String getConfigPath(){
+		return this.configPath;
 	}
 
 	public enum OS {

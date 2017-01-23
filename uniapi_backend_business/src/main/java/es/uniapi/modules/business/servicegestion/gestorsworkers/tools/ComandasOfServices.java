@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 
+import es.uniapi.modules.business.exception.GestorServiceException;
 import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService;
 
 public class ComandasOfServices {
@@ -34,7 +35,7 @@ public class ComandasOfServices {
 	private static boolean create;
 	private static ComandasOfServices singleton;
 	
-	public void addComanda(Long idUser,ProgrammingService service){
+	public void addComanda(Long idUser,ProgrammingService service) throws GestorServiceException{
 		//Concurrent
 		try {
 			  mutex.acquire();
@@ -42,13 +43,18 @@ public class ComandasOfServices {
 			    // do something
 				  if(this.comandas.containsKey(idUser)){
 					  ArrayList<ProgrammingService> services=comandas.get(idUser);
+					  
+					  if(services.size()<MAX_SERVICE_FOR_USER)
+						  throw new GestorServiceException("Excedent of execution services");
+					  
+					  services.add(service);
+					  comandas.put(idUser,services);
+				  }else{
+					  usersActive.add(idUser);
+					  ArrayList<ProgrammingService>services=new ArrayList<ProgrammingService>();
 					  services.add(service);
 					  comandas.put(idUser,services);
 				  }
-				  usersActive.add(idUser);
-				  ArrayList<ProgrammingService>services=new ArrayList<ProgrammingService>();
-				  services.add(service);
-				  comandas.put(idUser,services);
 					  
 			  } finally {
 			    mutex.release();
@@ -100,6 +106,10 @@ public class ComandasOfServices {
 			  try {
 			    // do something
 				  response=this.comandas.get(id);
+				  
+				  if(response == null)
+					  response=new ArrayList<ProgrammingService>();
+				  
 			  } finally {
 			    mutex.release();
 			  }
@@ -109,13 +119,24 @@ public class ComandasOfServices {
 		
 		return response;
 	}
+	
+	public boolean existUser(Long id){
+		
+		if(this.getUserServices(id).size() > 0)
+			return true;
+		
+		return false;
+		
+	}
+	
+	
 	public void deleteAll(){
 		try {
 			  mutex.acquire();
 			  try {
 			    // do something
 				  this.comandas=new HashMap<Long,ArrayList<ProgrammingService>>();
-				this.usersActive=new ArrayList<Long>();
+				  this.usersActive=new ArrayList<Long>();
 			  } finally {
 			    mutex.release();
 			  }

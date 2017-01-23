@@ -35,8 +35,11 @@ public class Configuration {
 	}
 	
 	public void setProperties(String key,String value) throws IOException{
+		
 		prop.put(key, value);
-		prop.store(out, "Se ha realizado un cambio "+new Date().toString());
+	}
+	public void storeProperties(String comment) throws IOException{
+		prop.store(out, comment);
 	}
 	
 	

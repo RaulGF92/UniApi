@@ -2,6 +2,7 @@ package es.uniapi.modules.execution_enviroment.service.programming.Impl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.joda.time.DateTime;
@@ -53,15 +54,15 @@ public class ServicePython extends ProgrammingService
 		// TODO Auto-generated method stub
 
 		TicketExecution ticket = null;
-		String mainPath = super.getAbsoluteProyectPath(pythonProyect) + "\\" + pythonProyect.getMainName();
+		String mainPath = super.getAbsoluteProyectPath(pythonProyect) + "/" + pythonProyect.getMainName();
 		ArrayList<String> arguments=new ArrayList<String>();
 
 		for (int i = 0; i < inputs.length; i++) {
 			arguments.add(inputs[i]);
-			arguments.add(outputPath);
 		}
+		arguments.add(outputPath);
 		
-		ticket = new TicketExecution("python",mainPath, arguments, outputPath + '\\' +pythonProyect.getResponseName());
+		ticket = new TicketExecution("python",mainPath, arguments, outputPath + "/" +pythonProyect.getName()+"_UniApi_Output");
 
 		if (ticket == null)
 			throw new ServiceException("ticket para ejecución nulo");
@@ -69,8 +70,16 @@ public class ServicePython extends ProgrammingService
 		currentExecution = new Execution(ticket);
 		this.state = ExecutionState.Running;
 
-		currentExecution.run();
+		currentExecution.start();
+		
+		return;
 
+	}
+
+	@Override
+	public String toString() {
+		return "ServicePython [pythonProyect=" + pythonProyect + ", responsePython=" + Arrays.toString(responsePython)
+				+ ", currentExecution=" + currentExecution + ", toString()=" + super.toString() + "]";
 	}
 
 	public void stopedCurrentService() throws ServiceException {

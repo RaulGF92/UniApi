@@ -11,13 +11,21 @@ import es.uniapi.modules.model.config.AppConfiguration;
 
 public abstract class ProgrammingService implements GeneralService {
 	
+	@Override
+	public String toString() {
+		return "ProgrammingService [INSTALATION_PROJECT_PATH=" + INSTALATION_PROJECT_PATH + ", id=" + id + ", state="
+				+ state + ", createServiceDate=" + createServiceDate + ", finishServiceDate=" + finishServiceDate + "]";
+	}
+
 	//private final String INSTALATION_PROJECT_PATH="C:\\UniApi\\data\\Proyects";
-	private final String INSTALATION_PROJECT_PATH=AppConfiguration.getConfiguration().getProyectSite();
+	private final String INSTALATION_PROJECT_PATH;
 	private long id;
 	
 	public ProgrammingService(long id){
 		this.createServiceDate=new DateTime().toDate();
 		this.state=state.Running;
+		this.INSTALATION_PROJECT_PATH=AppConfiguration.getConfiguration().getProyectSite();
+		this.id=id;
 	}
 	
 	public String getAbsoluteProyectPath(Proyect proyect){
@@ -25,7 +33,7 @@ public abstract class ProgrammingService implements GeneralService {
 		//Cojer del archivo de propiedades el path de los proyectos
 		
 		String proyectsPath=proyect.getName()+"id["+proyect.getId()+"]";
-		String response=INSTALATION_PROJECT_PATH+"\\"+proyectsPath;
+		String response=INSTALATION_PROJECT_PATH+"/"+proyectsPath;
 		
 		return response;
 	}

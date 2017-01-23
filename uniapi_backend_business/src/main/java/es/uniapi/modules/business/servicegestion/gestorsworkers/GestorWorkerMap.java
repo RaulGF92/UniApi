@@ -26,7 +26,7 @@ import es.uniapi.modules.business.servicegestion.gestorsworkers.tools.Dobby;
 public class GestorWorkerMap implements GestorWork{
  
 	//private final String INSTALATION_PROJECT_PATH="C:\\UniApi\\data\\FileExecutionHierarchy";
-	private final String INSTALATION_PROJECT_PATH=AppConfiguration.getConfiguration().getExecutionSite();
+	private final String INSTALATION_PROJECT_PATH;
 	
 	private Dobby theDobby;
 	private Bingo theBingo; 
@@ -38,6 +38,7 @@ public class GestorWorkerMap implements GestorWork{
 		this.theDobby=null;
 		this.servicesOrderByUsers=ComandasOfServices.getCommandasOfService();
 		this.factoria=new ServiceFactoryImplOne();
+		this.INSTALATION_PROJECT_PATH=AppConfiguration.getConfiguration().getExecutionSite();
 	}
 	
 	@Override
@@ -49,6 +50,9 @@ public class GestorWorkerMap implements GestorWork{
 		//Inicialización de la carpeta del usuario
 		String userSpace=this.createNewUserExecutionHierarchy(user.getId());
 		ProgrammingService service;
+		
+		//Habria que preguntarse si existe el proyecto, en caso negativo crear el proyecto
+		
 		try {
 		//Inicialización del servicio
 		
@@ -61,14 +65,15 @@ public class GestorWorkerMap implements GestorWork{
 			//gochada
 			String inputs="";
 			for(int i=0;i<proyect.getDefaultInputs().length;i++){
-				inputs=inputs+";"+proyect.getDefaultInputs()[i];
+				inputs=inputs+proyect.getDefaultInputs()[i]+";";
 			}
 			
-			usingOne=new UsingOne(serviceSpace+"\\"+proyect.getResponseName(),serviceSpace+"\\"+proyect.getName()+"_UniApi_Output",inputs,new DateTime().toDate());
-			
-			service.executedService(proyect.getDefaultInputs(),serviceSpace);
+			usingOne=new UsingOne(serviceSpace+"/"+proyect.getResponseName(),serviceSpace+"/"+proyect.getName()+"_UniApi_Output",inputs,new DateTime().toDate());
 			
 			this.servicesOrderByUsers.addComanda(user.getId(),service);
+			service.executedService(proyect.getDefaultInputs(),serviceSpace);
+			
+			
 			
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
@@ -112,7 +117,7 @@ public class GestorWorkerMap implements GestorWork{
 		 *
 		 * ejem: /data/FileExecutionHierarchy/12443/HelloWorld-21
 		 */
-		String response=userPath+"\\"+service.getProyect()+"-"+service.getId();
+		String response=userPath+"/"+service.getProyect().getName()+"-"+service.getId();
 		File userSpace=new File(userPath);
 		if(userSpace.isDirectory()){
 			File newService=new File(response);
@@ -134,7 +139,12 @@ public class GestorWorkerMap implements GestorWork{
 		 *
 		 * ejem: /data/FileExecutionHierarchy/12443/
 		 */
-		String response=this.INSTALATION_PROJECT_PATH+"\\"+userID;
+		String response=this.INSTALATION_PROJECT_PATH+"/"+userID;
+		
+		if(servicesOrderByUsers.existUser(userID)){
+			return response;
+		}
+		
 		File userSpace=new File(response);
 		userSpace.mkdir();
 		return response;
