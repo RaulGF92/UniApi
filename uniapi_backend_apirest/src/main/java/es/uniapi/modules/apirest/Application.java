@@ -1,4 +1,4 @@
-package es.uniapi_backend.modules.apirest;
+package es.uniapi.modules.apirest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
