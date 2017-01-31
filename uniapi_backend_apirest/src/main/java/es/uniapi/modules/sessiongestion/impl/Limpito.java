@@ -6,15 +6,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.Semaphore;
 
+import org.joda.time.DateTime;
+
 public class Limpito extends Thread {
 
-	HashMap<String, Date> sessions;
+	HashMap<String, String[]> sessions;
 	private long TIME_LEAST_TO_DELETE;
 	Semaphore semaphore;
 
-	public Limpito(HashMap<String, Date> sessions, long time_least_to_delete, Semaphore semaphore) {
+	public Limpito(HashMap<String, String[]> sessions2, long time_least_to_delete, Semaphore semaphore) {
 		// TODO Auto-generated constructor stub
-		this.sessions = sessions;
+		this.sessions = sessions2;
 		this.TIME_LEAST_TO_DELETE = time_least_to_delete;
 		this.semaphore=semaphore;
 	}
@@ -32,13 +34,13 @@ public class Limpito extends Thread {
 					timeSleep=TIME_LEAST_TO_DELETE;
 					
 					Iterator<String> it=sessions.keySet().iterator();
-					Date container;
+					String[] container;
 					String token;
 					while(it.hasNext()){
 						semaphore.acquire();
 						token=it.next();
 						container=sessions.get(token);
-						if(checkTimeToErase(container))
+						if(checkTimeToErase(new DateTime(container[1]).toDate()))
 							sessions.remove(token);
 						semaphore.release();
 					}

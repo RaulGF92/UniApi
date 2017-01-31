@@ -4,25 +4,19 @@ import java.util.Date;
 
 public class UserLogin {
 
-	public UserLogin(String user, String pass, Date creationDate, long id) {
+	public UserLogin(String user, String pass, Date creationDate, String rol) {
 		super();
 		this.user = user;
 		this.pass = pass;
 		this.creationDate = creationDate;
-		this.id = id;
-	}
-	public UserLogin(String user, String pass, Date creationDate) {
-		super();
-		this.user = user;
-		this.pass = pass;
-		this.creationDate = creationDate;
+		this.rol = rol;
 	}
 
 	private String user;
 	private String pass;
 	private Date creationDate;
 	
-	private long id;
+	private String rol;
 
 	public String getUser() {
 		return user;
@@ -48,17 +42,17 @@ public class UserLogin {
 		this.creationDate = creationDate;
 	}
 
-	public long getId() {
-		return id;
+	public String getRol() {
+		return rol;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setRol(String rol) {
+		this.rol = rol;
 	}
 
 	@Override
 	public String toString() {
-		return "UserLogin [user=" + user + ", pass=" + pass + ", creationDate=" + creationDate + ", id=" + id + "]";
+		return "UserLogin [user=" + user + ", pass=" + pass + ", creationDate=" + creationDate + ", rol=" + rol + "]";
 	}
-	
+
 }

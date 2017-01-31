@@ -7,10 +7,9 @@ import java.util.List;
 public class Person {
 
 	
-	public Person(Long id, String name, String subname, Date birthday, String country, String province,
+	public Person(String name, String subname, Date birthday, String country, String province,
 			String birthplace, String biografy, String profileImageUrl) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.subname = subname;
 		this.birthday = birthday;
@@ -20,23 +19,6 @@ public class Person {
 		this.biografy = biografy;
 		this.profileImageUrl = profileImageUrl;
 	}
-
-
-	public Person(String name, String subname, Date birthday, String country, String province, String birthplace,
-			String biografy, String profileImageUrl) {
-		super();
-		this.name = name;
-		this.subname = subname;
-		this.birthday = birthday;
-		this.country = country;
-		this.province = province;
-		this.birthplace = birthplace;
-		this.biografy = biografy;
-		this.profileImageUrl = profileImageUrl;
-		
-		
-	}
-	
 	
 	public String getName() {
 		return name;
@@ -87,15 +69,6 @@ public class Person {
 		this.profileImageUrl = profileImageUrl;
 	}
 	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	private Long id;
 	private String name;
 	private String subname;
 	private Date birthday;
@@ -106,7 +79,7 @@ public class Person {
 	private String profileImageUrl;
 	@Override
 	public String toString() {
-		return "Person [id=" + id + ", name=" + name + ", subname=" + subname + ", birthday=" + birthday + ", country="
+		return "Person [name=" + name + ", subname=" + subname + ", birthday=" + birthday + ", country="
 				+ country + ", province=" + province + ", birthplace=" + birthplace + ", biografy=" + biografy
 				+ ", profileImageUrl=" + profileImageUrl + "]";
 	}

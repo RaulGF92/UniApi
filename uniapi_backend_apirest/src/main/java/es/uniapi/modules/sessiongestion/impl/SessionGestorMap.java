@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 
+import org.joda.time.DateTime;
+
 import es.uniapi.modules.apirest.model.Message;
 import es.uniapi.modules.apirest.model.SessionGestionException;
 import es.uniapi.modules.business.dao.intf.UniApiFactoryDAO;
@@ -26,14 +28,14 @@ public class SessionGestorMap implements SessionGestor {
 		return gestor;
 	}
 	
-	HashMap<String,Date> sessions;
+	HashMap<String,String[]> sessions; //o-> email 1-> date
 	private final long TIME_LEAST_TO_RENOVE_ID=2000;
 	private Limpito limpito;
 	Semaphore semaphore;
 	
 	private SessionGestorMap() {
 		// TODO Auto-generated constructor stub
-		sessions=new HashMap<String,Date>();
+		sessions=new HashMap<String,String[]>();
 		semaphore=new Semaphore(1);
 		limpito=new Limpito(sessions,TIME_LEAST_TO_RENOVE_ID,semaphore);
 		limpito.start();
@@ -53,44 +55,55 @@ public class SessionGestorMap implements SessionGestor {
 		
 		try {
 			userLogin = dao.getUserLoginDAO().findByEmail(user);
+			if(userLogin==null)
+				return new Message(1,codificatedToken);
 			System.out.println(userLogin.toString());
 			System.out.println("pass:"+pass+" codificated:"+SHA1.encryptPassword(pass));
-			if((userLogin!=null)&&(userLogin.getPass().compareTo(SHA1.encryptPassword(pass))==0)){
+			if(userLogin.getPass().compareTo(SHA1.encryptPassword(pass))==0){
 				//exist
-				response=new Message(1,codificatedToken);
+				response=new Message(0,codificatedToken);
 				semaphore.acquire();
-				sessions.put(token, new Date());
+				String[] info={user,new Date().toString()};
+				sessions.put(token, info);
 				semaphore.release();
+			
 			}else{
 				//not exist
-				response=new Message(-1,codificatedToken);
+				response=new Message(2,codificatedToken);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response=new Message(-1,token);
+			response=new Message(1,token);
 		}
 		
 		return response;
 	}
 
 	@Override
-	public boolean checkSession(String tokenSession) throws SessionGestionException {
+	public UserLogin checkSession(String tokenSession) throws SessionGestionException {
 		// TODO Auto-generated method stub
+		//Call userLogin Exist
+		UniapiDAO dao=new UniApiFactoryDAO().getUniApiDao();
+		UserLogin response=null;
 		try {
 			
 		semaphore.acquire();
 		if(!sessions.containsKey(tokenSession))
-			return false;
-		if(this.checkTimeToErase(sessions.get(tokenSession)))
-			return false;
+			return response;
+		if(this.checkTimeToErase(new DateTime(sessions.get(tokenSession)[1]).toDate()))
+			return response;
+		String[] info=sessions.get(tokenSession);
+		response=dao.getUserLoginDAO().findByEmail(info[0]);
+		info[1]=new Date().toString();
+		sessions.put(tokenSession, info);
 		semaphore.release();
+		return response;
 		
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
+			return null;
 		}
-		return false;
 	}
 
 	@Override

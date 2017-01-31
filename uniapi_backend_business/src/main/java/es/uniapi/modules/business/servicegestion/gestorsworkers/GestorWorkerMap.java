@@ -28,12 +28,24 @@ public class GestorWorkerMap implements GestorWork{
 	//private final String INSTALATION_PROJECT_PATH="C:\\UniApi\\data\\FileExecutionHierarchy";
 	private final String INSTALATION_PROJECT_PATH;
 	
+	private static GestorWorkerMap singleton;
+	private static boolean created=true;
+	
 	private Dobby theDobby;
 	private Bingo theBingo; 
 	private ComandasOfServices servicesOrderByUsers;
 	private ServiceFactory factoria;
 	
-	public GestorWorkerMap(){
+	public static GestorWorkerMap getGestorWorkerMap(){
+		if(created)
+			return singleton;
+		singleton=new GestorWorkerMap();
+		return singleton;
+	}
+	
+	private GestorWorkerMap(){
+		
+		created=true;
 		this.theDobby=null;
 		this.theDobby=null;
 		this.servicesOrderByUsers=ComandasOfServices.getCommandasOfService();
@@ -48,7 +60,7 @@ public class GestorWorkerMap implements GestorWork{
 		
 		String serviceSpace;
 		//Inicialización de la carpeta del usuario
-		String userSpace=this.createNewUserExecutionHierarchy(user.getId());
+		String userSpace=this.createNewUserExecutionHierarchy(user.getUser());
 		ProgrammingService service;
 		
 		//Habria que preguntarse si existe el proyecto, en caso negativo crear el proyecto
@@ -70,7 +82,7 @@ public class GestorWorkerMap implements GestorWork{
 			
 			usingOne=new UsingOne(serviceSpace+"/"+proyect.getResponseName(),serviceSpace+"/"+proyect.getName()+"_UniApi_Output",inputs,new DateTime().toDate());
 			
-			this.servicesOrderByUsers.addComanda(user.getId(),service);
+			this.servicesOrderByUsers.addComanda(user.getUser(),service);
 			service.executedService(proyect.getDefaultInputs(),serviceSpace);
 			
 			
@@ -87,7 +99,7 @@ public class GestorWorkerMap implements GestorWork{
 	@Override
 	public void DestroyService(UserLogin user,ProgrammingService service) throws GestorServiceException {
 		// TODO Auto-generated method stub
-		ArrayList<ProgrammingService> services=this.servicesOrderByUsers.getUserServices(user.getId());
+		ArrayList<ProgrammingService> services=this.servicesOrderByUsers.getUserServices(user.getUser());
 		for(int i=0;i<services.size();i++){
 			ProgrammingService aux=services.get(i);
 			if(aux.getId()==service.getId())
@@ -115,7 +127,7 @@ public class GestorWorkerMap implements GestorWork{
 		 *									 main
 		 *									 resources
 		 *
-		 * ejem: /data/FileExecutionHierarchy/12443/HelloWorld-21
+		 * ejem: /data/FileExecutionHierarchy/email@email.com/HelloWorld-21
 		 */
 		String response=userPath+"/"+service.getProyect().getName()+"-"+service.getId();
 		File userSpace=new File(userPath);
@@ -127,7 +139,7 @@ public class GestorWorkerMap implements GestorWork{
 	}
 
 	@Override
-	public String createNewUserExecutionHierarchy(long userID) throws GestorServiceException {
+	public String createNewUserExecutionHierarchy(String email) throws GestorServiceException {
 		// TODO Auto-generated method stub
 		/**
 		 * Contruiremos las carpetas siguiendo esta  composicion
@@ -139,9 +151,9 @@ public class GestorWorkerMap implements GestorWork{
 		 *
 		 * ejem: /data/FileExecutionHierarchy/12443/
 		 */
-		String response=this.INSTALATION_PROJECT_PATH+"/"+userID;
+		String response=this.INSTALATION_PROJECT_PATH+"/"+email;
 		
-		if(servicesOrderByUsers.existUser(userID)){
+		if(servicesOrderByUsers.existUser(email)){
 			return response;
 		}
 		
@@ -200,9 +212,9 @@ public class GestorWorkerMap implements GestorWork{
 	}
 
 	@Override
-	public ProgrammingService[] getUserActiveServices(long userID) throws GestorServiceException {
+	public ProgrammingService[] getUserActiveServices(String email) throws GestorServiceException {
 		// TODO Auto-generated method stub
-		ArrayList<ProgrammingService> services=this.servicesOrderByUsers.getUserServices(userID);
+		ArrayList<ProgrammingService> services=this.servicesOrderByUsers.getUserServices(email);
 		ArrayList<ProgrammingService> activesServices=new ArrayList<ProgrammingService>();
 		for(int i=0;i<services.size();i++){
 			if(services.get(i).getState()==ExecutionState.Running){
@@ -214,9 +226,9 @@ public class GestorWorkerMap implements GestorWork{
 	}
 
 	@Override
-	public ProgrammingService[] getAllUserServices(long userID) throws GestorServiceException {
+	public ProgrammingService[] getAllUserServices(String email) throws GestorServiceException {
 		// TODO Auto-generated method stub
-		ArrayList<ProgrammingService> services=this.servicesOrderByUsers.getUserServices(userID);
+		ArrayList<ProgrammingService> services=this.servicesOrderByUsers.getUserServices(email);
 		ProgrammingService[] response=new ProgrammingService[services.size()];
 		return services.toArray(response); 
 	}

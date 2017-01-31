@@ -45,7 +45,7 @@ public class Caso1 {
 	}
 	
 	GestorWork gestor;
-	UserLogin raul=new UserLogin("raulgf92@gmail.com","daigual",new DateTime().toDate(),1);
+	UserLogin raul=new UserLogin("raulgf92@gmail.com","daigual",new DateTime().toDate(),"admin");
 	
 	String input[]={"50","50","50","50"};
 	String input1[]={"80","80","80","80"};
@@ -101,7 +101,7 @@ public class Caso1 {
 				e.printStackTrace();
 			}
 			
-			ProgrammingService[] services=gestor.getAllUserServices(raul.getId());
+			ProgrammingService[] services=gestor.getAllUserServices(raul.getUser());
 			for(int i=0;i<services.length;i++){
 				System.out.println(""+i+") "+services[i].toString());
 			}

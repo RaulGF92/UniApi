@@ -29,31 +29,31 @@ public class ComandasOfServices {
 	private Semaphore mutex;
 	
 	private int MAX_SERVICE_FOR_USER=5;
-	private HashMap<Long, ArrayList<ProgrammingService>> comandas;
-	private ArrayList<Long> usersActive;
+	private HashMap<String, ArrayList<ProgrammingService>> comandas;
+	private ArrayList<String> usersActive;
 	
 	private static boolean create;
 	private static ComandasOfServices singleton;
 	
-	public void addComanda(Long idUser,ProgrammingService service) throws GestorServiceException{
+	public void addComanda(String userEmail,ProgrammingService service) throws GestorServiceException{
 		//Concurrent
 		try {
 			  mutex.acquire();
 			  try {
 			    // do something
-				  if(this.comandas.containsKey(idUser)){
-					  ArrayList<ProgrammingService> services=comandas.get(idUser);
+				  if(this.comandas.containsKey(userEmail)){
+					  ArrayList<ProgrammingService> services=comandas.get(userEmail);
 					  
 					  if(services.size()<MAX_SERVICE_FOR_USER)
 						  throw new GestorServiceException("Excedent of execution services");
 					  
 					  services.add(service);
-					  comandas.put(idUser,services);
+					  comandas.put(userEmail,services);
 				  }else{
-					  usersActive.add(idUser);
+					  usersActive.add(userEmail);
 					  ArrayList<ProgrammingService>services=new ArrayList<ProgrammingService>();
 					  services.add(service);
-					  comandas.put(idUser,services);
+					  comandas.put(userEmail,services);
 				  }
 					  
 			  } finally {
@@ -64,13 +64,13 @@ public class ComandasOfServices {
 			}
 	}
 	
-	public void updateServices(Long idUser,ArrayList<ProgrammingService> newServices){
+	public void updateServices(String userEmail,ArrayList<ProgrammingService> newServices){
 		//Concurrent
 		try {
 			  mutex.acquire();
 			  try {
 			    // do something
-				  comandas.put(idUser, newServices);
+				  comandas.put(userEmail, newServices);
 			  } finally {
 			    mutex.release();
 			  }
@@ -98,14 +98,14 @@ public class ComandasOfServices {
 			}
 		return response;
 	}
-	public ArrayList<ProgrammingService> getUserServices(Long id){
+	public ArrayList<ProgrammingService> getUserServices(String email){
 		ArrayList<ProgrammingService> response=new ArrayList<ProgrammingService>();
 		//Concurrent
 		try {
 			  mutex.acquire();
 			  try {
 			    // do something
-				  response=this.comandas.get(id);
+				  response=this.comandas.get(email);
 				  
 				  if(response == null)
 					  response=new ArrayList<ProgrammingService>();
@@ -120,9 +120,9 @@ public class ComandasOfServices {
 		return response;
 	}
 	
-	public boolean existUser(Long id){
+	public boolean existUser(String email){
 		
-		if(this.getUserServices(id).size() > 0)
+		if(this.getUserServices(email).size() > 0)
 			return true;
 		
 		return false;
@@ -135,8 +135,8 @@ public class ComandasOfServices {
 			  mutex.acquire();
 			  try {
 			    // do something
-				  this.comandas=new HashMap<Long,ArrayList<ProgrammingService>>();
-				  this.usersActive=new ArrayList<Long>();
+				  this.comandas=new HashMap<String,ArrayList<ProgrammingService>>();
+				  this.usersActive=new ArrayList<String>();
 			  } finally {
 			    mutex.release();
 			  }
@@ -156,8 +156,8 @@ public class ComandasOfServices {
 	
 	private ComandasOfServices(){	
 		initSemaphore();
-		this.comandas=new HashMap<Long,ArrayList<ProgrammingService>>();
-		this.usersActive=new ArrayList<Long>();
+		this.comandas=new HashMap<String,ArrayList<ProgrammingService>>();
+		this.usersActive=new ArrayList<String>();
 		create=false;
 	}
 

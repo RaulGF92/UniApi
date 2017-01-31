@@ -19,7 +19,7 @@ public class GestorWorkerTest {
 		conf.make();
 	}
 	public static void case1(){
-		GestorWork gestor=new GestorWorkerMap();
+		GestorWork gestor=GestorWorkerMap.getGestorWorkerMap();
 		Caso1 caso1=new Caso1(gestor);
 		caso1.make();
 		

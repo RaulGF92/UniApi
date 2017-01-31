@@ -100,8 +100,10 @@ public class TestUserLoginDAO {
 		String pass=teclado.next();
 		teclado=new Scanner(System.in);
 		pass=SHA1.encryptPassword(pass);
+		teclado=new Scanner(System.in);
+		String rol=teclado.next();
 		
-		UserLogin userLogin=new UserLogin(user, pass,new Date());
+		UserLogin userLogin=new UserLogin(user, pass,new Date(), rol);
 		UserLoginNeo4j dao=new UserLoginNeo4j();
 		dao.create(userLogin);
 		

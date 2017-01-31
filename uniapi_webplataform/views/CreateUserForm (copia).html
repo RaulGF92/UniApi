@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<link href="http://www.iconarchive.com/download/i83014/designbolts/handstitch-social/Cloud.ico" rel="icon" >
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>UniApi-Create User</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+	
+  </head>
+  <body ng-app="CreateUserApp">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<a class="navbar-brand" style="padding-left:50%;font-family: 'Anton', sans-serif;font-size:22px;" href="loggin.html"><span style="padding-right:10px" class="glyphicon glyphicon-cloud"></span><span>UniApi</span></a>
+        </div>
+      </div>
+    </nav>
+	
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8">
+			<div ng-controller = "formUser" style="margin-top:100px">
+				<h1>Nuevo usuario en UniApi:</h1>
+				<br></br>
+				<form id="data">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h2>Datos de usuario:</h2>
+							<hr></hr>
+							<div class="form-group">
+								<label for="email">Email address:</label>
+								<input type="email" ng-model="email" class="form-control" id="email" required="required">
+							</div>
+							<div class="form-group">
+								<label for="password">Password:</label>
+								<input type="password" ng-model="password" class="form-control" id="password" required="required">
+							</div>
+							<div class="form-group">
+								<label for="repassword">Confirm pasword:</label>
+								<input type="password" ng-model="repassword" class="form-control" id="repassword" required="required">
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h2>Datos personales:</h2>
+							<hr></hr>
+							<div class="form-group">
+								<label for="name">Name:</label>
+								<input type="text" ng-model="name" class="form-control" id="name">
+							</div>
+							<div class="form-group">
+								<label for="subname">Subname:</label>
+								<input type="text" ng-model="subname" class="form-control" id="subname">
+							</div>
+							<div class="form-group">
+								<label for="birthday">Birthday:</label>
+								<input type="date" ng-model="birthday" class="form-control" id="birthday">
+							</div>
+							<div class="form-group">
+								<label for="birthplace">Birthplace:</label>
+								<input type="text" ng-model="birthplace" class="form-control" id="Birthplace">
+							</div>
+							<div class="form-group">
+								<label for="province">Province:</label>
+								<input type="text" ng-model="province" class="form-control" id="province">
+							</div>
+							<div class="form-group">
+								<label for="country">Country:</label>
+								<input type="text" ng-model="country" class="form-control" id="country">
+							</div>
+							<div class="form-group">
+								<label for="profileImageUrl">Profile URL image:</label>
+								<input type="text" ng-model="profileImageUrl" class="form-control" id="profileImageUrl">
+							</div>
+							<div class="form-group">
+								<label for="biografy">Biografy:</label>
+								<br></br>
+								<textarea form ="data" ng-model="biografy" name="biografy" id="biografy" rows="10" cols="120" wrap="soft"></textarea>
+							</div>
+						</div>
+					</div>
+					<br></br>
+					<button type="submit" ng-click="makeSubmit()" class="btn btn-default">Create new user</button>
+				</form>
+			</div>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="js/domainApp.js"></script>
+	
+	<script>
+	var app=angular.module("CreateUserApp",[]).config(function($sceDelegateProvider) {
+		  $sceDelegateProvider.resourceUrlWhitelist([
+			// Allow same origin resource loads.
+			'self',
+			// Allow loading from our assets domain.  Notice the difference between * and **.
+			'http://localhost:8080/user/info'
+		  ]);
+
+		  // The blacklist overrides the whitelist so the open redirect here is blocked.
+		  $sceDelegateProvider.resourceUrlBlacklist([
+			'http://myapp.example.com/clickThru**'
+		  ]);
+		});
+		
+	app.controller('formUser', function($scope,$http) {
+            $scope.reset=function(){
+				$scope.password="";
+				$scope.repassword="";
+			};
+			$scope.makeSubmit = function(){
+				if($scope.password!=$scope.repassword){
+					alert("Don't put the correct password, remeber the password should be the same than the confirm.")
+					$scope.reset();
+				}
+				var newperson=new person("",$scope.name,$scope.subname,$scope.birthday,$scope.country,$scope.province,
+	$scope.birthplace,$scope.biografy,$scope.profileImageUrl);
+	
+				var newuserSystem=new userSystem("",$scope.email,$scope.password,new Date())
+				console.log("Conecting with the REST service")
+				console.log(newperson);
+				console.log(newuserSystem);
+				
+				requestTime=new Date();
+				infoNoMaked={"requestTime":requestTime,"person":newperson,"userSystem":newuserSystem};
+				info=JSON.stringify(newuserSystem);
+				
+				urlUserSystem="http://localhost:8080/user/create";
+				urlPerson="http://localhost:8080/person/create"
+				
+				console.log("[First step]: Shoot the userSystem")
+				$http({
+					method: 'POST',
+					url: urlUserSystem,
+					headers: {
+					'Authorization': 'Basic dGVzdDp0ZXN0',
+					'Content-Type' : 'application/json; charset=UTF-8',
+					},
+					data: info
+				}).then(function successCallback(response) {
+					// this callback will be called asynchronously
+					// when the response is available
+					console.log(response);
+				  }, function errorCallback(response) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error status.
+					console.log("Error");
+					console.log(response);
+					
+				  });
+            
+            }
+         });
+	</script>
+ 
+ </body>
+</html>

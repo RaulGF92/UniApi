@@ -44,7 +44,7 @@ public interface GestorWork {
 	 * @throws GestorServiceException
 	 */
 	
-	public String createNewUserExecutionHierarchy(long userID) throws GestorServiceException; //UserPath
+	public String createNewUserExecutionHierarchy(String userEmail) throws GestorServiceException; //UserPath
 	
 	/**
 	 * Para desarrollar la ejecución de los servicios, sera necesario el crear una jerarquia dentro del sistema de ficheros del 
@@ -78,14 +78,14 @@ public interface GestorWork {
 	 * @return ProgrammingService[] devuelve un conjunto de aplicaciones activas
 	 * @throws GestorServiceException
 	 */
-	public ProgrammingService[] getUserActiveServices(long userID) throws GestorServiceException;
+	public ProgrammingService[] getUserActiveServices(String Email) throws GestorServiceException;
 	/**
 	 * Retorna todos los servicios lanzados por el usuario
 	 * @param userID ID del usuario que quiere conocer los servicios
 	 * @return ProgrammingService[] devuelve un conjunto de aplicaciones activas
 	 * @throws GestorServiceException
 	 */
-	public ProgrammingService[] getAllUserServices(long userID) throws GestorServiceException;
+	public ProgrammingService[] getAllUserServices(String Email) throws GestorServiceException;
 	
 	
 }
