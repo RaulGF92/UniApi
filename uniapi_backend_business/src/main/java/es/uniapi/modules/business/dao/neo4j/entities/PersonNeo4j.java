@@ -12,7 +12,7 @@ import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
 
-import es.uniapi.modules.business.dao.intf.PersonDAO;
+import es.uniapi.modules.business.dao.intf.entities.PersonDAO;
 import es.uniapi.modules.model.Person;
 import es.uniapi.modules.model.config.AppConfiguration;
 
@@ -35,7 +35,7 @@ public class PersonNeo4j implements PersonDAO {
 		Session session = driver.session();
 		String statement="CREATE (a:Person {name: {name},subname:{subname}"
 				+ ",birthday: {birthday},country:{country},province:{province}"
-				+ ",birthplace: {birthplace},biografy:{biografy},profileImageUrl:{profileImageUrl}})";
+				+ ",birthplace: {birthplace},biografy:{biografy},profileImageUrl:{profileImageUrl},hashcode:{hashcode}})";
 		
 		StatementResult result=session.run(statement,
 				parameters("name",person.getName(),
@@ -45,7 +45,8 @@ public class PersonNeo4j implements PersonDAO {
 						"province",person.getProvince(),
 						"birthplace",person.getBirthplace(),
 						"biografy",person.getBiografy(),
-						"profileImageUrl",person.getProfileImageUrl()));
+						"profileImageUrl",person.getProfileImageUrl(),
+						"hashcode",person.hash()));
 		session.close();
 	}
 
@@ -70,11 +71,27 @@ public class PersonNeo4j implements PersonDAO {
 		
 	}
 
-	@Deprecated
+	
 	@Override
-	public Person findByID(long id) throws Exception {
+	public Person findByHashCode(String hash) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		Session session=driver.session();
+
+		Person person=null;
+		
+		String statement="MATCH (a:Person) WHERE a.hashcode = {hashcode} return  a.name AS name , a.subname AS subname, a.birthday AS birthday,"
+				+ "a.country AS country , a.province AS province , a.birthplace AS birthplace , a.biografy AS biografy"
+				+ ",a.profileImageUrl AS profileImageUrl";
+		StatementResult result=session.run(statement,parameters("hashcode",hash));
+		
+		while(result.hasNext()){
+			Record record=result.next();
+			person=new Person(record.get("name").asString(), 
+					record.get("subname").asString(),new DateTime(record.get("birthday").asLong()).toDate(),record.get("country").asString(), record.get("province").asString()
+					,record.get("birthplace").asString(), record.get("biografy").asString(), record.get("profileImageUrl").asString());
+		}
+		session.close();
+		return person;
 	}
 
 	@Override
@@ -97,6 +114,7 @@ public class PersonNeo4j implements PersonDAO {
 					,record.get("birthplace").asString(), record.get("biografy").asString(), record.get("profileImageUrl").asString());
 			persons.add(person);
 		}
+		session.close();
 		return persons.toArray(new Person[persons.size()]);
 	}
 
@@ -119,6 +137,7 @@ public class PersonNeo4j implements PersonDAO {
 					,record.get("birthplace").asString(), record.get("biografy").asString(), record.get("profileImageUrl").asString());
 			persons.add(person);
 		}
+		session.close();
 		return persons.toArray(new Person[persons.size()]);
 	}
 

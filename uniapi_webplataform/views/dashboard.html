@@ -18,7 +18,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-	<link rel="stylesheet" href="dashboard.css"/>
+	<link rel="stylesheet" href="/css/dashboard.css"/>
 	<style>
 		.principal{
 			margin-top: 10px;
@@ -38,11 +38,19 @@
 
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" style="padding-left:50%;font-family: 'Anton', sans-serif;font-size:22px;" href="#"><span style="padding-right:10px" class="glyphicon glyphicon-cloud"></span><span>UniApi</span></a>
-        </div>
+			<a class="navbar-brand" style="padding-left:50%;font-family: 'Anton', sans-serif;font-size:22px;" href="/"><span style="padding-right:10px" class="glyphicon glyphicon-cloud"></span><span>UniApi</span></a>
+       		 </div>
     </nav>
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+	  <!-- Modal content -->
+	  <div class="modal-content">
+	  	<img src="resource/img/carga.gif" style="padding-left:45%">
+		<h4 class="text-center">We are loading the initial data. Wait please...</h4>
+	  </div>
+	</div>
 
-    <div class="container-fluid">
+    <div class="container-fluid" id="page">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
 			<div class="principal text-center">
@@ -64,7 +72,10 @@
             <li><a href="#">Nuevo grupo</a></li>
           </ul>
         </div>
+
+	</div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
           <h1 class="page-header">Proyectos en ejecución:</h1>
 
           <div class="row placeholders">
@@ -236,10 +247,53 @@
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="https://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+	<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+	<script src="https://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+	<script>
+		// Get the modal
+		var modal = document.getElementById('myModal');
+
+		// Get the button that opens the modal
+		var btn = document.getElementById("myBtn");
+
+		// Get the <span> element that closes the modal
+		var span = document.getElementsByClassName("close")[0];
+
+		$(document).ready(function(){
+			$("#page").css.display = "none";			
+			modal.style.display = "block";
+			loggin();
+			modal.style.display = "none";
+			$("#page").css.display = "block";
+			
+		});
+		
+		function loggin(){
+			var tokenSession=localStorage.getItem("tokenSession");
+
+			if(tokenSession == null){
+				window.location.href="loggin";
+			}
+
+			$.ajax({
+				method:"GET",
+				url:"http://localhost:8080/"+tokenSession+"/whoami"
+			}).done(function(response){
+				console.log(response);
+				if(response.state != 0)
+					window.location.href="loggin";
+			}).error(function(error){
+				window.location.href="loggin";
+			});
+
+		}
+		    
+	</script>
+
+
   
   </body>
 </html>

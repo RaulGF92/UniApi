@@ -16,6 +16,7 @@ import javax.swing.RepaintManager;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,7 @@ import es.uniapi.modules.apirest.model.SessionGestionException;
 import es.uniapi.modules.business.Modules;
 import es.uniapi.modules.business.dao.intf.UniApiFactoryDAO;
 import es.uniapi.modules.business.dao.intf.UniapiDAO;
+import es.uniapi.modules.business.exception.BussinessException;
 import es.uniapi.modules.business.identitygestion.IdentityGestion;
 import es.uniapi.modules.business.servicegestion.gestorsworkers.GestorWorkerMap;
 import es.uniapi.modules.model.Person;
@@ -72,6 +74,7 @@ public class HomeController {
 		return patterns;
 	}
 	
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value="/{user}/{pass}")
 	public Message setLogin(HttpServletRequest request,HttpServletResponse response,
 			@PathVariable String user,
@@ -86,28 +89,36 @@ public class HomeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		System.out.println(responseCorrect.toString());
 		return responseCorrect;
 		
 	}
-	@RequestMapping(value="/{token}/whoami")
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value="/{token}/whoami", method = RequestMethod.GET)
 	public Message getWhoAmi(@PathVariable String token){
 		
+		System.out.println("[WhoAmi] token:"+token);
 		Message responseResponse=null;
 		sessionGestor=SessionGestorMap.getSessionGestor();
 		
 		try {
-			sessionGestor.checkSession(token);
 			UserLogin userLogin=sessionGestor.checkSession(token);
+			if(userLogin==null){
+				throw new SessionGestionException("No se ha encontrado el tokken");
+			}
+			
 			Person person=Modules.getIdentityModule()
-					.getPerson(userLogin.getUser());
+					.getPerson(userLogin);
 			responseResponse=new MessageWhoAmi(0, token, userLogin, person);
 		} catch (SessionGestionException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return new MessageWhoAmi(-1,token,null,null);
+			return new MessageWhoAmi(4,token,null,null);
+		} catch (BussinessException e) {
+			// TODO Auto-generated catch block
+			return new MessageWhoAmi(3,token,null,null);
 		}
-		return new MessageWhoAmi(-1,token,null,null);
+		System.out.println(responseResponse.toString());
+		return responseResponse;
 		
 		//Person person=new Person("Raúl","Garcia",new Date(),"España","Asturias","Candás","pues Aquí tamos","http://farm4.static.flickr.com/3628/3430561773_9b6087d1e1.jpg");
 		
@@ -131,7 +142,12 @@ public class HomeController {
 		Person person=new Person(name, subname, birthday, country, province, birthplace, biografy, profileImageUrl);
 		System.out.println(userLogin.toString());
 		System.out.println(person.toString());
-		
+		try {
+			Modules.getIdentityModule().createAccount(userLogin, person);
+		} catch (BussinessException e) {
+			// TODO Auto-generated catch block
+			return new Message(3,SHA1.encryptPassword("EspecialToken"));
+		}
 		
 		
 		return new Message(0,SHA1.encryptPassword("EspecialToken"));

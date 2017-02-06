@@ -1,6 +1,6 @@
 package es.uniapi.modules.sessiongestion.impl;
 
-import java.io.DataOutput;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,25 +28,29 @@ public class Limpito extends Thread {
 		long timeSleep = TIME_LEAST_TO_DELETE;
 		int counter=0;
 		while (true) {
+			ArrayList<String> tokenForDelete=new ArrayList<String>();
 			try {
 				if (sessions.size() > 0) {
-					counter=0;
 					timeSleep=TIME_LEAST_TO_DELETE;
-					
-					Iterator<String> it=sessions.keySet().iterator();
 					String[] container;
 					String token;
+					semaphore.acquire();
+					Iterator<String> it=sessions.keySet().iterator();
 					while(it.hasNext()){
-						semaphore.acquire();
 						token=it.next();
 						container=sessions.get(token);
-						if(checkTimeToErase(new DateTime(container[1]).toDate()))
-							sessions.remove(token);
-						semaphore.release();
+						if(checkTimeToErase(new DateTime(Long.parseLong(container[1])).toDate())){
+							tokenForDelete.add(token);
+							counter=0;
+						}
 					}
+					for(int i=0;i<tokenForDelete.size();i++){
+						sessions.remove(tokenForDelete.get(i));
+						System.out.println("Limpito ha realizado una limpieza/n Clientes restantes:"+sessions.size());
+					}
+					semaphore.release();
 				}
-				
-				Thread.sleep(timeSleep);
+				Thread.sleep(timeSleep*counter);
 				
 				if(counter<4)
 					counter++;
@@ -61,7 +65,7 @@ public class Limpito extends Thread {
 	private void esperarPorFatherThread() {
 		// TODO Auto-generated method stub
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(50000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -71,7 +75,7 @@ public class Limpito extends Thread {
 	public boolean checkTimeToErase(Date date) {
 
 		long diferentTime = new Date().getTime() - date.getTime();
-		if (diferentTime < (TIME_LEAST_TO_DELETE+(TIME_LEAST_TO_DELETE/2)))
+		if (diferentTime > (TIME_LEAST_TO_DELETE+(TIME_LEAST_TO_DELETE/2)))
 			return true;
 		return false;
 	}

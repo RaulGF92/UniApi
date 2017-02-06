@@ -1,6 +1,6 @@
 package es.uniapi.modules.business.dao.neo4j.entities;
 
-import es.uniapi.modules.business.dao.intf.UserLoginDAO;
+import es.uniapi.modules.business.dao.intf.entities.UserLoginDAO;
 import es.uniapi.modules.model.UserLogin;
 import es.uniapi.modules.model.config.AppConfiguration;
 
@@ -25,16 +25,17 @@ public class UserLoginNeo4j implements UserLoginDAO {
 	}
 	
 	@Override
-	public void create(UserLogin userLogin) throws Exception {
+	public void create(UserLogin userLogin) {
 		// TODO Auto-generated method stub
 		Session session = driver.session();
-		String statement="CREATE (a:UserLogin {user:{user},pass:{pass},creationTime:{creationTime},rol:{rol}})";
+		String statement="CREATE (a:UserLogin {user:{user},pass:{pass},creationTime:{creationTime},rol:{rol},hashcode:{hashcode}})";
 		
 		StatementResult result=session.run(statement
 				,parameters("user",userLogin.getUser()
 						,"pass",userLogin.getPass()
 						,"creationTime",new Date().getTime(),
-						"rol",userLogin.getRol()));
+						"rol",userLogin.getRol(),
+						"hashcode",userLogin.hash()));
 		session.close();
 	}
 
@@ -53,7 +54,7 @@ public class UserLoginNeo4j implements UserLoginDAO {
 		Session session = driver.session();
 		UserLogin userLogin=null;
 		
-		String statement="MATCH (a:UserLogin) WHERE a.user = {user} RETURN a.id AS id, a.user AS user, a.pass AS pass,a.creationTime AS creationTime,a.rol AS rol";
+		String statement="MATCH (a:UserLogin) WHERE a.user = {user} RETURN  a.user AS user, a.pass AS pass,a.creationTime AS creationTime,a.rol AS rol";
 		StatementResult result=session.run(statement,parameters("user",Email));
 		
 		while(result.hasNext()){
@@ -64,19 +65,20 @@ public class UserLoginNeo4j implements UserLoginDAO {
 					record.get("rol").asString());
 		}
 		
+		session.close();
 		return userLogin;
 	}
 
-	@Deprecated
+
 	@Override
-	public UserLogin findByID(long id) throws Exception {
+	public UserLogin findByHashCode(String hash) throws Exception {
 		// TODO Auto-generated method stub
 		Session session = driver.session();
 
 		UserLogin userLogin=null;
 		
-		String statement="MATCH (a:UserLogin) WHERE a.id = {id} RETURN a.id AS id, a.user AS user, a.pass AS pass,a.creationTime AS creationTime";
-		StatementResult result=session.run(statement,parameters("id",id));
+		String statement="MATCH (a:UserLogin) WHERE a.hashcode = {hash} RETURN a.id AS id, a.user AS user, a.pass AS pass,a.creationTime AS creationTime";
+		StatementResult result=session.run(statement,parameters("hash",hash));
 		
 		while(result.hasNext()){
 			Record record = result.next();

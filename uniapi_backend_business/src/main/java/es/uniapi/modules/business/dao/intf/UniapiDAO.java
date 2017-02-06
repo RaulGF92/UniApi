@@ -1,5 +1,11 @@
 package es.uniapi.modules.business.dao.intf;
 
+import es.uniapi.modules.business.dao.intf.entities.AplicationDAO;
+import es.uniapi.modules.business.dao.intf.entities.GroupDAO;
+import es.uniapi.modules.business.dao.intf.entities.PersonDAO;
+import es.uniapi.modules.business.dao.intf.entities.ProyectDAO;
+import es.uniapi.modules.business.dao.intf.entities.UserLoginDAO;
+
 public interface UniapiDAO {
 
 	/**
@@ -14,5 +20,6 @@ public interface UniapiDAO {
 	ProyectDAO getProyectDAO();
 	GroupDAO getGroupDAO();
 	AplicationDAO getAplicationDAO();
+	
 	
 }

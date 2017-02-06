@@ -74,8 +74,8 @@ public class TestUserLoginDAO {
 		System.out.println("Cual es su id:");
 		long id=teclado.nextLong();
 		UserLoginNeo4j dao=new UserLoginNeo4j();
-		UserLogin user=dao.findByID(id);
-		user.toString();
+		//UserLogin user=dao.findByID(id);
+		//user.toString();
 	}
 	private static void searchForEmail() throws Exception {
 		// TODO Auto-generated method stub

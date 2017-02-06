@@ -30,6 +30,7 @@ app.get('/pageBlank',function(req,res){
 
 app.use('/createAccount',createAccount);
 
+app.use(express.static('public'));
 app.listen(3000,function(){
 	console.log("---------------------------------------------");
 	console.log("                                             ");

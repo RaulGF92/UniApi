@@ -3,6 +3,8 @@ package es.uniapi.modules.model;
 import java.util.Arrays;
 import java.util.Date;
 
+import es.uniapi.modules.model.config.SHA1;
+
 public class Proyect {
 
 
@@ -182,6 +184,80 @@ public class Proyect {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+
+	public String hash() {
+		
+		return SHA1.encryptPassword(this.toString());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Proyect other = (Proyect) obj;
+		if (!Arrays.equals(defaultInputs, other.defaultInputs))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (gitRepositoryURL == null) {
+			if (other.gitRepositoryURL != null)
+				return false;
+		} else if (!gitRepositoryURL.equals(other.gitRepositoryURL))
+			return false;
+		if (id != other.id)
+			return false;
+		if (inputDescription == null) {
+			if (other.inputDescription != null)
+				return false;
+		} else if (!inputDescription.equals(other.inputDescription))
+			return false;
+		if (mainName == null) {
+			if (other.mainName != null)
+				return false;
+		} else if (!mainName.equals(other.mainName))
+			return false;
+		if (modifyDate == null) {
+			if (other.modifyDate != null)
+				return false;
+		} else if (!modifyDate.equals(other.modifyDate))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (outputDescription == null) {
+			if (other.outputDescription != null)
+				return false;
+		} else if (!outputDescription.equals(other.outputDescription))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (responseName == null) {
+			if (other.responseName != null)
+				return false;
+		} else if (!responseName.equals(other.responseName))
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
 	}
 
 }

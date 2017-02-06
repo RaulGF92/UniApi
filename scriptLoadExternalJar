@@ -1,0 +1,60 @@
+
+echo " --------------------------------------------------------"
+echo "|							 	|"
+echo "|			TheBimboBread				|"
+echo "|								|"
+echo "|		UniApi-Load external dependencies		|"
+echo " --------------------------------------------------------"
+echo " "
+echo " "
+echo " "
+
+echo "compiling model"
+echo "--------------------------------------------------------------"
+cd uniapi_backend_model
+mvn clean install package
+cd ..
+sleep 2
+echo "--------------------------------------------------------------"
+echo "Making the copies of model"
+cp uniapi_backend_model/target/model-0.0.1-SNAPSHOT.jar uniapi_backend_enviroment_execution/externalJar
+cp uniapi_backend_model/target/model-0.0.1-SNAPSHOT.jar uniapi_backend_business/externalJar
+cp uniapi_backend_model/target/model-0.0.1-SNAPSHOT.jar uniapi_backend_apirest/externalJar 
+echo "-------------------------END-----------------------------------"
+
+echo "compiling enviroment_execution"
+echo "--------------------------------------------------------------"
+cd uniapi_backend_enviroment_execution
+mvn clean install package
+cd ..
+sleep 2
+echo "--------------------------------------------------------------"
+echo "Making the copies of enviroment_execution"
+cp uniapi_backend_enviroment_execution/target/enviroment_execution-0.0.1-SNAPSHOT.jar uniapi_backend_business/externalJar
+cp uniapi_backend_enviroment_execution/target/enviroment_execution-0.0.1-SNAPSHOT.jar uniapi_backend_apirest/externalJar
+echo "-------------------------END-----------------------------------"
+
+echo "compiling enviroment_execution"
+echo "--------------------------------------------------------------"
+cd uniapi_backend_business
+mvn clean install package
+cd ..
+sleep 2
+echo "--------------------------------------------------------------"
+echo "Making the copies of bussiness"
+cp uniapi_backend_business/target/business-0.0.1-SNAPSHOT.jar uniapi_backend_apirest/externalJar
+echo "----------------------------END--------------------------------"
+
+echo " "
+echo " "
+echo " "
+
+clear
+echo "Do you like executed the App?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) cd uniapi_backend_apirest; mvn clean install package; mvn spring-boot:run; exit;;
+        No ) echo " ";echo " ";echo " ";echo " ";echo " ";echo " ";echo "Now open the Eclipse again lazy boy!!!"; exit;;
+    esac
+done
+

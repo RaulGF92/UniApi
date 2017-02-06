@@ -29,7 +29,7 @@ public class SessionGestorMap implements SessionGestor {
 	}
 	
 	HashMap<String,String[]> sessions; //o-> email 1-> date
-	private final long TIME_LEAST_TO_RENOVE_ID=2000;
+	private final long TIME_LEAST_TO_RENOVE_ID=20000;
 	private Limpito limpito;
 	Semaphore semaphore;
 	
@@ -45,7 +45,7 @@ public class SessionGestorMap implements SessionGestor {
 	public Message getSession(String user, String pass,String IP) throws SessionGestionException {
 		// TODO Auto-generated method stub
 		
-		String token="Uniapi[TokenSession:"+IP+",CreationTime:"+new Date()+"]";
+		String token="Uniapi[user:"+user+",TokenSession:"+IP+",CreationTime:"+new Date().getTime()+"]";
 		String codificatedToken=SHA1.encryptPassword(token);
 		
 		//Call userLogin Exist
@@ -63,8 +63,9 @@ public class SessionGestorMap implements SessionGestor {
 				//exist
 				response=new Message(0,codificatedToken);
 				semaphore.acquire();
-				String[] info={user,new Date().toString()};
-				sessions.put(token, info);
+				String[] info={user,Long.toString(new Date().getTime())};
+				sessions.put(codificatedToken, info);
+				System.out.println("Añadimos una session /n Clientes:"+sessions.size());
 				semaphore.release();
 			
 			}else{
@@ -73,7 +74,7 @@ public class SessionGestorMap implements SessionGestor {
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response=new Message(1,token);
+			response=new Message(1,codificatedToken);
 		}
 		
 		return response;
@@ -90,11 +91,12 @@ public class SessionGestorMap implements SessionGestor {
 		semaphore.acquire();
 		if(!sessions.containsKey(tokenSession))
 			return response;
-		if(this.checkTimeToErase(new DateTime(sessions.get(tokenSession)[1]).toDate()))
+		if(this.checkTimeToErase(new DateTime(Long.parseLong(sessions.get(tokenSession)[1])).toDate()))
 			return response;
+		System.out.println("llega aqui");
 		String[] info=sessions.get(tokenSession);
 		response=dao.getUserLoginDAO().findByEmail(info[0]);
-		info[1]=new Date().toString();
+		info[1]=Long.toString(new Date().getTime());
 		sessions.put(tokenSession, info);
 		semaphore.release();
 		return response;
@@ -128,7 +130,7 @@ public class SessionGestorMap implements SessionGestor {
 	public boolean checkTimeToErase(Date date) {
 
 		long diferentTime = new Date().getTime() - date.getTime();
-		if (diferentTime < (TIME_LEAST_TO_RENOVE_ID+(TIME_LEAST_TO_RENOVE_ID*0.002)))
+		if (diferentTime > (TIME_LEAST_TO_RENOVE_ID+(TIME_LEAST_TO_RENOVE_ID*0.002)))
 			return true;
 		return false;
 	}

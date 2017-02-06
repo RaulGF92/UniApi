@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import es.uniapi.modules.model.config.SHA1;
+
 public class Person {
 
 	
@@ -77,11 +79,69 @@ public class Person {
 	private String birthplace;
 	private String biografy;
 	private String profileImageUrl;
+	
+	
 	@Override
 	public String toString() {
 		return "Person [name=" + name + ", subname=" + subname + ", birthday=" + birthday + ", country="
 				+ country + ", province=" + province + ", birthplace=" + birthplace + ", biografy=" + biografy
 				+ ", profileImageUrl=" + profileImageUrl + "]";
+	}
+
+	public String hash() {
+		return SHA1.encryptPassword(this.toString());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Person other = (Person) obj;
+		if (biografy == null) {
+			if (other.biografy != null)
+				return false;
+		} else if (!biografy.equals(other.biografy))
+			return false;
+		if (birthday == null) {
+			if (other.birthday != null)
+				return false;
+		} else if (!birthday.equals(other.birthday))
+			return false;
+		if (birthplace == null) {
+			if (other.birthplace != null)
+				return false;
+		} else if (!birthplace.equals(other.birthplace))
+			return false;
+		if (country == null) {
+			if (other.country != null)
+				return false;
+		} else if (!country.equals(other.country))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (profileImageUrl == null) {
+			if (other.profileImageUrl != null)
+				return false;
+		} else if (!profileImageUrl.equals(other.profileImageUrl))
+			return false;
+		if (province == null) {
+			if (other.province != null)
+				return false;
+		} else if (!province.equals(other.province))
+			return false;
+		if (subname == null) {
+			if (other.subname != null)
+				return false;
+		} else if (!subname.equals(other.subname))
+			return false;
+		return true;
 	}
 	
 	

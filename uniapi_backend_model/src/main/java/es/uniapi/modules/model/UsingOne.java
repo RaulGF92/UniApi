@@ -2,6 +2,8 @@ package es.uniapi.modules.model;
 
 import java.util.Date;
 
+import es.uniapi.modules.model.config.SHA1;
+
 public class UsingOne {
 
 	
@@ -99,6 +101,54 @@ public class UsingOne {
 		return "UsingOne [id=" + id + ", userId=" + userId + ", proyectId=" + proyectId + ", responsePATH="
 				+ responsePATH + ", outputPATH=" + outputPATH + ", input=" + input + ", creationDate=" + creationDate
 				+ ", finalizationDate=" + finalizationDate + "]";
+	}
+
+
+	public String hash() {
+		return SHA1.encryptPassword(this.toString());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UsingOne other = (UsingOne) obj;
+		if (creationDate == null) {
+			if (other.creationDate != null)
+				return false;
+		} else if (!creationDate.equals(other.creationDate))
+			return false;
+		if (finalizationDate == null) {
+			if (other.finalizationDate != null)
+				return false;
+		} else if (!finalizationDate.equals(other.finalizationDate))
+			return false;
+		if (id != other.id)
+			return false;
+		if (input == null) {
+			if (other.input != null)
+				return false;
+		} else if (!input.equals(other.input))
+			return false;
+		if (outputPATH == null) {
+			if (other.outputPATH != null)
+				return false;
+		} else if (!outputPATH.equals(other.outputPATH))
+			return false;
+		if (proyectId != other.proyectId)
+			return false;
+		if (responsePATH == null) {
+			if (other.responsePATH != null)
+				return false;
+		} else if (!responsePATH.equals(other.responsePATH))
+			return false;
+		if (userId != other.userId)
+			return false;
+		return true;
 	}
 	
 }
