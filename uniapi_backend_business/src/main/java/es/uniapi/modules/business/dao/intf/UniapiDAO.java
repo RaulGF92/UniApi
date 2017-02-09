@@ -3,7 +3,7 @@ package es.uniapi.modules.business.dao.intf;
 import es.uniapi.modules.business.dao.intf.entities.AplicationDAO;
 import es.uniapi.modules.business.dao.intf.entities.GroupDAO;
 import es.uniapi.modules.business.dao.intf.entities.PersonDAO;
-import es.uniapi.modules.business.dao.intf.entities.ProyectDAO;
+import es.uniapi.modules.business.dao.intf.entities.ProjectDAO;
 import es.uniapi.modules.business.dao.intf.entities.UserLoginDAO;
 
 public interface UniapiDAO {
@@ -17,7 +17,7 @@ public interface UniapiDAO {
 	
 	PersonDAO getPersonDAO();
 	UserLoginDAO getUserLoginDAO();
-	ProyectDAO getProyectDAO();
+	ProjectDAO getProjectDAO();
 	GroupDAO getGroupDAO();
 	AplicationDAO getAplicationDAO();
 	

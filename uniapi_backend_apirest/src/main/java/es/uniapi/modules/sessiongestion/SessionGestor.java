@@ -8,6 +8,6 @@ public interface SessionGestor {
 
 	public Message getSession(String user,String pass,String IP) throws SessionGestionException;
 	public UserLogin checkSession(String tokenSession) throws SessionGestionException;
-	
 	public String[] getSessions();
+
 }

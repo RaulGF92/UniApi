@@ -8,7 +8,7 @@ import java.util.Date;
 import org.joda.time.DateTime;
 
 import es.uniapi.modules.execution_enviroment.execution.Execution;
-import es.uniapi.modules.model.Proyect;
+import es.uniapi.modules.model.Project;
 import es.uniapi.modules.execution_enviroment.model.TicketExecution;
 import es.uniapi.modules.execution_enviroment.model.ExecutionException;
 import es.uniapi.modules.execution_enviroment.model.ServiceException;
@@ -22,23 +22,23 @@ public class ServicePython extends ProgrammingService
 		// TODO Auto-generated constructor stub
 	}
 
-	Proyect pythonProyect;
+	Project pythonProyect;
 	private File responsePython[] = { null, null };
 	private Execution currentExecution;
 
-	public void inicializateService(Proyect proyect) throws ServiceException {
+	public void inicializateService(Project proyect) throws ServiceException {
 		// TODO Auto-generated method stub
 		this.pythonProyect = proyect;
-		if (!existProyect())
+		if (!existProject())
 			throw new ServiceException("El servicio ha fallado por no existir el proyecto "+proyect.getMainName());
 
 	}
 
-	public boolean existProyect() throws ServiceException {
+	public boolean existProject() throws ServiceException {
 		// TODO Auto-generated method stub
 		if (pythonProyect == null)
 			throw new ServiceException("El servicio ha fallado por no existir el proyecto ");
-		File directory = new File(super.getAbsoluteProyectPath(this.pythonProyect));
+		File directory = new File(super.getAbsoluteProjectPath(this.pythonProyect));
 		return directory.exists();
 	}
 
@@ -54,7 +54,7 @@ public class ServicePython extends ProgrammingService
 		// TODO Auto-generated method stub
 
 		TicketExecution ticket = null;
-		String mainPath = super.getAbsoluteProyectPath(pythonProyect) + "/" + pythonProyect.getMainName();
+		String mainPath = super.getAbsoluteProjectPath(pythonProyect) + "/" + pythonProyect.getMainName();
 		ArrayList<String> arguments=new ArrayList<String>();
 
 		for (int i = 0; i < inputs.length; i++) {
@@ -97,11 +97,11 @@ public class ServicePython extends ProgrammingService
 	}
 
 	@Override
-	public String getAbsoluteProyectPath() {
+	public String getAbsoluteProjectPath() {
 		// TODO Auto-generated method stub
 		if (this.pythonProyect == null)
 			return null;
-		return super.getAbsoluteProyectPath(pythonProyect);
+		return super.getAbsoluteProjectPath(pythonProyect);
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class ServicePython extends ProgrammingService
 	}
 
 	@Override
-	public Proyect getProyect() {
+	public Project getProject() {
 		// TODO
 		return this.pythonProyect;
 	}

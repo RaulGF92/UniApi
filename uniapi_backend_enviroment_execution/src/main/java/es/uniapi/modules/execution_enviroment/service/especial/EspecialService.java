@@ -1,17 +1,18 @@
 package es.uniapi.modules.execution_enviroment.service.especial;
 
 import es.uniapi.modules.execution_enviroment.service.GeneralService;
-import es.uniapi.modules.model.Proyect;
+import es.uniapi.modules.model.Project;
+import es.uniapi.modules.model.config.AppConfiguration;
 
 public abstract class EspecialService implements GeneralService {
 
-	public String getAbsoluteProyectPath(Proyect proyect){
+	public String getAbsoluteProjectPath(Project project){
 		
 		//Cojer del archivo de propiedades el path de los proyectos
-		String instalationProyectPath="C:\\UniApi\\proyects";
+		String instalationProjectPath=AppConfiguration.getConfiguration().getProyectSite();
 		
-		String proyectsPath=proyect.getName()+"id["+proyect.getId()+"]";
-		String response=instalationProyectPath+"\\"+proyectsPath;
+		String projectsPath=project.getName()+"_id["+project.hash()+"]";
+		String response=instalationProjectPath+"/"+projectsPath;
 		
 		return response;
 	}

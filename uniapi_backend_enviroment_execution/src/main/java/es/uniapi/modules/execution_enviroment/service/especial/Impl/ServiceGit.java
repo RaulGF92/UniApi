@@ -18,29 +18,29 @@ import es.uniapi.modules.execution_enviroment.git.GitControl;
 import es.uniapi.modules.execution_enviroment.model.ServiceException;
 import es.uniapi.modules.execution_enviroment.service.especial.EspecialService;
 import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService;
-import es.uniapi.modules.model.Proyect;
+import es.uniapi.modules.model.Project;
 
 public class ServiceGit extends EspecialService implements es.uniapi.modules.execution_enviroment.service.especial.Intf.ServiceGit {
 
-	Proyect proyectGit;
+	Project projectGit;
 	
-	public void inicializateService(Proyect proyect) throws ServiceException {
+	public void inicializateService(Project project) throws ServiceException {
 		// TODO Auto-generated method stub
-		this.proyectGit=proyect;
-		if(!existProyect());
+		this.projectGit=project;
+		if(!existProject());
 			//throw new ServiceException();
 	}
 
-	public boolean existProyect() throws ServiceException{
+	public boolean existProject() throws ServiceException{
 		// TODO Auto-generated method stub
-		File directory=new File(super.getAbsoluteProyectPath(proyectGit));
+		File directory=new File(super.getAbsoluteProjectPath(projectGit));
 		return directory.exists();
 	}
 
 	public void loadProject() throws ServiceException{
 		// TODO Auto-generated method stub
 		try {
-			GitControl git=new GitControl(super.getAbsoluteProyectPath(proyectGit),proyectGit.getGitRepositoryURL(),proyectGit.getEmail(),proyectGit.getPassword());
+			GitControl git=new GitControl(super.getAbsoluteProjectPath(projectGit),projectGit.getGitRepositoryURL(),projectGit.getEmail(),projectGit.getPassword());
 			git.pullFromRepo();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -69,7 +69,7 @@ public class ServiceGit extends EspecialService implements es.uniapi.modules.exe
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		proyectGit.setModifyDate(new DateTime().toDate());
+		projectGit.setModifyDate(new DateTime().toDate());
 		
 	}
 
@@ -77,7 +77,7 @@ public class ServiceGit extends EspecialService implements es.uniapi.modules.exe
 		// TODO Auto-generated method stub
 		try {
 			//GitControl.init(proyectGit.getOriginPath());
-			GitControl git=new GitControl(super.getAbsoluteProyectPath(proyectGit),proyectGit.getGitRepositoryURL(),proyectGit.getEmail(),proyectGit.getPassword());
+			GitControl git=new GitControl(super.getAbsoluteProjectPath(projectGit),projectGit.getGitRepositoryURL(),projectGit.getEmail(),projectGit.getPassword());
 			git.cloneRepo();
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
@@ -90,19 +90,21 @@ public class ServiceGit extends EspecialService implements es.uniapi.modules.exe
 			e.printStackTrace();
 		}
 		
-		proyectGit.setModifyDate(new DateTime().toDate());
+		projectGit.setModifyDate(new DateTime().toDate());
 	}
 
 	@Override
 	@Deprecated
-	public String getAbsoluteProyectPath() {
+	public String getAbsoluteProjectPath() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Proyect getProyect() {
+	public Project getProject() {
 		// TODO Auto-generated method stub
-		return proyectGit;
+		return projectGit;
 	}
+
+
 }

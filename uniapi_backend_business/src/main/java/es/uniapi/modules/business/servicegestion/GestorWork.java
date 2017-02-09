@@ -16,7 +16,7 @@ public interface GestorWork {
 	 * @return Una entidad Utiliza_Un con la información detallada de la acción
 	 * @throws GestorServiceException
 	 */
-	public UsingOne createService(UserLogin user,Proyect proyect) throws GestorServiceException;
+	public UsingOne createService(UserLogin user,Project proyect) throws GestorServiceException;
 	
 	/**
 	 * Dado un servicio indicado, este sera buscado por los conjuntos de servicios. Posteriormente sera detenido y eliminado

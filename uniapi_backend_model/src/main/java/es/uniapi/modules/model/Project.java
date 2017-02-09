@@ -5,15 +5,14 @@ import java.util.Date;
 
 import es.uniapi.modules.model.config.SHA1;
 
-public class Proyect {
+public class Project {
 
 
-
-	public Proyect(long id, String name, ProyectType type, String description, String gitRepositoryURL, String email,
-			String password, Date modifyDate, String mainName, String responseName, String[] defaultInputs,
-			String inputDescription, String outputDescription) {
+	public Project(Date creationDate, String name, ProjectType type, String description, String gitRepositoryURL,
+			String email, String password, Date modifyDate, String mainName, String responseName,
+			String[] defaultInputs, String inputDescription, String outputDescription) {
 		super();
-		this.id = id;
+		this.creationDate = creationDate;
 		this.name = name;
 		this.type = type;
 		this.description = description;
@@ -26,30 +25,15 @@ public class Proyect {
 		this.defaultInputs = defaultInputs;
 		this.inputDescription = inputDescription;
 		this.outputDescription = outputDescription;
+		this.hashcode=hash();
 	}
 
-	public Proyect(String name, ProyectType type, String description, String gitRepositoryURL, String email,
-			String password, Date modifyDate, String mainName, String responseName, String[] defaultInputs,
-			String inputDescription, String outputDescription) {
-		super();
-		this.name = name;
-		this.type = type;
-		this.description = description;
-		this.gitRepositoryURL = gitRepositoryURL;
-		this.email = email;
-		this.password = password;
-		this.modifyDate = modifyDate;
-		this.mainName = mainName;
-		this.responseName = responseName;
-		this.defaultInputs = defaultInputs;
-		this.inputDescription = inputDescription;
-		this.outputDescription = outputDescription;
-	}
 
-	private long id;
 	private String name;
-	private ProyectType type;
+	private ProjectType type;
+	private Date creationDate;
 	private String description;
+	private String hashcode;
 	
 	//git part
 	private String gitRepositoryURL;
@@ -58,7 +42,6 @@ public class Proyect {
 	private Date modifyDate;
 	
 	
-
 	//main
 	private String mainName;
 	private String responseName;
@@ -66,11 +49,14 @@ public class Proyect {
 
 	//input-Output
 	private String[] defaultInputs;
+			
 	private String inputDescription;
 	private String outputDescription;
 	
-	public enum ProyectType {
-		JAVA,R,OCTAVE,GIT,PYTHON
+	
+	
+	public enum ProjectType {
+		JAVA,R,OCTAVE,GIT,PYTHON,TypeOfProject
 	}
 	
 	public Date getModifyDate() {
@@ -97,11 +83,11 @@ public class Proyect {
 		this.name = name;
 	}
 
-	public ProyectType getType() {
+	public ProjectType getType() {
 		return type;
 	}
 
-	public void setType(ProyectType type) {
+	public void setType(ProjectType type) {
 		this.type = type;
 	}
 
@@ -169,28 +155,8 @@ public class Proyect {
 		this.outputDescription = outputDescription;
 	}
 
-	@Override
-	public String toString() {
-		return "Proyect [id=" + id + ", name=" + name + ", type=" + type + ", description=" + description
-				+ ", gitRepositoryURL=" + gitRepositoryURL + ", email=" + email + ", password=" + password
-				+ ", modifyDate=" + modifyDate + ", mainName=" + mainName + ", responseName=" + responseName
-				+ ", defaultInputs=" + Arrays.toString(defaultInputs) + ", inputDescription=" + inputDescription
-				+ ", outputDescription=" + outputDescription + "]";
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 
-	public String hash() {
-		
-		return SHA1.encryptPassword(this.toString());
-	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -200,7 +166,7 @@ public class Proyect {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Proyect other = (Proyect) obj;
+		Project other = (Project) obj;
 		if (!Arrays.equals(defaultInputs, other.defaultInputs))
 			return false;
 		if (description == null) {
@@ -217,8 +183,6 @@ public class Proyect {
 			if (other.gitRepositoryURL != null)
 				return false;
 		} else if (!gitRepositoryURL.equals(other.gitRepositoryURL))
-			return false;
-		if (id != other.id)
 			return false;
 		if (inputDescription == null) {
 			if (other.inputDescription != null)
@@ -258,6 +222,38 @@ public class Proyect {
 		if (type != other.type)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Project [name=" + name + ", type=" + type + ", description="
+				+ description + ", gitRepositoryURL=" + gitRepositoryURL + ", email=" + email + ", password=" + password
+				+ ", modifyDate=" + modifyDate + ", mainName=" + mainName + ", responseName=" + responseName
+				+ ", defaultInputs=" + Arrays.toString(defaultInputs) + ", inputDescription=" + inputDescription
+				+ ", outputDescription=" + outputDescription + ", creationDate=" + creationDate + "]";
+	}
+	
+	public String hash(){
+		return SHA1.encryptPassword(this.especialToString());
+	}
+	public String especialToString(){
+		return "Project [name=" + name + ", type=" + type +", creationDate=" + creationDate +"]";
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public String getHashcode() {
+		return hash();
+	}
+
+	public void setHashcode(String hashcode) {
+		this.hashcode = hashcode;
 	}
 
 }

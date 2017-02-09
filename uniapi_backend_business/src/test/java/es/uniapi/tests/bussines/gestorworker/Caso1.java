@@ -8,8 +8,8 @@ import org.neo4j.kernel.impl.nioneo.store.PropertyType;
 import es.uniapi.modules.business.exception.GestorServiceException;
 import es.uniapi.modules.business.servicegestion.GestorWork;
 import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService;
-import es.uniapi.modules.model.Proyect;
-import es.uniapi.modules.model.Proyect.ProyectType;
+import es.uniapi.modules.model.Project;
+import es.uniapi.modules.model.Project.ProjectType;
 import es.uniapi.modules.model.UserLogin;
 
 public class Caso1 {
@@ -53,9 +53,9 @@ public class Caso1 {
 	String input3[]={"900","900","900","900"};
 	
 	
-	Proyect proyecto1=new Proyect(1, 
-			"prueba", 
-			ProyectType.PYTHON, 
+	Project proyecto1=new Project( 
+			new Date(), "prueba", 
+			ProjectType.PYTHON, 
 			"vacia", 
 			"https://github.com/RaulGF92/prueba.git", 
 			"", 

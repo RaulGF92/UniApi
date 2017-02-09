@@ -2,11 +2,11 @@ package es.uniapi.modules.execution_enviroment.service.programming.Impl;
 
 import es.uniapi.modules.execution_enviroment.model.ServiceException;
 import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService;
-import es.uniapi.modules.model.Proyect;
+import es.uniapi.modules.model.Project;
 
 public class ServiceOctave extends ProgrammingService {
 
-	private Proyect octaveProyect;
+	private Project octaveProyect;
 	
 	public ServiceOctave(long id) {
 		// TODO Auto-generated constructor stub
@@ -14,19 +14,19 @@ public class ServiceOctave extends ProgrammingService {
 	}
 
 	@Override
-	public void inicializateService(Proyect proyect) throws ServiceException {
+	public void inicializateService(Project proyect) throws ServiceException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public boolean existProyect() throws ServiceException {
+	public boolean existProject() throws ServiceException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public String getAbsoluteProyectPath() {
+	public String getAbsoluteProjectPath() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -44,7 +44,7 @@ public class ServiceOctave extends ProgrammingService {
 	}
 
 	@Override
-	public Proyect getProyect() {
+	public Project getProject() {
 		// TODO Auto-generated method stub
 		return this.octaveProyect;
 	}

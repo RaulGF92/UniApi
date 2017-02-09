@@ -8,7 +8,7 @@ import es.uniapi.modules.execution_enviroment.service.factory.Impl.ServiceFactor
 import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService;
 import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService.ExecutionState;
 import es.uniapi.modules.model.*;
-import es.uniapi.modules.model.Proyect.ProyectType;
+import es.uniapi.modules.model.Project.ProjectType;
 import es.uniapi.modules.model.config.AppConfiguration;
 
 import java.io.File;
@@ -54,7 +54,7 @@ public class GestorWorkerMap implements GestorWork{
 	}
 	
 	@Override
-	public UsingOne createService(UserLogin user, Proyect proyect) throws GestorServiceException {
+	public UsingOne createService(UserLogin user, Project proyect) throws GestorServiceException {
 		// TODO Auto-generated method stub
 		UsingOne usingOne=null;
 		
@@ -129,7 +129,7 @@ public class GestorWorkerMap implements GestorWork{
 		 *
 		 * ejem: /data/FileExecutionHierarchy/email@email.com/HelloWorld-21
 		 */
-		String response=userPath+"/"+service.getProyect().getName()+"-"+service.getId();
+		String response=userPath+"/"+service.getProject().getName()+"-"+service.getId();
 		File userSpace=new File(userPath);
 		if(userSpace.isDirectory()){
 			File newService=new File(response);

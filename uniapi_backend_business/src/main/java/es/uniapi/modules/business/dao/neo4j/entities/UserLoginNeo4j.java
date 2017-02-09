@@ -18,7 +18,7 @@ public class UserLoginNeo4j implements UserLoginDAO {
 	Driver driver;
 	
 	public UserLoginNeo4j() {
-		// TODO Auto-generated constructor stub
+		// CREATE CONSTRAINT ON (u:userLogin) ASSERT u.email IS UNIQUE
 		AppConfiguration conf=AppConfiguration.getConfiguration();
 		this.driver= GraphDatabase.driver( "bolt://localhost:7687", 
 				AuthTokens.basic( conf.getUserDataBase(), conf.getPassDataBase() ) );

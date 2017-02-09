@@ -25,6 +25,7 @@ public class Limpito extends Thread {
 		
 		esperarPorFatherThread();
 		
+		
 		long timeSleep = TIME_LEAST_TO_DELETE;
 		int counter=0;
 		while (true) {
@@ -46,7 +47,7 @@ public class Limpito extends Thread {
 					}
 					for(int i=0;i<tokenForDelete.size();i++){
 						sessions.remove(tokenForDelete.get(i));
-						System.out.println("Limpito ha realizado una limpieza/n Clientes restantes:"+sessions.size());
+						System.out.println("Limpito ha realizado una limpieza \n Clientes restantes:"+sessions.size());
 					}
 					semaphore.release();
 				}

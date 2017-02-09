@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
 
 import es.uniapi.modules.execution_enviroment.model.ServiceException;
 import es.uniapi.modules.execution_enviroment.service.GeneralService;
-import es.uniapi.modules.model.Proyect;
+import es.uniapi.modules.model.Project;
 import es.uniapi.modules.model.config.AppConfiguration;
 
 public abstract class ProgrammingService implements GeneralService {
@@ -28,11 +28,11 @@ public abstract class ProgrammingService implements GeneralService {
 		this.id=id;
 	}
 	
-	public String getAbsoluteProyectPath(Proyect proyect){
+	public String getAbsoluteProjectPath(Project proyect){
 		
 		//Cojer del archivo de propiedades el path de los proyectos
 		
-		String proyectsPath=proyect.getName()+"id["+proyect.getId()+"]";
+		String proyectsPath=proyect.getName()+"id["+proyect.hash()+"]";
 		String response=INSTALATION_PROJECT_PATH+"/"+proyectsPath;
 		
 		return response;

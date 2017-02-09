@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 
+import javax.websocket.SessionException;
+
 import org.joda.time.DateTime;
 
 import es.uniapi.modules.apirest.model.Message;
@@ -65,7 +67,7 @@ public class SessionGestorMap implements SessionGestor {
 				semaphore.acquire();
 				String[] info={user,Long.toString(new Date().getTime())};
 				sessions.put(codificatedToken, info);
-				System.out.println("Añadimos una session /n Clientes:"+sessions.size());
+				System.out.println("Añadimos una session \n Clientes:"+sessions.size());
 				semaphore.release();
 			
 			}else{
@@ -91,9 +93,10 @@ public class SessionGestorMap implements SessionGestor {
 		semaphore.acquire();
 		if(!sessions.containsKey(tokenSession))
 			return response;
+		
 		if(this.checkTimeToErase(new DateTime(Long.parseLong(sessions.get(tokenSession)[1])).toDate()))
 			return response;
-		System.out.println("llega aqui");
+		
 		String[] info=sessions.get(tokenSession);
 		response=dao.getUserLoginDAO().findByEmail(info[0]);
 		info[1]=Long.toString(new Date().getTime());
