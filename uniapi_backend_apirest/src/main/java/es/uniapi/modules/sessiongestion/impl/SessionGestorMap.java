@@ -31,7 +31,7 @@ public class SessionGestorMap implements SessionGestor {
 	}
 	
 	HashMap<String,String[]> sessions; //o-> email 1-> date
-	private final long TIME_LEAST_TO_RENOVE_ID=20000;
+	private final long TIME_LEAST_TO_RENOVE_ID=(5*60)*1000; //5 mins on milisecond
 	private Limpito limpito;
 	Semaphore semaphore;
 	
@@ -64,7 +64,9 @@ public class SessionGestorMap implements SessionGestor {
 			if(userLogin.getPass().compareTo(SHA1.encryptPassword(pass))==0){
 				//exist
 				response=new Message(0,codificatedToken);
+				System.out.println("llega");
 				semaphore.acquire();
+				System.out.println("entra");
 				String[] info={user,Long.toString(new Date().getTime())};
 				sessions.put(codificatedToken, info);
 				System.out.println("Añadimos una session \n Clientes:"+sessions.size());
@@ -77,6 +79,7 @@ public class SessionGestorMap implements SessionGestor {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			response=new Message(1,codificatedToken);
+			semaphore.release();
 		}
 		
 		return response;
@@ -88,20 +91,33 @@ public class SessionGestorMap implements SessionGestor {
 		//Call userLogin Exist
 		UniapiDAO dao=new UniApiFactoryDAO().getUniApiDao();
 		UserLogin response=null;
+		
+		if(tokenSession == null)
+			return response;
+		
 		try {
 			
 		semaphore.acquire();
-		if(!sessions.containsKey(tokenSession))
+		if(!sessions.containsKey(tokenSession)){
+			semaphore.release();
 			return response;
+		}
+		semaphore.release();
 		
 		if(this.checkTimeToErase(new DateTime(Long.parseLong(sessions.get(tokenSession)[1])).toDate()))
 			return response;
 		
+		semaphore.acquire();
 		String[] info=sessions.get(tokenSession);
+		semaphore.release();
+		
 		response=dao.getUserLoginDAO().findByEmail(info[0]);
 		info[1]=Long.toString(new Date().getTime());
+		
+		semaphore.acquire();
 		sessions.put(tokenSession, info);
 		semaphore.release();
+		
 		return response;
 		
 		} catch (Exception e) {

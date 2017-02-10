@@ -1,10 +1,15 @@
 package es.uniapi.modules.apirest.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.jboss.logging.Param;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -101,9 +106,11 @@ public class ProjectController {
 	}
 	
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value="/{token}/project",method=RequestMethod.POST)
-	public MessageProject getProject(@PathVariable String token,@RequestBody Project project){
+	@RequestMapping(value="/{token}/project",method=RequestMethod.POST,consumes={MediaType.APPLICATION_JSON_VALUE})
+	public MessageProject newProject(@PathVariable String token,@RequestBody String project){
 		
+		System.out.println("[token: "+token+"] New create proyect");
+		System.out.println(project);
 		UserLogin user=null;
 		MessageProject messageProject=null;
 		sessionGestor=SessionGestorMap.getSessionGestor();
@@ -113,6 +120,37 @@ public class ProjectController {
 				messageProject=new MessageProject(4, token,new Project[0]);
 				return messageProject;
 			}
+			
+			JSONObject obj = new JSONObject(project);
+			
+			JSONArray arr=obj.getJSONArray("defaultInputs");
+			List<String> list = new ArrayList<String>();
+			for(int i = 0; i < arr.length(); i++){
+			    list.add(arr.getString(i));
+			}
+			
+			Project projectToCreate=new Project(new Date(), 
+					obj.getString("name"),
+					ProjectType.valueOf(obj.getString("type")), 
+					obj.getString("description"), 
+					obj.getString("gitRepositoryURL"), 
+					obj.getString("email"), 
+					obj.getString("password"), 
+					new Date(), 
+					obj.getString("mainName"), 
+					obj.getString("responseName"), 
+					list.toArray(new String[list.size()]), 
+					obj.getString("inputDescription"), 
+					obj.getString("outputDescription"));
+			
+			try {
+				Modules.getProjectModule().createProject(user, projectToCreate);
+			} catch (BussinessException e) {
+				// TODO Auto-generated catch block
+				messageProject=new MessageProject(11, token,new Project[0]);
+				return messageProject;
+			}
+			messageProject=new MessageProject(0, token,new Project[0]);
 			
 		}catch(SessionGestionException s){
 			messageProject=new MessageProject(4, token,new Project[0]);

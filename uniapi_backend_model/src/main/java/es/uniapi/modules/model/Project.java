@@ -27,6 +27,25 @@ public class Project {
 		this.outputDescription = outputDescription;
 		this.hashcode=hash();
 	}
+	public Project(String id,Date creationDate, String name, ProjectType type, String description, String gitRepositoryURL,
+			String email, String password, Date modifyDate, String mainName, String responseName,
+			String[] defaultInputs, String inputDescription, String outputDescription) {
+		super();
+		this.creationDate = creationDate;
+		this.name = name;
+		this.type = type;
+		this.description = description;
+		this.gitRepositoryURL = gitRepositoryURL;
+		this.email = email;
+		this.password = password;
+		this.modifyDate = modifyDate;
+		this.mainName = mainName;
+		this.responseName = responseName;
+		this.defaultInputs = defaultInputs;
+		this.inputDescription = inputDescription;
+		this.outputDescription = outputDescription;
+		this.hashcode=hash();
+	}
 
 
 	private String name;

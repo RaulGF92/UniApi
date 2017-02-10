@@ -31,14 +31,29 @@
 		.carga{
 			border:groove 2px;
 		}
+		.typeActive{
+			border: groove blue;
+		}
+		.noPulse{
+			display:block;
+		}
+		.mainInfo textarea{
+			border:0;
+		}
+		.secondaryInfo input{
+			border:0;
+		}
+		.secondaryInfo textarea{
+			border:0;
+		}
 		
 	</style>
   </head>
-<body>
+<body ng-app="menuApp">
 
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" style="padding-left:50%;font-family: 'Anton', sans-serif;font-size:22px;" href="/"><span style="padding-right:10px" class="glyphicon glyphicon-cloud"></span><span>UniApi</span></a>
+			<a class="navbar-brand" style="padding-left:50%;font-family: 'Anton', sans-serif;font-size:22px;" href="#/"><span style="padding-right:10px" class="glyphicon glyphicon-cloud"></span><span>UniApi</span></a>
        		 </div>
     </nav>
 	<!-- The Modal -->
@@ -50,192 +65,36 @@
 	  </div>
 	</div>
 
-    <div class="container-fluid" id="page">
+    <div class="container-fluid" id="page" style="display:none">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
 			<div class="principal text-center">
-				<img class="perfil img-circle" width="70" high="70" src="resource/img/perfil.jpg" />
-				<h5>raulgf92@gmail.com</h5>
-				<span class="text-muted" style="font-size:10px">Raúl García Fernández</span>
+				<img class="perfil img-circle" width="70" high="70" id="perfil" src="resource/img/perfil.jpg" />
+				<h5 id="userName">user@user.com</h5>
+				<span class="text-muted" style="font-size:10px" id="completeName">User subname1 subname2</span>
 				<hr style="margin-bottom: 5px;"></hr>
 				<button class="btn btn-default btn-sm">Log out</button>
 			</div>
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Home page <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Grupos</a></li>
-            <li><a href="#">Proyectos</a></li>
-            <li><a href="#">Configuración</a></li>
-			<li><a href="#">Administration</a></li>
-		  </ul>
+            <li><a href="#/">Home page <span class="sr-only">(current)</span></a></li>
+            <li><a href="#Groups">Grupos</a></li>
+            <li><a href="#Projects">Proyectos</a></li>
+            <li><a href="#Config">Configuración</a></li>
+	    <li><a href="#Admin">Administration</a></li>
+	  </ul>
           <ul class="nav nav-sidebar">
-            <li><a href="#">Nuevo proyecto</a></li>
-            <li><a href="#">Nuevo grupo</a></li>
+            <li><a href="#NewProject">Nuevo proyecto</a></li>
+            <li><a href="#NewGroup">Nuevo grupo</a></li>
           </ul>
         </div>
 
 	</div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-view>
 
-          <h1 class="page-header">Proyectos en ejecución:</h1>
+          
 
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="resource/img/hex-loader2.gif" width="200" height="200" class="img-responsive img-circle carga" alt="Generic placeholder thumbnail">
-              <h4>Triangulo de gauss</h4>
-              <span class="text-muted">Algebra_lineal</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="resource/img/hex-loader2.gif" width="200" height="200" class="img-responsive img-circle carga" alt="Generic placeholder thumbnail">
-              <h4>Desarrollo de un axioma</h4>
-              <span class="text-muted">MedicinaGroup</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-			  <img src="resource/img/hex-loader2.gif" width="200" height="200" class="img-responsive img-circle carga" alt="Generic placeholder thumbnail">
-              <h4>Machine_Learning</h4>
-              <span class="text-muted">IADepàrtament</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="resource/img/hex-loader2.gif" width="200" height="200" class="img-responsive img-circle carga" alt="Generic placeholder thumbnail">
-              <h4>Modelo de reproducion de celulas</h4>
-              <span class="text-muted">Biologia 1</span>
-            </div>
-          </div>
 
-          <div class="sub-header">
-			<ol class="breadcrumb">
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Fisica</a></li>
-				<li><a href="#">Mecaníca</a></li>
-				<li class="active">Grupo de investigación B</li>
-			</ol>
-		  </div>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                </tr>
-                <tr>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td>elit</td>
-                </tr>
-                <tr>
-                  <td>1,003</td>
-                  <td>Integer</td>
-                  <td>nec</td>
-                  <td>odio</td>
-                  <td>Praesent</td>
-                </tr>
-                <tr>
-                  <td>1,003</td>
-                  <td>libero</td>
-                  <td>Sed</td>
-                  <td>cursus</td>
-                  <td>ante</td>
-                </tr>
-                <tr>
-                  <td>1,004</td>
-                  <td>dapibus</td>
-                  <td>diam</td>
-                  <td>Sed</td>
-                  <td>nisi</td>
-                </tr>
-                <tr>
-                  <td>1,005</td>
-                  <td>Nulla</td>
-                  <td>quis</td>
-                  <td>sem</td>
-                  <td>at</td>
-                </tr>
-                <tr>
-                  <td>1,006</td>
-                  <td>nibh</td>
-                  <td>elementum</td>
-                  <td>imperdiet</td>
-                  <td>Duis</td>
-                </tr>
-                <tr>
-                  <td>1,007</td>
-                  <td>sagittis</td>
-                  <td>ipsum</td>
-                  <td>Praesent</td>
-                  <td>mauris</td>
-                </tr>
-                <tr>
-                  <td>1,008</td>
-                  <td>Fusce</td>
-                  <td>nec</td>
-                  <td>tellus</td>
-                  <td>sed</td>
-                </tr>
-                <tr>
-                  <td>1,009</td>
-                  <td>augue</td>
-                  <td>semper</td>
-                  <td>porta</td>
-                  <td>Mauris</td>
-                </tr>
-                <tr>
-                  <td>1,010</td>
-                  <td>massa</td>
-                  <td>Vestibulum</td>
-                  <td>lacinia</td>
-                  <td>arcu</td>
-                </tr>
-                <tr>
-                  <td>1,011</td>
-                  <td>eget</td>
-                  <td>nulla</td>
-                  <td>Class</td>
-                  <td>aptent</td>
-                </tr>
-                <tr>
-                  <td>1,012</td>
-                  <td>taciti</td>
-                  <td>sociosqu</td>
-                  <td>ad</td>
-                  <td>litora</td>
-                </tr>
-                <tr>
-                  <td>1,013</td>
-                  <td>torquent</td>
-                  <td>per</td>
-                  <td>conubia</td>
-                  <td>nostra</td>
-                </tr>
-                <tr>
-                  <td>1,014</td>
-                  <td>per</td>
-                  <td>inceptos</td>
-                  <td>himenaeos</td>
-                  <td>Curabitur</td>
-                </tr>
-                <tr>
-                  <td>1,015</td>
-                  <td>sodales</td>
-                  <td>ligula</td>
-                  <td>in</td>
-                  <td>libero</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          
         </div>
       </div>
     </div>
@@ -251,6 +110,7 @@
 	<script src="https://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+	<script src="js/domainApp.js"></script>
 
 	<script>
 		// Get the modal
@@ -263,12 +123,9 @@
 		var span = document.getElementsByClassName("close")[0];
 
 		$(document).ready(function(){
-			$("#page").css.display = "none";			
+			$("#page").css("display","none");			
 			modal.style.display = "block";
 			loggin();
-			modal.style.display = "none";
-			$("#page").css.display = "block";
-			
 		});
 		
 		function loggin(){
@@ -285,14 +142,178 @@
 				console.log(response);
 				if(response.state != 0)
 					window.location.href="loggin";
+				modal.style.display = "none";
+				$("#page").css("display","block");
+				$("#perfil").attr("src",response.person.profileImageUrl);
+				$("#completeName").text(response.person.name+" "+response.person.subname);
+				$("#userName").text(response.userLogin.user);
 			}).error(function(error){
 				window.location.href="loggin";
 			});
 
 		}
-		    
-	</script>
+		function sendNewProyect(proyecto){
 
+			var tokenSession=localStorage.getItem("tokenSession");
+			var data=JSON.stringify(proyecto);
+			if(tokenSession == null)
+				window.location.href="loggin";
+
+			$.ajax({
+				method:"POST",
+				url:"http://localhost:8080/project/"+tokenSession+"/project",
+				dataType: 'json',
+				contentType: 'application/json',
+				data: data
+			}).done(function(response){
+				console.log(response);
+				if(response.state != 0){
+					//window.location.href="loggin";
+				}
+			}).error(function(error){
+				console.log(error);
+				//window.location.href="/";
+			});		
+		}
+
+		   
+	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+	<script>
+	
+		var app = angular.module('menuApp',["ngRoute"]);
+		app.config(function($routeProvider) {
+		    $routeProvider
+		    .when("/", {
+			templateUrl : "pages/main.htm"
+			
+		    })
+		    .when("/Groups", {
+			template : "<h1>Group:</h1>"
+		    })
+		    .when("/Projects", {
+			templateUrl : "pages/listProject.htm",
+			controller : "listProjectCtrl"
+		    })
+		    .when("/Config", {
+			template : "<h1>Configuration:</h1>"
+		    })
+		    .when("/Admin", {
+			template : "<h1>Administration:</h1>"
+		    })
+		    .when("/NewProject", {
+			templateUrl : "pages/newProject.htm",
+			controller : "newProjectCtrl"
+		    })
+		    .when("/NewGroup", {
+			template : "<h1>New Group:</h1>"
+		    });
+		});
+
+		app.controller("listProjectCtrl",function ($scope,$http){
+			var tokenSession=localStorage.getItem("tokenSession");
+			$http({
+				method : "GET",
+				url : "http://localhost:8080/project/"+tokenSession+"/project/all"
+			}).then(function(response){
+				console.log(response.data);
+				$scope.projects=response.data.projects;
+			});
+			$scope.makeClick = function(id){
+				console.log(id);
+			};
+		});
+
+		app.controller("newProjectCtrl", function ($scope,$http) {
+			$scope.clean = function(){
+				
+			};
+			$scope.counter=0;
+			$scope.addArgument = function(){
+				$scope.counter++;
+				$("#arrayDefaultInput").append("<li id='element_'"+$scope.counter+">["+$scope.counter+"]: <input id='value_"+$scope.counter+"' type='text'></li>");
+			};
+			$scope.removeArgument = function(){
+				$("#arrayDefaultInput").children().get($scope.counter).remove();
+				$scope.counter--;
+			};
+			$scope.makeSubmitDefaultInputs = function(){
+				var response=new Array();
+				if($scope.counter==0 && $("#value_"+0).val() == "")
+					return response;
+						
+				for(var j=0;j<=$scope.counter;j++){
+					response.push($("#value_"+j).val());
+				}
+				return response;
+			};
+			$scope.makeSubmit = function (){
+				if($scope.type == null){
+					alert("selecciona un tipo de proyecto");
+					return;
+				}
+				var proyecto= new project("vacio",
+							$scope.name, 
+							$scope.type,
+							$scope.description,
+							$scope.gitRepositoryURL,
+							$scope.email,
+							$scope.password,
+							new Date().getTime(),
+							new Date().getTime(),
+							$scope.mainName,
+							$scope.responseName,
+							//$scope.defaultInputs,
+							$scope.makeSubmitDefaultInputs(),							
+							$scope.inputDescription,
+							$scope.outputDescription);
+				console.log(proyecto);
+				var anwser=sendNewProyect(proyecto);
+			};
+			$scope.clickType= function (type){
+				$scope.type=type;
+				switch(type){
+					case 'PYTHON':
+        					$("#pythonPick").addClass("typeActive");
+						$("#javaPick").removeClass("typeActive");
+						$("#octavePick").removeClass("typeActive");
+						$("#rPick").removeClass("typeActive");
+						$scope.type="PYTHON";
+        				break;
+					case 'JAVA':
+        					$("#javaPick").addClass("typeActive");
+						$("#pythonPick").removeClass("typeActive");
+						$("#octavePick").removeClass("typeActive");
+						$("#rPick").removeClass("typeActive");
+						$scope.type="JAVA";        				
+					break;
+					case 'R':
+        					$("#rPick").addClass("typeActive");
+						$("#javaPick").removeClass("typeActive");
+						$("#octavePick").removeClass("typeActive");
+						$("#pythonPick").removeClass("typeActive");
+						$scope.type="R";
+        				break;
+					case 'OCTAVE':
+        					$("#octavePick").addClass("typeActive");
+						$("#javaPick").removeClass("typeActive");
+						$("#pythonPick").removeClass("typeActive");
+						$("#rPick").removeClass("typeActive");
+						$scope.type="OCTAVE";        				
+					break;
+    					default:
+        					$("#pythonPick").removeClass("typeActive");
+						$("#javaPick").removeClass("typeActive");
+						$("#octavePick").removeClass("typeActive");
+						$("#rPick").removeClass("typeActive");
+			
+				}
+			}
+		});
+		
+	</script>
 
   
   </body>
