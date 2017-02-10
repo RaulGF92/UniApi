@@ -1,0 +1,20 @@
+
+echo " --------------------------------------------------------"
+echo "|							 	|"
+echo "|			TheBimboBread				|"
+echo "|								|"
+echo "|			 UniApi-Start				|"
+echo " --------------------------------------------------------"
+echo " "
+echo " "
+echo " "
+echo "Maked for ruli of ruli <3 "
+
+xterm -e ./uniapiStartDB &
+sleep 5
+xterm -e ./uniapiStartBussiness &
+sleep 50
+xterm -e ./uniapiStartWebPlataform &
+sleep 5
+echo "you can use the app!!"
+echo "DON'T CLOSE THE WINDOWS UNTIL YOU FINISH USE THE APP"

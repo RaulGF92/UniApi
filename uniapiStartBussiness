@@ -1,0 +1,55 @@
+
+echo " --------------------------------------------------------"
+echo "|							 	|"
+echo "|			TheBimboBread				|"
+echo "|								|"
+echo "|		 UniApi-Start Background			|"
+echo " --------------------------------------------------------"
+echo " "
+echo " "
+echo " "
+
+echo "compiling model"
+echo "--------------------------------------------------------------"
+cd uniapi_backend_model
+mvn clean install package
+cd ..
+
+echo "--------------------------------------------------------------"
+echo "Making the copies of model"
+cp uniapi_backend_model/target/model-0.0.1-SNAPSHOT.jar uniapi_backend_enviroment_execution/externalJar
+cp uniapi_backend_model/target/model-0.0.1-SNAPSHOT.jar uniapi_backend_business/externalJar
+cp uniapi_backend_model/target/model-0.0.1-SNAPSHOT.jar uniapi_backend_apirest/externalJar 
+echo "-------------------------END-----------------------------------"
+
+echo "compiling enviroment_execution"
+echo "--------------------------------------------------------------"
+cd uniapi_backend_enviroment_execution
+mvn clean install package
+cd ..
+
+echo "--------------------------------------------------------------"
+echo "Making the copies of enviroment_execution"
+cp uniapi_backend_enviroment_execution/target/enviroment_execution-0.0.1-SNAPSHOT.jar uniapi_backend_business/externalJar
+cp uniapi_backend_enviroment_execution/target/enviroment_execution-0.0.1-SNAPSHOT.jar uniapi_backend_apirest/externalJar
+echo "-------------------------END-----------------------------------"
+
+echo "compiling backend bussiness"
+echo "--------------------------------------------------------------"
+cd uniapi_backend_business
+mvn clean install package
+cd ..
+
+echo "--------------------------------------------------------------"
+echo "Making the copies of bussiness"
+cp uniapi_backend_business/target/business-0.0.1-SNAPSHOT.jar uniapi_backend_apirest/externalJar
+echo "----------------------------END--------------------------------"
+
+echo " "
+echo " "
+echo " "
+cd uniapi_backend_apirest
+mvn clean install package; 
+mvn spring-boot:run;
+
+

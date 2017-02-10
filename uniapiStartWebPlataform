@@ -1,0 +1,13 @@
+
+echo " --------------------------------------------------------"
+echo "|							 	|"
+echo "|			TheBimboBread				|"
+echo "|								|"
+echo "|		 UniApi-Start Web plataform			|"
+echo " --------------------------------------------------------"
+echo " "
+echo " "
+echo " "
+
+cd uniapi_webplataform
+node index.js
