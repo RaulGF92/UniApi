@@ -21,17 +21,26 @@ Como se ve en la imagen de la arquitectura, la aplicación se divide en cuatro g
 #Getting Started
 Para poner en ejecución la aplicación en la versión actual. Sera necesario tener instalado Eclipse con la funcionalidad maven operativa y una conexión a internet estable.
 
-1. Clonar el proyecto en una carpeta y importar cada carpeta de manera individual como proyectos maven.
-2.  Utilizar la instruccin **"clean install package"** en los proyectos *uniapi_backend_model* , *uniapi_backend_business* y *uniapi_backend_enviroment_execution*.
-3. Añadir los jar existentes en las carpetas target de los proyectos mencionados en el punto anterior al **Java Build Path** del proyecto superior.
-	> *uniapi_backend_model* para todos, *uniapi_backend_enviroment_execution* --to-- *uniapi_backend_bussines*, *uniapi_backend_bussines* --to-- *uniapi_backend_apirest*
-4. Utilizar la instrucción **"clean install package spring-boot:run"** en el proyecto uniapi_backend_apirest.
+1. Clonar el proyecto en un sistema por el momento **Ubuntu** con interfaz grafica.
+2. Utilizar la carpeta clonada (uniapi) como workspace para el eclipse.
+3. Importar cada uno de los proyectos como proyectos maven. Actualizarlos y utilizar la orden **clean install** como rele de seguridad.
+4. Descargar y descomprimir el neo4j en la carpeta clonada (uniapi) de este enlace ![](https://neo4j.com/download/?ref=home).
+> Igual hay que actualizar el archivo uniapiStartDB con el nombre de la carpeta de la DB, si han cambiado de versión.
+5. Ejecutar el archivo con el comando mostrado a continuación y esperar en torno de 3-5 minutos, si no existen fallos continuar al paso siguiente.
+
+> ./uniapi
 
 *NOTA: Si hay fallo en la compilación y indica que el compildor no se encuentra (JRE Y JDK no coinciden). Sera necesario modificar el JRE del proyecto para equipararlo sobre el JDK de eclipse. O a la inversa actualizar el JDK de eclipse para equipararlo con el JRE de los proyectos.Los proyectos se estan desarrollando con configuraciones identicas, lo normal es que si falla un proyectos los demas fallen, si se arregla uno los demas funcionen.*
 
-Si todos los pasos han salido bien, sin encontrarse ningun fallo. Nos podremos conectar a la pagina http://localhost:8080 en nuestro navegador y debera aparecer un mensaje de bienvenida.
+6. El servicio web se encuentra en la primera dirección, el servicio REST en la segunda dirección, el servicio de DB en la tercera dirección. Todas accedibles desde el navergador web. Para poder acceder al servicio REST. Es necesario conocer su protocolo.
 
-> {id:1,message:'¿Hola que tal? parece que esto funciona! : )'}
+
+> http://localhost:3000/
+> http://localhost:8080/
+> http://localhost:7474/
+
+Si todos los pasos han salido bien, sin encontrarse ningun fallo. Nos podremos conectar a la pagina http://localhost:3000 en nuestro navegador y debera aparecer una pagina de loggin. Si escribimos http://localhost:3000/createAccount podremos realizar una cuenta para acceder al sistema.
+
 
 
 
