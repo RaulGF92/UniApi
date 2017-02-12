@@ -78,14 +78,88 @@ public class ProjectController {
 	}
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value="/{token}/{projectId}", method=RequestMethod.PATCH)
-	public Message patchProyect(@PathVariable String token,@PathVariable String projectId){
+	public Message patchProyect(@PathVariable String token,@PathVariable String projectId,@RequestBody String response){
+
+		UserLogin user = null;
+		sessionGestor=SessionGestorMap.getSessionGestor();
+		Message msg;
+		
+		try {
+			user=sessionGestor.checkSession(token);
+		} catch (SessionGestionException e) {
+			// TODO Auto-generated catch block
+			msg=new Message(4, token,new String[0]);
+		}
+		
+		JSONObject obj=new JSONObject(response);
+		JSONArray arr=obj.getJSONArray("defaultInputs");
+		List<String> list = new ArrayList<String>();
+		for(int i = 0; i < arr.length(); i++){
+		    list.add(arr.getString(i));
+		}
+		
+		Project projectToUpdate=new Project(new Date(), 
+				obj.getString("name"),
+				ProjectType.valueOf(obj.getString("type")), 
+				obj.getString("description"), 
+				obj.getString("gitRepositoryURL"), 
+				obj.getString("email"), 
+				obj.getString("password"), 
+				new Date(), 
+				obj.getString("mainName"), 
+				obj.getString("responseName"), 
+				list.toArray(new String[list.size()]), 
+				obj.getString("inputDescription"), 
+				obj.getString("outputDescription"));
+		
+		Project[] projects;
+		try {
+			projects = Modules.getProjectModule().getAllProjects(user);
+			for(int i=0;i<projects.length;i++){
+				if(projects[i].hash().compareTo(projectId)==0){
+					Modules.getProjectModule().updateProject(projectId,projectToUpdate);
+					String[] projectID={projectId};
+					return new Message(0,token,projectID);
+				}
+			}
+		} catch (BussinessException e) {
+			// TODO Auto-generated catch block
+			msg=new Message(11, token,new String[0]);
+		}
+		
 		
 		return null;
 	}
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value="/{token}/{projectId}", method=RequestMethod.DELETE)
 	public Message deleteProyect(@PathVariable String token,@PathVariable String projectId){
-		return null;
+		UserLogin user = null;
+		sessionGestor=SessionGestorMap.getSessionGestor();
+		Message msg=null;
+		
+		try {
+			user=sessionGestor.checkSession(token);
+		} catch (SessionGestionException e) {
+			// TODO Auto-generated catch block
+			msg=new Message(4, token,new String[0]);
+		}
+		
+		Project[] projects;
+		try {
+			projects = Modules.getProjectModule().getAllProjects(user);
+			for(int i=0;i<projects.length;i++){
+				if(projects[i].hash().compareTo(projectId)==0){
+					Modules.getProjectModule().deleteProject(user,projectId);
+					String[] projectID={projectId};
+					return new Message(0,token,projectID);
+				}
+			}
+		} catch (BussinessException e) {
+			// TODO Auto-generated catch block
+			msg=new Message(11, token,new String[0]);
+		}
+		
+		return msg;
 	}
 	//--------------------Create zone------------------------------
 	@CrossOrigin(origins = "*")

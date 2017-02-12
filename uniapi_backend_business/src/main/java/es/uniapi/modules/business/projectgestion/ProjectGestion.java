@@ -11,4 +11,6 @@ public interface ProjectGestion {
 	Project getProject(String hash)throws BussinessException;
 	Project[] getAllProjects(UserLogin user) throws BussinessException;
 	Project[] getTypeProjects(UserLogin user, ProjectType project) throws BussinessException;
+	void updateProject(String hash,Project project)throws BussinessException;
+	void deleteProject(UserLogin user,String hash)throws BussinessException;
 }

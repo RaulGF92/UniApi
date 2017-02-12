@@ -71,6 +71,10 @@ public class UniapiNeo4jActionsDAO implements UniapiActionsDAO {
 		response=dao.getProjectDAO().findAll();
 		return response;
 	}
-	
+	public void deleteUserProjectProperty(UserLogin user,Project project) throws Exception{
+		dao=new UniapiNeo4jDAO();
+		dao.getIsCreatorDAO().delete(user, project);
+	}
+
 
 }

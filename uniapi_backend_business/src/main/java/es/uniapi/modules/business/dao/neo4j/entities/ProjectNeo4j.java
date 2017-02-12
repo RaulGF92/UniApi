@@ -77,6 +77,7 @@ public class ProjectNeo4j implements ProjectDAO{
 		String statement="MATCH (p:Project) WHERE p.hashcode={hashcode} DELETE p";
 		StatementResult result=session.run(statement,parameters(
 				"hashcode",project.hash()));
+		session.close();
 	}
 
 	@Override
@@ -239,6 +240,42 @@ public class ProjectNeo4j implements ProjectDAO{
 		
 		session.close();
 		return projects.toArray(new Project[projects.size()]);
+	}
+	@Override
+	public void update(String hash, Project project) {
+		// TODO Auto-generated method stub
+		try{
+			Session session = driver.session();
+			
+			String statement="MATCH(p:Project {hashcode:{hash}}) SET "
+					+ "p.gitRepositoryURL={gitRepositoryURL},"
+					+ "p.responseName={responseName},"
+					+ "p.description={description},"
+					+ "p.type={type},"
+					+ "p.defaultInputs={defaultInputs},"
+					+ "p.inputDescription={inputDescription},"
+					+ "p.password={password},"
+					+ "p.mainName={mainName},"
+					+ "p.email={email},"
+					+ "p.outputDescription={outputDescription},"
+					+ "p.modifyDate={modifyDate}";
+			StatementResult result=session.run(statement,parameters(
+					"hash",hash,
+					"gitRepositoryURL",project.getGitRepositoryURL(),
+					"responseName",project.getResponseName(),
+					"description",project.getDescription(),
+					"type",project.getType().toString(),
+					"defaultInputs",project.getDefaultInputs(),
+					"inputDescription",project.getInputDescription(),
+					"password",project.getPassword(),
+					"mainName",project.getMainName(),
+					"email",project.getEmail(),
+					"outputDescription",project.getOutputDescription(),
+					"modifyDate",new DateTime().toDate().getTime()));
+			session.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 }

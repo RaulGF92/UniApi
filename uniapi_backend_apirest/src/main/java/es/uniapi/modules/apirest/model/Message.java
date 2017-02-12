@@ -12,6 +12,7 @@ public class Message {
 		super();
 		this.state = state;
 		this.tokenSession = tokenSession;
+		this.relatedIDs=relatedIDs;
 	}
 	
 	public int getState() {

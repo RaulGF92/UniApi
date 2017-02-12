@@ -13,6 +13,7 @@ public interface UniapiActionsDAO {
 	public Project[] getAllProjectsCreatedByUser(UserLogin user) throws Exception;
 	public Project[] getTypeProjectsCreatedByUser(UserLogin user, ProjectType project) throws Exception;
 	public Project[] getAllProjects() throws Exception;
+	public void deleteUserProjectProperty(UserLogin user,Project project) throws Exception;
 
 	
 	

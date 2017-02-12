@@ -32,7 +32,7 @@ public class IsCreatorDAO implements es.uniapi.modules.business.dao.intf.relatio
 	public void create(UserLogin user, Project project) throws Exception {
 		// TODO Auto-generated method stub
 		Session session = driver.session();
-		String statement="MATCH (u:UserLogin),(p:Project) WHERE u.hashcode={hashcode1} "
+		String statement="MATCH (u:UserLogin),(p:Project) WHERE u.user={hashcode1} "
 				+ "AND p.hashcode={hashcode2} CREATE (u)-[ic:IS_CREATOR {dateFrom:{date}}]->(p)";
 		
 		StatementResult result=session.run(statement,parameters(
@@ -147,6 +147,18 @@ public class IsCreatorDAO implements es.uniapi.modules.business.dao.intf.relatio
 		}
 		
 		return response;
+	}
+
+	@Override
+	public void delete(UserLogin user, Project project) throws Exception {
+		// TODO Auto-generated method stub
+		Session session= driver.session();
+		String statement="MATCH(u:UserLogin {hashcode:{hashcode1}}) "
+				+ ",o=(u)-[r:IS_CREATOR]->(p:Project {hashcode:{hashcode2}}) "
+				+ "DELETE r";
+		StatementResult result=session.run(statement,parameters(
+				"hashcode1",user.hash(),
+				"hashcode2",project.hash()));
 	}
 
 }

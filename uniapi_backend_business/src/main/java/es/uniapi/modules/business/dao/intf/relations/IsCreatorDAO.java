@@ -13,5 +13,6 @@ public interface IsCreatorDAO {
 	public Project[] getAllProjectsCreateByUser(UserLogin user)throws Exception;
 	public Project[] getTypeProjectsCreateByUser(UserLogin user,ProjectType type);
 	public IsCreator getInfo(UserLogin user,Project project) throws Exception;
+	public void delete(UserLogin user,Project project) throws Exception;
 	
 }

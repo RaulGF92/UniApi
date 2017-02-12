@@ -81,6 +81,15 @@ public class ProjectGestionImpl implements ProjectGestion {
 		}
 		return response;
 	}
+	
+	public void updateProject(String hash,Project project) throws BussinessException{
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		try{
+			dao.getUniApiDao().getProjectDAO().update(hash,project);
+		}catch(Exception e){
+			throw new BussinessException("La modificación no ha funcionado");
+		}
+	}
 
 	@Override
 	public Project[] getAllProjects(UserLogin user) throws BussinessException {
@@ -141,6 +150,24 @@ public class ProjectGestionImpl implements ProjectGestion {
 	private String getHierarchyProject(Project project) {
 		// TODO Auto-generated method stub
 		return PROJECT_PATH+"/"+project.getName()+"_id["+project.hash()+"]";
+	}
+
+
+	@Override
+	public void deleteProject(UserLogin user,String hash) throws BussinessException {
+		// TODO Auto-generated method stub
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		try {
+		
+			Project project=dao.getUniApiDao().getProjectDAO().findByHashCode(hash);
+			if(project!=null)
+				dao.getActions().deleteUserProjectProperty(user,project);
+				dao.getUniApiDao().getProjectDAO().delete(project);
+			
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				throw new BussinessException("Fallo en la eliminación de proyectos"); 
+			}
 	}
 
 

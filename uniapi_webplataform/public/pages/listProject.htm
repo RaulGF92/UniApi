@@ -1,3 +1,27 @@
+<div id="projectModal" class="modal">
+	  <!-- Modal content -->
+	<div id="projectContent" class="modal-content">
+		<div id="question">
+			<h4 class="text-center">{{msg}}</h4>
+			<div class="row" style="margin-top:20px;">
+				<div class="col-md-6">
+					<button ng-click="makeAction()" style="margin-left:25%" class="btn btn-success">Yes</button>				
+				</div>
+				<div class="col-md-6">
+					<button ng-click="dontMakeAction()" style="margin-left:25%" class="btn btn-danger">No</button>
+				</div>
+				 
+			</div>
+		</div>
+		<div id="loading"  style="display:none;">
+	  		<img id="loadingGif"src="resource/img/carga.gif" style="padding-left:40%"/>
+			<img id="wrongGif" src="resource/img/wrong.gif" style="width:100px;height:100px;padding-left:40%;display:none;"/>
+			<h4 class="text-center">We are working on the petition...</h4>
+	  	</div>
+		
+	</div>
+</div>
+
 <div class="page-header">
 	<h1>Mis proyectos:</h1>
 </div>
@@ -5,15 +29,27 @@
 	<div class="container" style="width:100%" >
 		<div class="project row" ng-repeat="project in projects track by $index" style="border:groove 1px; padding:15px; width:100%;margin-top:10px;" ng-attr-id="{{'project-'+$index}}" ng-click="makeClick($index)">
 			<div class="col-md-2 col-xs-3">
-				<img style="background-color: coral;padding:10px;margin:5px;" class="img-circle" src="resource/img/Python-logo.png" width="80" heigth="80" />	
+				<img style="background-color: coral;padding:10px;margin:5px;" class="img-circle" src="resource/img/engranaje.svg" width="80" heigth="80" />	
 			</div>
 			<div class="col-md-10 col-xs-9">
-				<span class="glyphicon glyphicon-remove" style="padding-left:90%"></span>
+				<ul ng-attr-id="{{'action-'+$index}}" style="float:right;display:none;">
+					<a ng-attr-id="{{'share-'+$index}}" ng-click="makeClickShare($index)" style="margin-right: 15px;">
+						<span class="glyphicon glyphicon-link"></span>
+					</a>
+					<a ng-attr-id="{{'update-'+$index}}" ng-click="makeClickUpdate($index)" style="margin-right: 15px;">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</a>
+					<a ng-attr-id="{{'delete-'+$index}}" ng-click="makeClickDelete($index)" style="margin-right: 15px;">
+						<span class="glyphicon glyphicon-trash"></span>
+					</a>
+				</ul>
 				<div class="mainInfo">
-					<h4 style="margin-top:0px">{{project.name}}</h4>
-					<textarea style="width:100%;resize: none;" ng-model="project.description"></textarea>
+					<div class="page-header">
+						<h4 style="margin-top:0px">{{project.name}}</h4>
+					</div>
+					<textarea ng-attr-id="{{'description-'+$index}}" style="width:100%;resize: none;border:0" ng-model="project.description"></textarea>
 				</div>
-				<div class="secondaryInfo noPulse" ng-attr-id="{{'secondaryInfo-'+$index}}" >
+				<div class="secondaryInfo noPulse" ng-attr-id="{{'secondaryInfo-'+$index}}" style="display:none;" >
 					<div class="form-group">
 						<label for="url">Url del repositorio GIT:</label>
 						<input type="text" class="form-control" id="url" ng-model="project.gitRepositoryURL"></input>
