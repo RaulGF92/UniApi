@@ -1,9 +1,14 @@
 package es.uniapi.modules.apirest.model;
 
+import java.util.Arrays;
+
 public class Message {
 
+	private int state;
+	private String tokenSession;
+	private String[] relatedIDs;
 
-	public Message(int state, String tokenSession) {
+	public Message(int state, String tokenSession,String[] relatedIDs) {
 		super();
 		this.state = state;
 		this.tokenSession = tokenSession;
@@ -22,39 +27,19 @@ public class Message {
 		this.tokenSession = tokenSession;
 	}
 	
-	private int state;
-	private String tokenSession;
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + state;
-		result = prime * result + ((tokenSession == null) ? 0 : tokenSession.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Message other = (Message) obj;
-		if (state != other.state)
-			return false;
-		if (tokenSession == null) {
-			if (other.tokenSession != null)
-				return false;
-		} else if (!tokenSession.equals(other.tokenSession))
-			return false;
-		return true;
-	}
 
 	@Override
 	public String toString() {
-		return "Message [state=" + state + ", tokenSession=" + tokenSession + "]";
+		return "Message [state=" + state + ", tokenSession=" + tokenSession + ", relatedIDs="
+				+ Arrays.toString(relatedIDs) + "]";
+	}
+
+	public String[] getRelatedIDs() {
+		return relatedIDs;
+	}
+
+	public void setRelatedIDs(String[] relatedIDs) {
+		this.relatedIDs = relatedIDs;
 	}
 	
 }

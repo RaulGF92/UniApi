@@ -58,12 +58,13 @@ public class SessionGestorMap implements SessionGestor {
 		try {
 			userLogin = dao.getUserLoginDAO().findByEmail(user);
 			if(userLogin==null)
-				return new Message(1,codificatedToken);
+				return new Message(1,codificatedToken,new String[0]);
 			System.out.println(userLogin.toString());
 			System.out.println("pass:"+pass+" codificated:"+SHA1.encryptPassword(pass));
 			if(userLogin.getPass().compareTo(SHA1.encryptPassword(pass))==0){
 				//exist
-				response=new Message(0,codificatedToken);
+				String[] relatedIDs={userLogin.hash()};
+				response=new Message(0,codificatedToken,relatedIDs);
 				System.out.println("llega");
 				semaphore.acquire();
 				System.out.println("entra");
@@ -74,11 +75,11 @@ public class SessionGestorMap implements SessionGestor {
 			
 			}else{
 				//not exist
-				response=new Message(2,codificatedToken);
+				response=new Message(2,codificatedToken,new String[0]);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			response=new Message(1,codificatedToken);
+			response=new Message(1,codificatedToken,new String[0]);
 			semaphore.release();
 		}
 		

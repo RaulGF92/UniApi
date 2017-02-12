@@ -14,11 +14,12 @@ public class MessageWhoAmi extends Message {
 
 	private Person person;
 	
-	public MessageWhoAmi(int state, String tokenSession,UserLogin userLogin,Person person) {
-		super(state, tokenSession);
+	public MessageWhoAmi(int state, String tokenSession,String[] relatedIDs,UserLogin userLogin,Person person) {
+		super(state, tokenSession,relatedIDs);
 		// TODO Auto-generated constructor stub
 		this.userLogin=userLogin;
 		this.person=person;
+		
 	}
 
 	public UserLogin getUserLogin() {

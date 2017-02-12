@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import es.uniapi.modules.apirest.model.Message;
 import es.uniapi.modules.apirest.model.MessageProject;
 import es.uniapi.modules.apirest.model.SessionGestionException;
 import es.uniapi.modules.business.Modules;
@@ -47,36 +48,49 @@ public class ProjectController {
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value="/{token}/{projectId}", method=RequestMethod.GET)
-	public MessageProject getProyect(@PathVariable String token,@PathVariable String projectId){
+	public Message getProyect(@PathVariable String token,@PathVariable String projectId){
 		
 		UserLogin user;
 		MessageProject messageProject=null;
 		Project[] projects=new Project[1];
+		String[]  relatedIDs=new String[1];
 		Project project;
 		sessionGestor=SessionGestorMap.getSessionGestor();
 		
 		try{
 			user=sessionGestor.checkSession(token);
 		}catch(SessionGestionException s){
-			messageProject=new MessageProject(4, token,new Project[0]);
+			messageProject=new MessageProject(4, token,new String[0],new Project[0]);
 			return messageProject;
 		}
 		try {
 			project=Modules.getProjectModule().getProject(projectId);
 			projects[0]=project;
-			messageProject=new MessageProject(0, token, projects);
+			relatedIDs[0]=project.hash();
+			messageProject=new MessageProject(0, token,relatedIDs, projects);
 		} catch (BussinessException e) {
 			// TODO Auto-generated catch block
-			messageProject=new MessageProject(13, token,new Project[0]);
+			messageProject=new MessageProject(13, token,new String[0],new Project[0]);
 		}
 		
 		
 		return messageProject;
 	}
-	
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value="/{token}/project",method=RequestMethod.GET)
-	public MessageProject getProjectExample(@PathVariable String token){
+	@RequestMapping(value="/{token}/{projectId}", method=RequestMethod.PATCH)
+	public Message patchProyect(@PathVariable String token,@PathVariable String projectId){
+		
+		return null;
+	}
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value="/{token}/{projectId}", method=RequestMethod.DELETE)
+	public Message deleteProyect(@PathVariable String token,@PathVariable String projectId){
+		return null;
+	}
+	//--------------------Create zone------------------------------
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value="/{token}/create",method=RequestMethod.GET)
+	public Message getProjectExample(@PathVariable String token){
 		
 		MessageProject messageProject;
 		UserLogin user;
@@ -85,11 +99,11 @@ public class ProjectController {
 			
 			user=sessionGestor.checkSession(token);
 			if(user==null){
-				messageProject=new MessageProject(4, token,new Project[0]);
+				messageProject=new MessageProject(4, token,new String[0],new Project[0]);
 				return messageProject;
 			}
 		}catch(SessionGestionException s){
-			messageProject=new MessageProject(4, token,new Project[0]);
+			messageProject=new MessageProject(4, token,new String[0],new Project[0]);
 			return messageProject;
 		}
 		
@@ -100,13 +114,13 @@ public class ProjectController {
 		Project[] projects=new Project[1];
 		projects[0]=project;
 		
-		messageProject=new MessageProject(0, token, projects);
+		messageProject=new MessageProject(0, token,new String[0], projects);
 		
 		return messageProject;
 	}
 	
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value="/{token}/project",method=RequestMethod.POST,consumes={MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value="/{token}/create",method=RequestMethod.POST,consumes={MediaType.APPLICATION_JSON_VALUE})
 	public MessageProject newProject(@PathVariable String token,@RequestBody String project){
 		
 		System.out.println("[token: "+token+"] New create proyect");
@@ -117,7 +131,7 @@ public class ProjectController {
 		try{
 			user=sessionGestor.checkSession(token);
 			if(user==null){
-				messageProject=new MessageProject(4, token,new Project[0]);
+				messageProject=new MessageProject(4, token,new String[0],new Project[0]);
 				return messageProject;
 			}
 			
@@ -147,13 +161,14 @@ public class ProjectController {
 				Modules.getProjectModule().createProject(user, projectToCreate);
 			} catch (BussinessException e) {
 				// TODO Auto-generated catch block
-				messageProject=new MessageProject(11, token,new Project[0]);
+				messageProject=new MessageProject(11, token,new String[0],new Project[0]);
 				return messageProject;
 			}
-			messageProject=new MessageProject(0, token,new Project[0]);
+			String[] relatedIDs={projectToCreate.hash()};
+			messageProject=new MessageProject(0, token,relatedIDs,new Project[0]);
 			
 		}catch(SessionGestionException s){
-			messageProject=new MessageProject(4, token,new Project[0]);
+			messageProject=new MessageProject(4, token,new String[0],new Project[0]);
 			return messageProject;
 		}
 		
@@ -161,27 +176,31 @@ public class ProjectController {
 	}
 	
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value="/{token}/project/all",method=RequestMethod.GET)
-	public MessageProject getAllProjects(@PathVariable String token){
+	@RequestMapping(value="/{token}/all",method=RequestMethod.GET)
+	public Message getAllProjects(@PathVariable String token){
 		
 		UserLogin user;
-		MessageProject messageProject=null;
+		Message messageInfoProject=null;
 		sessionGestor=SessionGestorMap.getSessionGestor();
 		try{
 			user=sessionGestor.checkSession(token);
 		}catch(SessionGestionException s){
-			messageProject=new MessageProject(4, token,new Project[0]);
-			return messageProject;
+			messageInfoProject=new Message(4, token,new String[0]);
+			return messageInfoProject;
 		}
 		
 		try {
 			Project[] projects=Modules.getProjectModule().getAllProjects(user);
-			messageProject=new MessageProject(0, token, projects);
+			String[] projectsID=new String[projects.length];
+			for(int i=0;i<projects.length;i++){
+				projectsID[i]=projects[i].hash();
+			}
+			messageInfoProject=new Message(0, token, projectsID);
 		} catch (BussinessException e) {
 			// TODO Auto-generated catch block
-			messageProject=new MessageProject(14, token,new Project[0]);
-			return messageProject;
+			messageInfoProject=new Message(4, token,new String[0]);
+			return messageInfoProject;
 		}
-		return messageProject;
+		return messageInfoProject;
 	}
 }

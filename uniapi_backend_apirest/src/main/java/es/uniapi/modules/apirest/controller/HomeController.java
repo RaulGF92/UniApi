@@ -109,13 +109,14 @@ public class HomeController {
 			
 			Person person=Modules.getIdentityModule()
 					.getPerson(userLogin);
-			responseResponse=new MessageWhoAmi(0, token, userLogin, person);
+			String[] relatedIDs={userLogin.hash(),person.hash()};
+			responseResponse=new MessageWhoAmi(0, token, relatedIDs,userLogin, person);
 		} catch (SessionGestionException e) {
 			// TODO Auto-generated catch block
-			return new MessageWhoAmi(4,token,null,null);
+			return new MessageWhoAmi(4,token,new String[0],null,null);
 		} catch (BussinessException e) {
 			// TODO Auto-generated catch block
-			return new MessageWhoAmi(3,token,null,null);
+			return new MessageWhoAmi(3,token,new String[0],null,null);
 		}
 		System.out.println(responseResponse.toString());
 		return responseResponse;
@@ -146,11 +147,11 @@ public class HomeController {
 			Modules.getIdentityModule().createAccount(userLogin, person);
 		} catch (BussinessException e) {
 			// TODO Auto-generated catch block
-			return new Message(3,SHA1.encryptPassword("EspecialToken"));
+			return new Message(3,SHA1.encryptPassword("EspecialToken"),new String[0]);
 		}
 		
-		
-		return new Message(0,SHA1.encryptPassword("EspecialToken"));
+		String[] relatedIDs={userLogin.hash(),person.hash()};
+		return new Message(0,SHA1.encryptPassword("EspecialToken"),relatedIDs);
 	}
 	
 	

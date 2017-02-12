@@ -8,8 +8,8 @@ public class MessageProject extends Message {
 
 	private Project[] projects;
 	
-	public MessageProject(int state, String tokenSession,Project[] projects) {
-		super(state, tokenSession);
+	public MessageProject(int state, String tokenSession,String[] relatedIDs,Project[] projects) {
+		super(state, tokenSession,relatedIDs);
 		// TODO Auto-generated constructor stub
 		this.projects=projects;
 		
