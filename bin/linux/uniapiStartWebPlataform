@@ -3,9 +3,12 @@ echo " --------------------------------------------------------"
 echo "|							 	|"
 echo "|			TheBimboBread				|"
 echo "|								|"
-echo "|			 UniApi-Start DB			|"
+echo "|		 UniApi-Start Web plataform			|"
 echo " --------------------------------------------------------"
 echo " "
 echo " "
 echo " "
-./neo4j-community-3.1.1/bin/neo4j console
+cd ..
+cd ..
+cd uniapi_webplataform
+node index.js
