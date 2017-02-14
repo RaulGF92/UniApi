@@ -111,7 +111,8 @@ public class ProjectNeo4j implements ProjectDAO{
 					record.get("gitRepositoryURL").asString(), record.get("email").asString(), 
 					record.get("password").asString(), new DateTime(record.get("modifyDate").asLong()).toDate(), 
 					record.get("mainName").asString(), record.get("responseName").asString(), 
-					record.get("defaultInputs").asList().toArray(new String[record.get("defaultInputs").asList().size()]), record.get("inputDescription").asString(), 
+					record.get("defaultInputs").asList().toArray(new String[record.get("defaultInputs").asList().size()]), 
+					record.get("inputDescription").asString(), 
 					record.get("outputDescription").asString());
 		}
 		
