@@ -54,7 +54,11 @@ public class UserLoginNeo4j implements UserLoginDAO {
 		Session session = driver.session();
 		UserLogin userLogin=null;
 		
-		String statement="MATCH (a:UserLogin) WHERE a.user = {user} RETURN  a.user AS user, a.pass AS pass,a.creationTime AS creationTime,a.rol AS rol";
+		String statement="MATCH (a:UserLogin) WHERE a.user = {user} RETURN  "
+				+ "a.user AS user,"
+				+ "a.pass AS pass,"
+				+ "a.creationTime AS creationTime,"
+				+ "a.rol AS rol";
 		StatementResult result=session.run(statement,parameters("user",Email));
 		
 		while(result.hasNext()){
@@ -77,7 +81,12 @@ public class UserLoginNeo4j implements UserLoginDAO {
 
 		UserLogin userLogin=null;
 		
-		String statement="MATCH (a:UserLogin) WHERE a.hashcode = {hash} RETURN a.id AS id, a.user AS user, a.pass AS pass,a.creationTime AS creationTime";
+		String statement="MATCH (a:UserLogin) WHERE a.hashcode = {hash} RETURN "
+				+ "a.id AS id,"
+				+ "a.user AS user,"
+				+ "a.pass AS pass,"
+				+ "a.creationTime AS creationTime,"
+				+ "a.rol AS rol";
 		StatementResult result=session.run(statement,parameters("hash",hash));
 		
 		while(result.hasNext()){
@@ -98,7 +107,12 @@ public class UserLoginNeo4j implements UserLoginDAO {
 		ArrayList<UserLogin> userLogins=new ArrayList<UserLogin>();
 		UserLogin userLogin=null;
 		
-		String statement="MATCH (a:UserLogin) RETURN a.id AS id, a.user AS user, a.pass AS pass,a.creationTime AS creationTime, a.rol AS rol";
+		String statement="MATCH (a:UserLogin) RETURN "
+				+ "a.id AS id,"
+				+ "a.user AS user,"
+				+ "a.pass AS pass,"
+				+ "a.creationTime AS creationTime, "
+				+ "a.rol AS rol";
 		StatementResult result=session.run(statement);
 		
 		while(result.hasNext()){

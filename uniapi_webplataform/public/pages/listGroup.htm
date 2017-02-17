@@ -1,0 +1,37 @@
+<div id="projectModal" class="modal">
+	  <!-- Modal content -->
+	<div id="groupContent" class="modal-content">
+		<ul class="nav nav-tabs">
+		  <li role="presentation" class="active"><a>Permisos</a></li>
+		  <li role="presentation"><a>Miembros</a></li>
+		  <li role="presentation"><a>Grupos</a></li>
+		</ul>
+		<div id="permisosTab">
+			<h1>Permisos</h1>
+		</div>
+		<div id="permisosTab">
+			<h1>Permisos</h1>
+		</div>
+	</div>
+</div>
+
+<div class="page-header">
+	<h1>Mis grupos:</h1>
+</div>
+
+	<div class="container" style="width:100%" >
+		<div id="infoNoProjects" style="display:none" class="alert alert-success" role="alert">OH! Vaya! No tienes ningun grupo creado en ningún grupo ¿Por que no le dices a algún administrador que te invite a un grupo? Si no lo consigues, siempre podrás ejecutar proyectos en el espacio publico.</div>
+		<div class="project row" ng-repeat="group in groups track by $index" style="border:groove 1px; padding:15px; width:100%;margin-top:10px;" ng-attr-id="{{'group-'+$index}}" ng-click="makeClick($index)">
+			<div class="col-md-2 col-xs-3">
+				<img style="background-color: coral;padding:10px;margin:5px;" class="img-circle" src="resource/img/engranaje.svg" width="80" heigth="80" />	
+			</div>
+			<div class="col-md-10 col-xs-9">
+				<div class="mainInfo">
+					<div class="page-header">
+						<h4 style="margin-top:0px">{{group.name}}</h4>
+					</div>
+					<textarea ng-attr-id="{{'description-'+$index}}" style="width:100%;resize: none;border:0" ng-model="group.description"></textarea>
+				</div>
+			</div>			
+		</div>
+	<div>

@@ -38,3 +38,14 @@
 		this.outputDescription=outputDescription;
 
 	}
+	function group(name,creationDate,type,sharingGroup,projectProperties,
+			memberGestion,groupCreation,description) {
+		this.name = name;
+		this.description=description;
+		this.creationDate = creationDate;
+		this.type = type;
+		this.sharingGroupPermissions = sharingGroup;
+		this.projectPropertiesPermissions = projectProperties;
+		this.memberGestionPermissions = memberGestion;
+		this.groupCreationPermissions = groupCreation;
+	}

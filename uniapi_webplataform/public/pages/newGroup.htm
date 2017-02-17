@@ -1,0 +1,113 @@
+<div class="page-header">
+	<h1>Nuevo Grupo para NOMBREGRUPO</h1>
+</div>
+
+<div class="alert alert-info">
+	<p>Vamos a crear un Grupo. Los grupos contienen otros grupos y distintos proyectos. Estan destinados para gestionar los permisos de proyectos y grupos. Pon una descripción para que sea mas facil saber que se espera que contenga el grupo.</p>
+</div> 
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h2>Información basica del Grupo:</h2>
+	</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label for="name">Nombre del Grupo:</label>
+			<input type="text" class="form-control" id="name" ng-model="name">
+		</div>
+		<div class="form-group">
+			<label for="description">Descripción del grupo:</label>
+			<textarea id="description" style="width: 100%;" ng-model="description"></textarea>
+		</div>
+
+		<div class="alert alert-warning">
+			<p>EL tipo de grupo definira la visión de los grupos. Un grupo publico podra ser visto por todos los usuarios del grupo padre. Mientras que un grupo privado solo podrá ser visto por los usuarios invitados a verlos y los administradores. </p>
+		</div> 
+		<div class="form-group">
+			<h4>Tipo de grupo:</h4>
+			<ul class="nav nav-pills" style="padding-top:20px;margin-left:20px">
+			  <li role="presentation" id="privateButton" ng-click="clickTypeGroup('privateButton')"><a>Privado</a></li>
+			  <li role="presentation" class="active" id="publicButton" ng-click="clickTypeGroup('publicButton')"><a>Publico</a></li>
+			  <li role="presentation" id="mainButton" ng-click="clickTypeGroup('mainButton')"><a>Main</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h2> Introducción de los permisos del grupo:</h2>
+	</div>
+	<div class="panel-body">
+		<div class="">
+			<h3 style="margin-top:40px">Permisos de compartición de grupo:</h3>
+			<div class="" style="margin-left:20px;">			
+				<div class="checkbox">
+					<label><input type="checkbox" id="sharingGroupPermissions" ng-click="checkBox('sharingGroupPermissions')" ng-model="sharingGroupPermissions[0]">Todos.</label>
+				</div>
+				<hr style="margin-top:0px;"></hr>
+				<div class="checkbox">
+					<label><input type="checkbox" id="sharingGroupPermissions1" ng-model="sharingGroupPermissions[1]" disabled>Compartir proyectos en el grupo.</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id="sharingGroupPermissions2" ng-model="sharingGroupPermissions[2]" disabled>Eliminar proyectos propios del grupo.</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id="sharingGroupPermissions3" ng-model="sharingGroupPermissions[3]" disabled>Eliminar proyectos ajenos del grupo.</label>
+				</div>
+			</div>
+		</div>
+		<div class="">
+			<h3 style="margin-top:40px">Permisos de propiedades del proyecto:</h3>
+			<div class="" style="margin-left:20px;">			
+				<div class="checkbox">
+					<label><input type="checkbox" id="projectPropertiesPermissions" ng-model="projectPropertiesPermissions[0]" ng-click="checkBox('projectPropertiesPermissions')"  value="">Todos.</label>
+				</div>
+				<hr style="margin-top:0px;"></hr>
+				<div class="checkbox">
+					<label><input type="checkbox" id="projectPropertiesPermissions1" ng-model="projectPropertiesPermissions[1]" value="" disabled>Ejecutar proyectos.</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id="projectPropertiesPermissions2" ng-model="projectPropertiesPermissions[2]" value="" disabled>Modificar valores de entrada.</label>
+				</div>
+			</div>
+		</div>
+		<div class="">
+			<h3 style="margin-top:40px">Permisos de gestión de miembros del grupo:</h3>
+			<div class="" style="margin-left:20px;">			
+				<div class="checkbox">
+					<label><input type="checkbox" id="memberGestionPermissions" ng-model="memberGestionPermissions[0]" ng-click="checkBox('memberGestionPermissions')" value="">Todos.</label>
+				</div>
+				<hr style="margin-top:0px;"></hr>
+				<div class="checkbox">
+					<label><input type="checkbox" id="memberGestionPermissions1" ng-model="memberGestionPermissions[1]" value="" disabled>Añadir miembros.</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id="memberGestionPermissions2" ng-model="memberGestionPermissions[2]" value="" disabled>Eliminar miembros.</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id="memberGestionPermissions3" ng-model="memberGestionPermissions[3]" value="" disabled>Eliminar proyectos ajenos del grupo</label>
+				</div>
+			</div>
+		</div>
+		<div class="">
+			<h3 style="margin-top:40px">Permisos de creación de grupos</h3>
+			<div class="" style="margin-left:20px;">			
+				<div class="checkbox">
+					<label><input type="checkbox" id="groupCreationPermissions" ng-model="groupCreationPermissions[0]" ng-click="checkBox('groupCreationPermissions')" value="">Todos.</label>
+				</div>
+				<hr style="margin-top:0px;"></hr>
+				<div class="checkbox">
+					<label><input type="checkbox" id="groupCreationPermissions1" ng-model="groupCreationPermissions[1]" value="" disabled>Creación de grupos.</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id="groupCreationPermissions2" ng-model="groupCreationPermissions[2]" value="" disabled>Creación de grupos publicos.</label>
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox" id="groupCreationPermissions3" ng-model="groupCreationPermissions[3]" value="" disabled>Creación de grupos privados</label>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+<button class="btn btn-primary btn-lg" ng-click="makeSubmit()"> Crear Grupo</button>

@@ -18,11 +18,11 @@ import es.uniapi.modules.model.config.AppConfiguration;
 
 import static org.neo4j.driver.v1.Values.parameters;
 
-public class MakeReferenceDAO {
+public class MakeReferenceDAOImpl {
 
 	Driver driver;
 	
-	public MakeReferenceDAO() {
+	public MakeReferenceDAOImpl() {
 		// TODO Auto-generated constructor stub
 		AppConfiguration conf=AppConfiguration.getConfiguration();
 		this.driver= GraphDatabase.driver( "bolt://localhost:7687", 
@@ -59,11 +59,11 @@ public class MakeReferenceDAO {
 	
 	public void create(UserLogin user,Person person){
 		Session session = driver.session();
-		String statement="MATCH (u:UserLogin),(p:Person) WHERE u.hashcode={hashcode1} "
+		String statement="MATCH (u:UserLogin),(p:Person) WHERE u.user={email} "
 				+ "AND p.hashcode={hashcode2} CREATE (u)-[:MAKE_REFERENCE]->(p)";
 		
 		StatementResult result=session.run(statement,parameters(
-				"hashcode1",user.hash(),
+				"email",user.getUser(),
 				"hashcode2",person.hash()));
 		
 		session.close();

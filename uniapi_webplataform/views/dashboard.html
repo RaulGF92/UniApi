@@ -64,7 +64,7 @@
 				<h5 id="userName">user@user.com</h5>
 				<span class="text-muted" style="font-size:10px" id="completeName">User subname1 subname2</span>
 				<hr style="margin-bottom: 5px;"></hr>
-				<button class="btn btn-default btn-sm">Log out</button>
+				<button class="btn btn-default btn-sm" onClick="logOut()">Log out</button>
 			</div>
           <ul class="nav nav-sidebar">
             <li><a href="#/">Home page <span class="sr-only">(current)</span></a></li>
@@ -112,7 +112,10 @@
 			modal.style.display = "block";
 			loggin();
 		});
-		
+		function logOut(){
+			localStorage.setItem("tokenSession",null);
+			window.location.href="loggin";
+		}
 		function loggin(){
 			var tokenSession=localStorage.getItem("tokenSession");
 
@@ -160,6 +163,29 @@
 				window.location.href="/";
 			});		
 		}
+		function sendNewGroup(group){
+
+			var tokenSession=localStorage.getItem("tokenSession");
+			var data=JSON.stringify(group);
+			if(tokenSession == null)
+				window.location.href="loggin";
+
+			$.ajax({
+				method:"POST",
+				url:"http://localhost:8080/group/"+tokenSession+"/create",
+				dataType: 'json',
+				contentType: 'application/json',
+				data: data
+			}).done(function(response){
+				console.log(response);
+				if(response.state != 0){
+					//window.location.href="loggin";
+				}
+			}).error(function(error){
+				console.log(error);
+				//window.location.href="/";
+			});		
+		}
 
 		   
 	</script>
@@ -176,7 +202,8 @@
 			
 		    })
 		    .when("/Groups", {
-			template : "<h1>Group:</h1>"
+			templateUrl : "pages/listGroup.htm",
+			controller : "listGroupCtrl"
 		    })
 		    .when("/Projects", {
 			templateUrl : "pages/listProject.htm",
@@ -193,10 +220,13 @@
 			controller : "newProjectCtrl"
 		    })
 		    .when("/NewGroup", {
-			template : "<h1>New Group:</h1>"
+			templateUrl : "pages/newGroup.htm",
+			controller : "newGroupCtrl"
 		    });
 		});
-
+		app.controller("listGroupCtrl",function ($scope,$http){
+		
+		};
 		app.controller("listProjectCtrl",function ($scope,$http){
 
 			var tokenSession=localStorage.getItem("tokenSession");
@@ -207,6 +237,9 @@
 			}).then(function(response){
 				console.log(response.data.relatedIDs);
 				$scope.IDs=response.data.relatedIDs;
+				if($scope.IDs.length<=0){
+					$("#infoNoProjects").css("display","block");
+				}
 				for(var j=0;j<$scope.IDs.length;j++){
 					$http({
 						method:"GET",
@@ -358,7 +391,124 @@
 				});
 			};
 		});
+		app.controller("newGroupCtrl", function ($scope,$http) {
+			$scope.loadPermission=function(){
+				$scope.sharingGroupPermissions=[false,false,false,false];
+				$scope.projectPropertiesPermissions=[false,false,false];
+				$scope.memberGestionPermissions=[false,false,false,false];
+				$scope.groupCreationPermissions=[false,false,false,false];
+			};
+			angular.element(document).ready($scope.loadPermission());
+			$scope.checkBox=function(checkBox){
+				var check=$("#"+checkBox).prop("checked");
+				if(!check){
+					for(var i=1;i<=3;i++){
+						$("#"+checkBox+i).removeProp("checked");
+						$("#"+checkBox+i).attr("disabled","disabled");
+						$("#"+checkBox+i).val("false");
+					}
+					if(checkBox=="sharingGroupPermissions"){
+						$scope.sharingGroupPermissions[1]=false;
+						$scope.sharingGroupPermissions[2]=false;
+						$scope.sharingGroupPermissions[3]=false;						
+					}
+					if(checkBox=="projectPropertiesPermissions"){
+						$scope.projectPropertiesPermissions[1]=false;
+						$scope.projectPropertiesPermissions[2]=false;					
+					}
+					if(checkBox=="memberGestionPermissions"){
+						$scope.memberGestionPermissions[1]=false;
+						$scope.memberGestionPermissions[2]=false;
+						$scope.memberGestionPermissions[3]=false;				
+					}
+					if(checkBox=="groupCreationPermissions"){
+						$scope.groupCreationPermissions[1]=false;
+						$scope.groupCreationPermissions[2]=false;
+						$scope.groupCreationPermissions[3]=false;
+					}
+				}else{
+					for(var i=1;i<=3;i++){
+						$("#"+checkBox+i).prop("checked","true");
+						$("#"+checkBox+i).removeAttr("disabled");
+						$("#"+checkBox+i).val("true");
+						if(checkBox=="sharingGroupPermissions"){
+							$scope.sharingGroupPermissions[1]=true;
+							$scope.sharingGroupPermissions[2]=true;
+							$scope.sharingGroupPermissions[3]=true;						
+						}
+						if(checkBox=="projectPropertiesPermissions"){
+							$scope.projectPropertiesPermissions[1]=true;
+							$scope.projectPropertiesPermissions[2]=true;					
+						}
+						if(checkBox=="memberGestionPermissions"){
+							$scope.memberGestionPermissions[1]=true;
+							$scope.memberGestionPermissions[2]=true;
+							$scope.memberGestionPermissions[3]=true;				
+						}
+						if(checkBox=="groupCreationPermissions"){
+							$scope.groupCreationPermissions[1]=true;
+							$scope.groupCreationPermissions[2]=true;
+							$scope.groupCreationPermissions[3]=true;
+						}
+					}
+				}
+			};
+			$scope.clickTypeGroup=function(id){
+				switch(id){
+					case "privateButton":
+						$("#privateButton").addClass("active");
+						$("#mainButton").removeClass("active");
+						$("#publicButton").removeClass("active");
+						$scope.type="RESTRICTED_GROUP";
+					break;
+					case "publicButton":
+						$("#publicButton").addClass("active");
+						$("#privateButton").removeClass("active");
+						$("#mainButton").removeClass("active");
+						$scope.type="PUBLIC_GROUP";
+					break;
+					case "mainButton":
+						$("#publicButton").removeClass("active");
+						$("#privateButton").removeClass("active");
+						$("#mainButton").addClass("active");
+						$scope.type="MAIN_GROUP";
+					break;
+				};
+			};
+			$scope.parseVector=function(vector){
+				var aux=new Array();					
+				for(var i=0;i<vector.length;i++){
+					if(vector[i]==true){
+						aux.push("YES");
+					}
+					if(vector[i]==false){
+						aux.push("NO");
+					}
+				}
+				vector=aux;
+				return vector;
+			};
+			$scope.makeSubmit=function(){
 
+				$scope.sharingGroupPermissions=$scope.parseVector($scope.sharingGroupPermissions);
+				$scope.projectPropertiesPermissions=$scope.parseVector($scope.projectPropertiesPermissions);
+				$scope.memberGestionPermissions=$scope.parseVector($scope.memberGestionPermissions);
+				$scope.groupCreationPermissions=$scope.parseVector($scope.groupCreationPermissions);
+
+				var groupToCreate=new group(
+					$scope.name,
+					new Date().getTime(),
+					$scope.type,
+					$scope.sharingGroupPermissions,
+					$scope.projectPropertiesPermissions,
+					$scope.memberGestionPermissions,
+					$scope.groupCreationPermissions,
+					$scope.description
+				);
+				console.log(groupToCreate);
+				sendNewGroup(groupToCreate);
+			};
+		});
 		app.controller("newProjectCtrl", function ($scope,$http) {
 			$scope.clean = function(){
 				

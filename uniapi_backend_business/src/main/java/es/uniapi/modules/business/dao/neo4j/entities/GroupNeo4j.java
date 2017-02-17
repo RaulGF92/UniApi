@@ -42,17 +42,19 @@ public class GroupNeo4j implements GroupDAO {
 				+ "sharingGroupPermissions:{sharingGroupPermissions},"
 				+ "projectPropertiesPermissions:{projectPropertiesPermissions},"
 				+ "memberGestionPermissions:{memberGestionPermissions},"
-				+ "groupCreationPermissions:{groupCreationPermissions}})";
+				+ "groupCreationPermissions:{groupCreationPermissions},"
+				+ "description:{description}})";
 		
 		StatementResult result=session.run(statement,parameters(
 				"name",group.getName(),
-				"creationDate",new Date().getTime(),
+				"creationDate",group.getCreationDate().getTime(),
 				"type",group.getType().toString(),
 				"hash",group.hash(),
 				"sharingGroupPermissions",group.getSharingGroup(),
 				"projectPropertiesPermissions",group.getProjectProperties(),
 				"memberGestionPermissions",group.getMemberGestion(),
-				"groupCreationPermissions",group.getGroupCreation()
+				"groupCreationPermissions",group.getGroupCreation(),
+				"description",group.getDescription()
 				));
 		
 		session.close();
@@ -76,15 +78,16 @@ public class GroupNeo4j implements GroupDAO {
 		// TODO Auto-generated method stub
 		Session session=driver.session();
 		Group response=null;
-		String statement="MATCH(g:Group {hashcode:{hash}}) RETURN"
+		String statement="MATCH(g:Group {hashcode:{hash}}) RETURN "
 				+ "g.name AS name,"
 				+ "g.creationDate AS creationDate,"
 				+ "g.type AS type,"
-				+ "g.hashcode AS hashcode"
+				+ "g.hashcode AS hashcode,"
 				+ "g.sharingGroupPermissions AS sharingGroupPermissions,"
 				+ "g.projectPropertiesPermissions AS projectPropertiesPermissions,"
 				+ "g.memberGestionPermissions AS memberGestionPermissions,"
-				+ "g.groupCreationPermissions AS groupCreationPermissions";
+				+ "g.groupCreationPermissions AS groupCreationPermissions,"
+				+ "g.description AS description";
 		
 		StatementResult result=session.run(statement,parameters(
 				"hash",hash
@@ -97,7 +100,8 @@ public class GroupNeo4j implements GroupDAO {
 					record.get("sharingGroupPermissions").asList().toArray(new String[record.get("sharingGroupPermissions").asList().size()]),
 					record.get("projectPropertiesPermissions").asList().toArray(new String[record.get("projectPropertiesPermissions").asList().size()]),
 					record.get("memberGestionPermissions").asList().toArray(new String[record.get("memberGestionPermissions").asList().size()]),
-					record.get("groupCreationPermissions").asList().toArray(new String[record.get("groupCreationPermissions").asList().size()]));
+					record.get("groupCreationPermissions").asList().toArray(new String[record.get("groupCreationPermissions").asList().size()]),
+					record.get("description").asString());
 		}
 		session.close();
 		return response;
@@ -109,15 +113,16 @@ public class GroupNeo4j implements GroupDAO {
 		Session session=driver.session();
 		ArrayList<Group> response=new ArrayList<Group>();
 		Group aux=null;
-		String statement="MATCH(g:Group) RETURN"
+		String statement="MATCH(g:Group) RETURN "
 				+ "g.name AS name,"
 				+ "g.creationDate AS creationDate,"
 				+ "g.type AS type,"
-				+ "g.hashcode AS hashcode"
+				+ "g.hashcode AS hashcode,"
 				+ "g.sharingGroupPermissions AS sharingGroupPermissions,"
 				+ "g.projectPropertiesPermissions AS projectPropertiesPermissions,"
 				+ "g.memberGestionPermissions AS memberGestionPermissions,"
-				+ "g.groupCreationPermissions AS groupCreationPermissions";
+				+ "g.groupCreationPermissions AS groupCreationPermissions,"
+				+ "g.description AS description";
 		
 		StatementResult result=session.run(statement);
 		while(result.hasNext()){
@@ -128,7 +133,8 @@ public class GroupNeo4j implements GroupDAO {
 					record.get("sharingGroupPermissions").asList().toArray(new String[record.get("sharingGroupPermissions").asList().size()]),
 					record.get("projectPropertiesPermissions").asList().toArray(new String[record.get("projectPropertiesPermissions").asList().size()]),
 					record.get("memberGestionPermissions").asList().toArray(new String[record.get("memberGestionPermissions").asList().size()]),
-					record.get("groupCreationPermissions").asList().toArray(new String[record.get("groupCreationPermissions").asList().size()]));
+					record.get("groupCreationPermissions").asList().toArray(new String[record.get("groupCreationPermissions").asList().size()]),
+					record.get("description").asString());
 			response.add(aux);
 		}
 		session.close();
@@ -141,18 +147,19 @@ public class GroupNeo4j implements GroupDAO {
 		Session session=driver.session();
 		ArrayList<Group> response=new ArrayList<Group>();
 		Group aux=null;
-		String statement="MATCH(g:Group {type:{type}}) RETURN"
+		String statement="MATCH(g:Group {type:{type}}) RETURN "
 				+ "g.name AS name,"
 				+ "g.creationDate AS creationDate,"
 				+ "g.type AS type,"
-				+ "g.hashcode AS hashcode"
+				+ "g.hashcode AS hashcode,"
 				+ "g.sharingGroupPermissions AS sharingGroupPermissions,"
 				+ "g.projectPropertiesPermissions AS projectPropertiesPermissions,"
 				+ "g.memberGestionPermissions AS memberGestionPermissions,"
-				+ "g.groupCreationPermissions AS groupCreationPermissions";
+				+ "g.groupCreationPermissions AS groupCreationPermissions,"
+				+ "g.description AS description";
 		
 		StatementResult result=session.run(statement,parameters(
-				"type",type
+				"type",type.toString()
 				));
 		while(result.hasNext()){
 			Record record=result.next();
@@ -162,7 +169,8 @@ public class GroupNeo4j implements GroupDAO {
 					record.get("sharingGroupPermissions").asList().toArray(new String[record.get("sharingGroupPermissions").asList().size()]),
 					record.get("projectPropertiesPermissions").asList().toArray(new String[record.get("projectPropertiesPermissions").asList().size()]),
 					record.get("memberGestionPermissions").asList().toArray(new String[record.get("memberGestionPermissions").asList().size()]),
-					record.get("groupCreationPermissions").asList().toArray(new String[record.get("groupCreationPermissions").asList().size()]));
+					record.get("groupCreationPermissions").asList().toArray(new String[record.get("groupCreationPermissions").asList().size()]),
+					record.get("description").asString());
 			response.add(aux);
 		}
 		session.close();

@@ -1,7 +1,9 @@
 package es.uniapi.modules.business.dao.neo4j;
 
 import es.uniapi.modules.business.dao.intf.UniapiActionsDAO;
-import es.uniapi.modules.business.dao.neo4j.relationship.MakeReferenceDAO;
+import es.uniapi.modules.business.dao.neo4j.relationship.MakeReferenceDAOImpl;
+import es.uniapi.modules.model.Group;
+import es.uniapi.modules.model.Group.GroupType;
 import es.uniapi.modules.model.Person;
 import es.uniapi.modules.model.Project;
 import es.uniapi.modules.model.Project.ProjectType;
@@ -74,6 +76,71 @@ public class UniapiNeo4jActionsDAO implements UniapiActionsDAO {
 	public void deleteUserProjectProperty(UserLogin user,Project project) throws Exception{
 		dao=new UniapiNeo4jDAO();
 		dao.getIsCreatorDAO().delete(user, project);
+	}
+
+	@Override
+	public void userKnowsGroup(UserLogin user, Group group) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		dao.getKnowsDAO().create(user, group);
+	}
+
+	@Override
+	public Group[] getGroupsKnowsByUser(UserLogin user) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		return dao.getKnowsDAO().getAllGroupsKnowsByUser(user);
+	}
+
+	@Override
+	public void userCreateGroup(UserLogin user, Group group) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		dao.getOwnerDAO().create(user, group);
+	}
+
+	@Override
+	public Group[] getGroupsCreateByUser(UserLogin user) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		return null;
+	}
+
+	@Override
+	public UserLogin[] getAllUserKnowGroup(Group group) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		return dao.getKnowsDAO().getAllUserKnowsGroup(group);
+	}
+
+	@Override
+	public Group[] getAllTypeGroups(GroupType type) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		return dao.getGroupDAO().findByType(type);
+	}
+
+	@Override
+	public void deleteUserKnowsGroup(UserLogin user, Group group) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		dao.getKnowsDAO().deleteUserKnowsGroup(user, group);
+	}
+
+	@Override
+	public UserLogin getUserOwnerOfGroup(Group gruop) throws Exception {
+		// TODO Auto-generated method stub
+		UserLogin response=null;
+		dao=new UniapiNeo4jDAO();
+		response=dao.getOwnerDAO().getOwnerOfGroup(gruop);
+		return response;
+	}
+
+	@Override
+	public void deleteUserOwnerGroup(UserLogin user, Group group) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		dao.getOwnerDAO().delete(user, group);
 	}
 
 

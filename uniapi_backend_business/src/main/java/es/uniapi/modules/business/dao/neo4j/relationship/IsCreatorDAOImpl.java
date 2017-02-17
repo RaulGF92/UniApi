@@ -19,10 +19,10 @@ import static org.neo4j.driver.v1.Values.parameters;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class IsCreatorDAO implements es.uniapi.modules.business.dao.intf.relations.IsCreatorDAO {
+public class IsCreatorDAOImpl implements es.uniapi.modules.business.dao.intf.relations.IsCreatorDAO {
 
 	Driver driver;
-	public IsCreatorDAO(){
+	public IsCreatorDAOImpl(){
 		AppConfiguration conf=AppConfiguration.getConfiguration();
 		this.driver= GraphDatabase.driver( "bolt://localhost:7687", 
 				AuthTokens.basic( conf.getUserDataBase(), conf.getPassDataBase() ) );
@@ -39,6 +39,7 @@ public class IsCreatorDAO implements es.uniapi.modules.business.dao.intf.relatio
 				"hashcode1",user.hash(),
 				"hashcode2",project.hash(),
 				"date",new Date().getTime()));
+		session.close();
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class IsCreatorDAO implements es.uniapi.modules.business.dao.intf.relatio
 					record.get("outputDescription").asString());
 			projects.add(container);
 		}
-		
+		session.close();
 		return projects.toArray(new Project[projects.size()]);
 	}
 
@@ -119,7 +120,7 @@ public class IsCreatorDAO implements es.uniapi.modules.business.dao.intf.relatio
 					record.get("outputDescription").asString());
 			projects.add(container);
 		}
-		
+		session.close();
 		return projects.toArray(new Project[projects.size()]);
 	}
 
@@ -145,7 +146,7 @@ public class IsCreatorDAO implements es.uniapi.modules.business.dao.intf.relatio
 					record.get("hashcode").asString(), 
 					new DateTime(record.get("dateFrom").asLong()).toDate());
 		}
-		
+		session.close();
 		return response;
 	}
 
@@ -159,6 +160,7 @@ public class IsCreatorDAO implements es.uniapi.modules.business.dao.intf.relatio
 		StatementResult result=session.run(statement,parameters(
 				"hashcode1",user.hash(),
 				"hashcode2",project.hash()));
+		session.close();
 	}
 
 }

@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
 
 import es.uniapi.modules.business.dao.neo4j.UniapiNeo4jDAO;
 import es.uniapi.modules.business.dao.neo4j.entities.UserLoginNeo4j;
-import es.uniapi.modules.business.dao.neo4j.relationship.MakeReferenceDAO;
+import es.uniapi.modules.business.dao.neo4j.relationship.MakeReferenceDAOImpl;
 import es.uniapi.modules.business.dao.neo4j.relationship.model.MakeReference;
 import es.uniapi.modules.model.Person;
 import es.uniapi.modules.model.UserLogin;
@@ -15,7 +15,7 @@ public class TestRelationship {
 
 	public static void main(String[] args) {
 		
-		MakeReferenceDAO dao=new MakeReferenceDAO();
+		MakeReferenceDAOImpl dao=new MakeReferenceDAOImpl();
 		UserLoginNeo4j userDao=new UserLoginNeo4j();
 		UserLogin user;
 		/*

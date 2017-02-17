@@ -8,9 +8,10 @@ import es.uniapi.modules.model.config.SHA1;
 public class Group {
 
 	public Group(String name, Date creationDate, GroupType type, String[] sharingGroup, String[] projectProperties,
-			String[] memberGestion, String[] groupCreation) {
+			String[] memberGestion, String[] groupCreation,String description) {
 		super();
 		this.name = name;
+		this.description=description;
 		this.creationDate = creationDate;
 		this.type = type;
 		this.sharingGroupPermissions = sharingGroup;
@@ -22,20 +23,42 @@ public class Group {
 	private String name;
 	private Date creationDate;
 	private GroupType type;
+	private String description;
 	
+	/*Sharing Group Permissions:
+	 *[0]:ALL;
+	 *[1]:shareProjectsInGroup;
+	 *[2]:removeProjectsInGroup;
+	 *[3]:removeExternalProjectInGroup;
+	*/
 	private String[] sharingGroupPermissions; 
-	//[0]:sharingGroup;[1]:shareProjectsInGroup;[2]:removeProjectsInGroup;
+	
+	/* Project Properties permisions:
+	 *[0]:ALL
+	 *[1]:executionProjects,
+	 *[2]:modifyInputsParams
+	 */
 	private String[] projectPropertiesPermissions;
-	//[0]:executionProjects,[1]:modifyInputsParams
+	
+	/* Member Gestion permissions:
+	 *[0]:ALL;
+	 *[2]:addMember;
+	 *[3]:removeMember;
+	 */
 	private String[] memberGestionPermissions;
-	//[0]:memberGestion;[1]:addMember;[2]:removeMember;
+	/* Group creation Permissions:
+	 *[0]:ALL
+	 *[1]:creationGroup;
+	 *[2]:createRestrictedGroup;
+	 *[3]:createPublicGroup;
+	 */
 	private String[] groupCreationPermissions;
-	//[0]:creationGroup;[1]:createRestrictedGroup;[2]createPublicGroup;
+	
 	
 	public enum GroupType{
 		MAIN_GROUP,
 		PUBLIC_GROUP,
-		RESTRICTED_RESTRICTED,
+		RESTRICTED_GROUP,
 	}
 
 	public String getName() {
@@ -106,5 +129,13 @@ public class Group {
 				+ Arrays.toString(sharingGroupPermissions) + ", projectProperties=" + Arrays.toString(projectPropertiesPermissions)
 				+ ", memberGestion=" + Arrays.toString(memberGestionPermissions) + ", groupCreation="
 				+ Arrays.toString(groupCreationPermissions) + "]";
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

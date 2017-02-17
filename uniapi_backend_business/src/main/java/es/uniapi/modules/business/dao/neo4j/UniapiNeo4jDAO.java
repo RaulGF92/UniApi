@@ -6,12 +6,16 @@ import es.uniapi.modules.business.dao.intf.entities.GroupDAO;
 import es.uniapi.modules.business.dao.intf.entities.PersonDAO;
 import es.uniapi.modules.business.dao.intf.entities.ProjectDAO;
 import es.uniapi.modules.business.dao.intf.entities.UserLoginDAO;
+import es.uniapi.modules.business.dao.intf.relations.IsOwnerDAO;
+import es.uniapi.modules.business.dao.intf.relations.KnowsDAO;
 import es.uniapi.modules.business.dao.neo4j.entities.GroupNeo4j;
 import es.uniapi.modules.business.dao.neo4j.entities.PersonNeo4j;
 import es.uniapi.modules.business.dao.neo4j.entities.ProjectNeo4j;
 import es.uniapi.modules.business.dao.neo4j.entities.UserLoginNeo4j;
-import es.uniapi.modules.business.dao.neo4j.relationship.IsCreatorDAO;
-import es.uniapi.modules.business.dao.neo4j.relationship.MakeReferenceDAO;
+import es.uniapi.modules.business.dao.neo4j.relationship.IsCreatorDAOImpl;
+import es.uniapi.modules.business.dao.neo4j.relationship.IsOwnerDAOImpl;
+import es.uniapi.modules.business.dao.neo4j.relationship.KnowsDAOImpl;
+import es.uniapi.modules.business.dao.neo4j.relationship.MakeReferenceDAOImpl;
 
 public class UniapiNeo4jDAO implements UniapiDAO {
 
@@ -45,12 +49,18 @@ public class UniapiNeo4jDAO implements UniapiDAO {
 		return null;
 	}
 	
-	public MakeReferenceDAO getMakeReferenceDAO(){
-		return new MakeReferenceDAO();
+	public MakeReferenceDAOImpl getMakeReferenceDAO(){
+		return new MakeReferenceDAOImpl();
 	}
 	
-	public IsCreatorDAO getIsCreatorDAO(){
-		return new IsCreatorDAO();
+	public IsCreatorDAOImpl getIsCreatorDAO(){
+		return new IsCreatorDAOImpl();
+	}
+	public KnowsDAO getKnowsDAO(){
+		return new KnowsDAOImpl();
+	}
+	public IsOwnerDAO getOwnerDAO(){
+		return new IsOwnerDAOImpl();
 	}
 
 }

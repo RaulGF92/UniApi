@@ -27,6 +27,7 @@
 </div>
 
 	<div class="container" style="width:100%" >
+		<div id="infoNoProjects" style="display:none" class="alert alert-success" role="alert">OH! Vaya! No tienes ningun projecto creado en ningún grupo ¿Por que no creas algún proyecto en un grupo? O creas un proyecto para todo el mundo en el grupo publico.</div>
 		<div class="project row" ng-repeat="project in projects track by $index" style="border:groove 1px; padding:15px; width:100%;margin-top:10px;" ng-attr-id="{{'project-'+$index}}" ng-click="makeClick($index)">
 			<div class="col-md-2 col-xs-3">
 				<img style="background-color: coral;padding:10px;margin:5px;" class="img-circle" src="resource/img/engranaje.svg" width="80" heigth="80" />	
