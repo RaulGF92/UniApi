@@ -32,7 +32,7 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 			$q.all(promesas).then(function (projectsRes) {
 				for(var i=0;i<projectsRes.length;i++){
 					if(projectsRes[i].state == 0)					
-						groups.push(projectsRes[i].projects[0]);
+						projects.push(projectsRes[i].projects[0]);
 				}
 				$d.resolve(projects);
 			});		
@@ -83,8 +83,6 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 			data:JSON.stringify(project)					
 		}).then(function(response){
 			myService.checkState(response.data.state);			
-			if(response.data.state == 0)
-				myService.refreshMyProjects();
 			return response.data;					
 		});
 
@@ -92,14 +90,12 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 	};
 	this.deleteProject= function(id){
 		var promise;
-		var urlComplete=UNIAPI_URL_API_REST+"/project/"+myService.tokenSession+"/"+id		
+		var urlComplete=UNIAPI_URL_API_REST+"/project/"+myService.tokenSession+"/"+id;		
 		promise=$http({
 			method:"DELETE",
 			url:urlComplete
 		}).then(function(response){
 			myService.checkState(response.data.state);	
-			if(response.data.state == 0)
-				myService.refreshMyProjects();
 			return response.data;
 		
 		});
@@ -175,8 +171,6 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 			data:JSON.stringify(group)					
 		}).then(function(response){
 			myService.checkState(response.data.state);	
-			if(response.data.state == 0)
-				myService.resfreshMyGroup();
 			return response.data;					
 		});
 
@@ -189,9 +183,7 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 			method:"DELETE",
 			url:urlComplete
 		}).then(function(response){
-			myService.checkState(response.data.state);	
-			if(response.data.state == 0)				
-				myService.resfreshMyGroup();
+			myService.checkState(response.data.state);
 			return response.data;
 		
 		});

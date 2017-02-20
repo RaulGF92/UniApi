@@ -4,7 +4,7 @@ import es.uniapi.modules.execution_enviroment.service.GeneralService;
 import es.uniapi.modules.model.Project;
 import es.uniapi.modules.model.config.AppConfiguration;
 
-public abstract class EspecialService implements GeneralService {
+public abstract class EspecialService extends Thread implements GeneralService {
 
 	public String getAbsoluteProjectPath(Project project){
 		

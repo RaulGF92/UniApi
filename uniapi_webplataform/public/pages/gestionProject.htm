@@ -1,0 +1,57 @@
+<ul style="float:right;">
+	<a ng-attr-id="update" ng-click="makeClickUpdate()" style="margin-right: 15px;">
+		<span class="glyphicon glyphicon-pencil"></span>
+	</a>
+	<a ng-attr-id="delete" ng-click="makeClickDelete()" style="margin-right: 15px;">
+		<span class="glyphicon glyphicon-trash"></span>
+	</a>
+</ul>
+<br></br>
+<div class="mainInfo">
+	<div class="page-header">
+		<h4 style="margin-top:0px">{{project.name}}:</h4>
+		<textarea ng-attr-id="{{'description-'+$index}}" style="width:100%;resize:none;" ng-model="project.description"></textarea>
+	</div>	
+</div>
+<div ng-attr-id="secondaryInfo">
+	<div class="form-group">
+		<label for="url">Url del repositorio GIT:</label>
+		<input type="text" class="form-control" id="url" ng-model="project.gitRepositoryURL"></input>
+	</div>
+	<div class="form-group">
+		<label for="user">Usuario del repositorio:</label>
+		<input type="text" class="form-control" id="user" ng-model="project.email"></input>
+	</div>
+	<div class="form-group">
+		<label for="pass">Contraseña del repositorio:</label>
+		<input type="password" class="form-control" id="pass" ng-model="project.password"></input>
+	</div>
+	<div class="form-group">
+		<label for="mainName">Nombre del programa principal proyecto:</label>
+		<input type="text" class="form-control" id="mainName" ng-model="project.mainName"></input>
+	</div>
+	<div class="form-group">
+		<label for="responseName">Nombre del archivo de respuesta del proyecto:</label>
+		<input type="text" class="form-control" id="responseName" ng-model="project.responseName"></input>
+	</div>
+	<div class="form-group">
+		<label for="defaultInputs">Entradas por defecto del proyecto:</label>
+		<div id="defaultInputs">
+			<button class="btn" ng-click="addDefaultInput()">+</button><b> </b><button class="btn" ng-click="resetDefaultInput()">Reset</button>
+			<div id="contenedor">
+				<ul id="arrayDefaultInput">
+						<li ng-repeat="x in inputsDefault track by $index">[{{$index}}]: <input ng-attr-id="{{'value_'+$index}}" ng-model="x" type="text"></li>
+				</ul>
+			</div>
+			<button class="btn" ng-click="removeDefaultInput()">-</button>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputDescription">Descripción de la entrada del proyecto:</label>
+		<textarea id="inputDescription" style="width: 100%;resize: none;" ng-model="project.inputDescription"></textarea>
+	</div>
+	<div class="form-group">
+		<label for="outputDescription">Descripción de la salida proyecto:</label>
+		<textarea id="outputDescription" style="width: 100%;resize: none;" ng-model="project.outputDescription"></textarea>
+	</div>
+</div>

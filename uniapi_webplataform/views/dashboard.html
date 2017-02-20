@@ -56,7 +56,7 @@
 	  </div>
 	</div>
 
-    <div class="container-fluid" id="page" style="display:none">
+    <div class="container-fluid" id="page" style="display:none;">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
 			<div class="principal text-center">
@@ -115,6 +115,7 @@
 	
 
 	<script src="js/directives/gestionGroupDirective.js"></script>
+	<script src="js/directives/gestionProjectDirective.js"></script>
 
 	<script>
 		// Get the modal
@@ -141,13 +142,15 @@
 				url:"http://localhost:8080/"+tokenSession+"/whoami"
 			}).done(function(response){
 				console.log(response);
-				if(response.state != 0)
+				if(response.state != 0){
 					window.location.href="loggin";
-				modal.style.display = "none";
-				$("#page").css("display","block");
-				$("#perfil").attr("src",response.person.profileImageUrl);
-				$("#completeName").text(response.person.name+" "+response.person.subname);
-				$("#userName").text(response.userLogin.user);
+				}else{
+					modal.style.display = "none";
+					$("#page").css("display","block");
+					$("#perfil").attr("src",response.person.profileImageUrl);
+					$("#completeName").text(response.person.name+" "+response.person.subname);
+					$("#userName").text(response.userLogin.user);
+				}
 			}).error(function(error){
 				window.location.href="loggin";
 			});

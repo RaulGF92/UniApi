@@ -43,7 +43,7 @@ public class GroupController {
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value="/{token}/{groupID}",method=RequestMethod.PATCH)
-	public Message updateGroup(@PathVariable String token,@PathVariable String groupID,String response){
+	public Message updateGroup(@PathVariable String token,@PathVariable String groupID,@RequestBody String response){
 		Message msg=null;
 		UserLogin userLogin;
 		String[] relatedID={groupID};
@@ -64,25 +64,25 @@ public class GroupController {
 		try {
 			JSONObject obj=new JSONObject(response);
 			
-			JSONArray sharingGroupPermissionsJsonArray=obj.getJSONArray("sharingGroupPermissions");
+			JSONArray sharingGroupPermissionsJsonArray=obj.getJSONArray("sharingGroup");
 			List<String> sharingGroupPermissions = new ArrayList<String>();
 			for(int i = 0; i < sharingGroupPermissionsJsonArray.length(); i++){
 				sharingGroupPermissions.add(sharingGroupPermissionsJsonArray.getString(i));
 			}
 			
-			JSONArray projectPropertiesPermissionsJsonArray=obj.getJSONArray("projectPropertiesPermissions");
+			JSONArray projectPropertiesPermissionsJsonArray=obj.getJSONArray("projectProperties");
 			List<String> projectPropertiesPermissions = new ArrayList<String>();
 			for(int i = 0; i < projectPropertiesPermissionsJsonArray.length(); i++){
 				projectPropertiesPermissions.add(projectPropertiesPermissionsJsonArray.getString(i));
 			}
 			
-			JSONArray memberGestionPermissionsJsonArray=obj.getJSONArray("memberGestionPermissions");
+			JSONArray memberGestionPermissionsJsonArray=obj.getJSONArray("memberGestion");
 			List<String> memberGestionPermissions = new ArrayList<String>();
 			for(int i = 0; i < memberGestionPermissionsJsonArray.length(); i++){
 				memberGestionPermissions.add(memberGestionPermissionsJsonArray.getString(i));
 			}
 			
-			JSONArray groupCreationPermissionsJsonArray=obj.getJSONArray("groupCreationPermissions");
+			JSONArray groupCreationPermissionsJsonArray=obj.getJSONArray("groupCreation");
 			List<String> groupCreationPermissions = new ArrayList<String>();
 			for(int i = 0; i < groupCreationPermissionsJsonArray.length(); i++){
 				groupCreationPermissions.add(groupCreationPermissionsJsonArray.getString(i));
@@ -98,7 +98,7 @@ public class GroupController {
 					obj.getString("description"));
 			
 			if(groupToUpdate!=null)
-				Modules.getGroupModule().deleteGroup(userLogin, groupToUpdate);
+				Modules.getGroupModule().updateGroup(userLogin, groupID, groupToUpdate);
 			msg=new Message(0, token, relatedID);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -36,7 +36,7 @@ public class IsCreatorDAOImpl implements es.uniapi.modules.business.dao.intf.rel
 				+ "AND p.hashcode={hashcode2} CREATE (u)-[ic:IS_CREATOR {dateFrom:{date}}]->(p)";
 		
 		StatementResult result=session.run(statement,parameters(
-				"hashcode1",user.hash(),
+				"hashcode1",user.getUser(),
 				"hashcode2",project.hash(),
 				"date",new Date().getTime()));
 		session.close();

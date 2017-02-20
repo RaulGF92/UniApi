@@ -181,19 +181,22 @@ public class GroupNeo4j implements GroupDAO {
 	public void update(String hash, Group group) {
 		// TODO Auto-generated method stub
 		Session session=driver.session();
-		String statement="MATCH(g:Group {hashcode:{hash}}) SET "
+		String statement="MATCH(g:Group) WHERE g.hashcode={hash} SET "
 				+ "g.type={type},"
 				+ "g.sharingGroupPermissions={sharingGroupPermissions},"
 				+ "g.projectPropertiesPermissions={projectPropertiesPermissions},"
 				+ "g.memberGestionPermissions={memberGestionPermissions},"
-				+ "g.groupCreationPermissions={groupCreationPermissions}";
+				+ "g.groupCreationPermissions={groupCreationPermissions},"
+				+ "g.description={description}";
 		
 		StatementResult result=session.run(statement,parameters(
+				"hash",hash,
 				"type",group.getType().toString(),
 				"sharingGroupPermissions",group.getSharingGroup(),
 				"projectPropertiesPermissions",group.getProjectProperties(),
 				"memberGestionPermissions",group.getMemberGestion(),
-				"groupCreationPermissions",group.getGroupCreation()));	
+				"groupCreationPermissions",group.getGroupCreation(),
+				"description",group.getDescription()));	
 		
 		session.close();
 	}

@@ -10,28 +10,121 @@ angular.module('menuApp').directive('gestiongroup', function () {
 			
      			uniapi.getGroup($scope.ngGroup).then(function(data){
 				$scope.group=data.groups[0];
-				console.log($scope.group);
 				$scope.sharingGroupPermissions=$scope.parseVector($scope.group.sharingGroup);
 				$scope.projectPropertiesPermissions=$scope.parseVector($scope.group.projectProperties);
 				$scope.memberGestionPermissions=$scope.parseVector($scope.group.memberGestion);
-				$scope.groupCreationPermissions=$scope.parseVector($scope.group.groupCreation);
-				$scope.reworkCheckBox();			
+				$scope.groupCreationPermissions=$scope.parseVector($scope.group.groupCreation);			
 			});
-			$scope.modifyCheckBox=function(check,checkBox){
-				console.log(check);
-				console.log(checkBox);
-				if(check){
-					for(var i=1;i<=3;i++){
-						$("#"+checkBox+i).removeAttr("disabled");
-					}
-				}else{
-					for(var i=1;i<=3;i++){
-						$("#"+checkBox+i).attr("disabled","disabled");
-					}
+			$scope.makeClickUpdate=function(){
+				$scope.group.sharingGroup=$scope.convertVector($scope.sharingGroupPermissions);
+				$scope.group.projectProperties=$scope.convertVector($scope.projectPropertiesPermissions);
+				$scope.group.memberGestion=$scope.convertVector($scope.memberGestionPermissions);
+				$scope.group.groupCreation=$scope.convertVector($scope.groupCreationPermissions);
+				if (confirm('¿Estas seguro que quieres actualizar el grupo?')) {				
+					uniapi.updateGroup($scope.ngGroup,$scope.group).then(function(response){
+						console.log(response);
+						if(response.state==0){
+							alert("se ha realizado la actualización.");
+						}else{
+							alert("Ha ocurrido un error!!");
+							location.reload(); 
+						}	
+					});
+				}	
+			};
+			$scope.makeClickDelete=function(){
+				if (confirm('¿Estas seguro que quieres actualizar el grupo?')) {				
+					uniapi.deleteGroup($scope.ngGroup).then(function(response){
+						if(response.state==0){
+							alert("se ha realizado la eliminación.");
+							location.reload(); 
+						}else{
+							alert("Ha ocurrido un error!!");
+							location.reload(); 
+						}	
+					});
 				}
+			}
+			$scope.changeTab=function(nameTab){
+				switch(nameTab){
+					case "bioTAB":
+						$scope.makeBioTAB();
+
+						$("#bioTAB").css("display","block");
+						$("#subGroupsTAB").css("display","none");
+						$("#projectInsideTAB").css("display","none");
+						$("#permisionTAB").css("display","none");
+
+						$("#bioTABTAB").addClass("active");
+						$("#subGroupsTABTAB").removeClass("active");
+						$("#projectInsideTABTAB").removeClass("active");
+						$("#permisionTABTAB").removeClass("active");
+						
+					break;
+					case "permisionTAB":
+
+						$scope.makePermisionTAB();
+
+						$("#permisionTAB").css("display","block");
+						$("#bioTAB").css("display","none");
+						$("#subGroupsTAB").css("display","none");
+						$("#projectInsideTAB").css("display","none");
+
+						$("#permisionTABTAB").addClass("active");
+						$("#bioTABTAB").removeClass("active");
+						$("#subGroupsTABTAB").removeClass("active");
+						$("#projectInsideTABTAB").removeClass("active");
+
+						
+					break;
+					case "subGroupsTAB":
+						
+						$scope.makeSubGroupsTAB();
+
+						$("#subGroupsTAB").css("display","block");
+						$("#bioTAB").css("display","none");
+						$("#permisionTAB").css("display","none");
+						$("#projectInsideTAB").css("display","none");
+
+						$("#subGroupsTABTAB").addClass("active");
+						$("#bioTABTAB").removeClass("active");
+						$("#permisionTABTAB").removeClass("active");
+						$("#projectInsideTABTAB").removeClass("active");
+
+						
+					break;
+					case "projectInsideTAB":
+
+						$scope.makeprojectInsideTAB();
+
+						$("#subGroupsTAB").css("display","none");
+						$("#bioTAB").css("display","none");
+						$("#permisionTAB").css("display","none");
+						$("#projectInsideTAB").css("display","block");
+						
+						$("#subGroupsTABTAB").removeClass("active");
+						$("#bioTABTAB").removeClass("active");
+						$("#permisionTABTAB").removeClass("active");
+						$("#projectInsideTABTAB").addClass("active");
+					break;
+				};
+			};
+			//-----------------------bioTAB-----------------------------
+			$scope.makeBioTAB=function(){
+				//take members of the group
+				
+			};
+			//--------------------SubGroupsTAB----------------------
+			$scope.makeSubGroupsTAB=function(){
 
 			};
-			$scope.reworkCheckBox=function(){
+			//---------------------------projectsInsideTAB--------------
+			$scope.makeprojectInsideTAB=function(){
+
+			};
+			//-----------------------Permision TAB------------------------
+			$scope.makePermisionTAB=function(){
+
 				var check=$scope.sharingGroupPermissions[0]
 				var checkBox="sharingGroupPermissions";
 				$scope.modifyCheckBox(check,checkBox);
@@ -48,6 +141,20 @@ angular.module('menuApp').directive('gestiongroup', function () {
 				var checkBox="groupCreationPermissions";
 				$scope.modifyCheckBox(check,checkBox);
 			};
+			$scope.modifyCheckBox=function(check,checkBox){
+				console.log(check);
+				console.log(checkBox);
+				if(check){
+					for(var i=1;i<=3;i++){
+						$("#"+checkBox+i).removeAttr("disabled");
+					}
+				}else{
+					for(var i=1;i<=3;i++){
+						$("#"+checkBox+i).attr("disabled","disabled");
+					}
+				}
+
+			};
 			$scope.parseVector= function (vector){
 				var response=[];
 				for(var i=0;i<vector.length;i++){
@@ -56,6 +163,17 @@ angular.module('menuApp').directive('gestiongroup', function () {
 					}
 					if(vector[i] == "NO"){
 						response.push(false);
+					}
+				}
+				return response;
+			};
+			$scope.convertVector= function (vector){
+				var response=[];
+				for(var i=0;i<vector.length;i++){
+					if(vector[i]){
+						response.push("YES");
+					}else{
+						response.push("NO");
 					}
 				}
 				return response;
@@ -136,6 +254,7 @@ angular.module('menuApp').directive('gestiongroup', function () {
 					break;
 				};
 			};
+			//----------------------------------------------------------------------
    		 }],
 		link: function(scope, iElement, iAttrs, ctrl) {
      			 scope.id=iAttrs.ngGroup;

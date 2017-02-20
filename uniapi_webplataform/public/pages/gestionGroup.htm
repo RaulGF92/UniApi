@@ -1,10 +1,115 @@
+<style>
+	.tabBody{
+		padding:20px;
+	}
+	table{
+		margin-top:2px;	
+	}
+	.tableContainer{
+		height:300px;
+	}
+	.tableContainer table{
+		overflow-y: scroll;
+	}
+	.opcion{
+		margin-left:90%;
+	}
+</style>
 <div>
 	<ul class="nav nav-tabs">
-		<li role="presentation" class="active"><a>Permisos</a></li>
-		<li role="presentation"><a>Miembros</a></li>
-		<li role="presentation"><a>Grupos</a></li>
+		<li role="presentation"id="bioTABTAB" class="active" ng-click="changeTab('bioTAB')"><a>Bio</a></li>
+		<li role="presentation" id="permisionTABTAB" ng-click="changeTab('permisionTAB')"><a>Permisos</a></li>		
+		<li role="presentation" id="subGroupsTABTAB" ng-click="changeTab('subGroupsTAB')"><a>Subgrupos</a></li>
+		<li role="presentation" id="projectInsideTABTAB" ng-click="changeTab('projectInsideTAB')"><a>Proyectos</a></li>
 	</ul>
-	<div id="permisosTab">
+	<div class="tabBody" id="bioTAB" style="display:block;">
+		<div id="bio">
+			<h4 class="page-header">Información basica del grupo:<a ng-click="makeClickDelete()"><spam class="glyphicon glyphicon-trash" style="padding-left: 68%;"></spam></a></h4>
+			<div class="form-group">
+				<label>Nombre del grupo:</label>
+				<input type="text" class="form-control" ng-model="group.name" disabled></input>
+			</div>
+			<div class="form-group">
+				<label>Descripción del grupo:</label>
+				<textarea class="form-control" ng-model="group.description"></textarea>
+			</div>
+			<button class="btn btn-primary btn-sm" ng-click="makeClickUpdate()">modificar</button>
+		</div>
+		<hr></hr>
+		<div id="miembros" class="tableContainer">
+			<h4 class="page-header">Miembros del grupo:</h4>
+
+			<a class="opcion text-right">Añadir <span class="glyphicon glyphicon-plus-sign"></span></a>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>User:</th>
+						<th>Rol:</th>
+						<th>Opciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>raulgf92@gmail.com</td>
+						<td>admin</td>
+						<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></td>
+					</tr>
+					<tr>
+						<td>jose@jose.com</td>
+						<td>user</td>
+						<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="tabBody" id="subGroupsTAB" style="display:none">
+		<div class="tableContainer">
+			<a class="opcion text-right">Añadir <span class="glyphicon glyphicon-plus-sign"></span></a>	
+			<table class="table">
+					<thead>
+						<tr>
+							<th>Name:</th>
+							<th>Opciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>SubGrupo1</td>
+							<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></td>
+						</tr>
+						<tr>
+							<td>SubGrupo2</td>
+							<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></td>
+						</tr>
+					</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="tabBody" id="projectInsideTAB" style="display:none">
+		<div class="tableContainer">
+			<a class="opcion text-right">Añadir <span class="glyphicon glyphicon-plus-sign"></span></a>
+			<table class="table">
+					<thead>
+						<tr>
+							<th>Nombre:</th>
+							<th>Opciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Projecto1</td>
+							<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></span></td>
+						</tr>
+						<tr>
+							<td>Projecto2</td>
+							<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></span></td>
+						</tr>
+					</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="tabBody" id="permisionTAB" style="display:none">
 		<div class="row">
 			<div class="col-md-6">
 				<h3 style="margin-top:40px">Permisos de compartición de grupo:</h3>
@@ -78,7 +183,7 @@
 				</div>
 			</div>
 		</div>
+		<br></br>
+		<button class="btn btn-primary btn-lg" ng-click="makeClickUpdate()"> Modificar</button>
 	</div>
-	<br></br>
-	<button class="btn btn-primary btn-lg" ng-click="makeSubmit()"> Modificar</button>
 </div>

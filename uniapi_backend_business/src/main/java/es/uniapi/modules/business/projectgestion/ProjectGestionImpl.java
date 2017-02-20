@@ -57,8 +57,8 @@ public class ProjectGestionImpl implements ProjectGestion {
 		ServiceGit git=new ServiceGit();
 		try {
 			git.inicializateService(project);
-			git.newProyect();
-		} catch (ServiceException e) {
+			git.start();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			throw new BussinessException("Fallo en la sincronización con git");
 		}
