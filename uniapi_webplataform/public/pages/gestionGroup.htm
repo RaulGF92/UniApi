@@ -1,0 +1,84 @@
+<div>
+	<ul class="nav nav-tabs">
+		<li role="presentation" class="active"><a>Permisos</a></li>
+		<li role="presentation"><a>Miembros</a></li>
+		<li role="presentation"><a>Grupos</a></li>
+	</ul>
+	<div id="permisosTab">
+		<div class="row">
+			<div class="col-md-6">
+				<h3 style="margin-top:40px">Permisos de compartición de grupo:</h3>
+				<div class="" style="margin-left:20px;">			
+					<div class="checkbox">
+					<label><input type="checkbox" id="sharingGroupPermissions" ng-click="checkBox('sharingGroupPermissions')" ng-model="sharingGroupPermissions[0]">Todos.</label>
+					</div>
+					<hr style="margin-top:0px;"></hr>
+					<div class="checkbox">
+						<label><input type="checkbox" id="sharingGroupPermissions1" ng-model="sharingGroupPermissions[1]" disabled>Compartir proyectos en el grupo.</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" id="sharingGroupPermissions2" ng-model="sharingGroupPermissions[2]" disabled>Eliminar proyectos propios del grupo.</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" id="sharingGroupPermissions3" ng-model="sharingGroupPermissions[3]" disabled>Eliminar proyectos ajenos del grupo.</label>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<h3 style="margin-top:40px">Permisos de propiedades del proyecto:</h3>
+				<div class="" style="margin-left:20px;">			
+					<div class="checkbox">
+						<label><input type="checkbox" id="projectPropertiesPermissions" ng-model="projectPropertiesPermissions[0]" ng-click="checkBox('projectPropertiesPermissions')"  value="">Todos.</label>
+					</div>
+					<hr style="margin-top:0px;"></hr>
+					<div class="checkbox">
+						<label><input type="checkbox" id="projectPropertiesPermissions1" ng-model="projectPropertiesPermissions[1]" value="" disabled>Ejecutar proyectos.</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" id="projectPropertiesPermissions2" ng-model="projectPropertiesPermissions[2]" value="" disabled>Modificar valores de entrada.</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<h3 style="margin-top:40px">Permisos de gestión de miembros del grupo:</h3>
+				<div class="" style="margin-left:20px;">			
+					<div class="checkbox">
+						<label><input type="checkbox" id="memberGestionPermissions" ng-model="memberGestionPermissions[0]" ng-click="checkBox('memberGestionPermissions')" value="">Todos.</label>
+					</div>
+					<hr style="margin-top:0px;"></hr>
+					<div class="checkbox">
+						<label><input type="checkbox" id="memberGestionPermissions1" ng-model="memberGestionPermissions[1]" value="" disabled>Añadir miembros.</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" id="memberGestionPermissions2" ng-model="memberGestionPermissions[2]" value="" disabled>Eliminar miembros.</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" id="memberGestionPermissions3" ng-model="memberGestionPermissions[3]" value="" disabled>Eliminar proyectos ajenos del grupo</label>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<h3 style="margin-top:40px">Permisos de creación de grupos</h3>
+				<div class="" style="margin-left:20px;">			
+					<div class="checkbox">
+						<label><input type="checkbox" id="groupCreationPermissions" ng-model="groupCreationPermissions[0]" ng-click="checkBox('groupCreationPermissions')" value="">Todos.</label>
+					</div>
+					<hr style="margin-top:0px;"></hr>
+					<div class="checkbox">
+						<label><input type="checkbox" id="groupCreationPermissions1" ng-model="groupCreationPermissions[1]" value="" disabled>Creación de grupos.</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" id="groupCreationPermissions2" ng-model="groupCreationPermissions[2]" value="" disabled>Creación de grupos publicos.</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" id="groupCreationPermissions3" ng-model="groupCreationPermissions[3]" value="" disabled>Creación de grupos privados</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br></br>
+	<button class="btn btn-primary btn-lg" ng-click="makeSubmit()"> Modificar</button>
+</div>

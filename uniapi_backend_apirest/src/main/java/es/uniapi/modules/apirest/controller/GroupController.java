@@ -48,6 +48,7 @@ public class GroupController {
 		UserLogin userLogin;
 		String[] relatedID={groupID};
 		Group group;
+		sessionGestor=SessionGestorMap.getSessionGestor();
 		
 		try {
 			userLogin=sessionGestor.checkSession(token);
@@ -115,6 +116,7 @@ public class GroupController {
 		UserLogin userLogin;
 		String[] relatedID={groupID};
 		Group group;
+		sessionGestor=SessionGestorMap.getSessionGestor();
 		try {
 			userLogin=sessionGestor.checkSession(token);
 			if(userLogin==null){
@@ -144,6 +146,7 @@ public class GroupController {
 	public MessageGroup getGroup(@PathVariable String token,@PathVariable String groupID){
 		MessageGroup msg=null;
 		UserLogin userLogin;
+		sessionGestor=SessionGestorMap.getSessionGestor();
 		
 		try {
 			userLogin=sessionGestor.checkSession(token);
@@ -159,13 +162,13 @@ public class GroupController {
 		
 		try {
 			
-			Group[] group={
+			Group[] groups={
 					Modules.getGroupModule().findByHash(groupID)
 			};
 			String[] relatedID={
-					group[0].hash()
+					groups[0].hash()
 			};
-			msg=new MessageGroup(0, token, relatedID, group);
+			msg=new MessageGroup(0, token, relatedID, groups);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			msg=new MessageGroup(23, token, new String[0],new Group[0]);
@@ -177,10 +180,11 @@ public class GroupController {
 	}
 	
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value="/{token}/all}")
+	@RequestMapping(value="/{token}/all")
 	public Message getAllUserGroups(@PathVariable String token){
 		Message msg=null;
 		UserLogin userLogin;
+		sessionGestor=SessionGestorMap.getSessionGestor();
 		
 		try {
 			userLogin=sessionGestor.checkSession(token);

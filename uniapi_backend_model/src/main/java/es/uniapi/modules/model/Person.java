@@ -20,6 +20,7 @@ public class Person {
 		this.birthplace = birthplace;
 		this.biografy = biografy;
 		this.profileImageUrl = profileImageUrl;
+		this.hashcode=this.hash();
 	}
 	
 	public String getName() {
@@ -79,6 +80,7 @@ public class Person {
 	private String birthplace;
 	private String biografy;
 	private String profileImageUrl;
+	private String hashcode;
 	
 	
 	@Override
@@ -142,6 +144,14 @@ public class Person {
 		} else if (!subname.equals(other.subname))
 			return false;
 		return true;
+	}
+
+	public String getHashcode() {
+		return hashcode;
+	}
+
+	public void setHashcode(String hashcode) {
+		this.hashcode = hashcode;
 	}
 	
 	

@@ -103,7 +103,8 @@ public class UniapiNeo4jActionsDAO implements UniapiActionsDAO {
 	public Group[] getGroupsCreateByUser(UserLogin user) throws Exception {
 		// TODO Auto-generated method stub
 		dao=new UniapiNeo4jDAO();
-		return null;
+		Group[] groups=dao.getOwnerDAO().getAllGroupsOwnerByUser(user);
+		return groups;
 	}
 
 	@Override

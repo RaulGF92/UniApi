@@ -12,4 +12,12 @@ public class MessageGroup extends Message {
 		this.groups=groups;
 	}
 
+	public Group[] getGroups() {
+		return groups;
+	}
+
+	public void setGroups(Group[] groups) {
+		this.groups = groups;
+	}
+
 }

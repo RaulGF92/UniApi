@@ -18,12 +18,14 @@ public class Group {
 		this.projectPropertiesPermissions = projectProperties;
 		this.memberGestionPermissions = memberGestion;
 		this.groupCreationPermissions = groupCreation;
+		this.hashcode=hash();
 	}
 
 	private String name;
 	private Date creationDate;
 	private GroupType type;
 	private String description;
+	private String hashcode;
 	
 	/*Sharing Group Permissions:
 	 *[0]:ALL;
@@ -137,5 +139,13 @@ public class Group {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getHashcode() {
+		return hashcode;
+	}
+
+	public void setHashcode(String hashcode) {
+		this.hashcode = hashcode;
 	}
 }
