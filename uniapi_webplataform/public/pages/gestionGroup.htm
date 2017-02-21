@@ -39,25 +39,30 @@
 		<div id="miembros" class="tableContainer">
 			<h4 class="page-header">Miembros del grupo:</h4>
 
-			<a class="opcion text-right">Añadir <span class="glyphicon glyphicon-plus-sign"></span></a>
+			<a class="opcion text-right" ng-click="interactAddMember()">Añadir <span class="glyphicon glyphicon-plus-sign"></span></a>
+			<div id="addMember" style="display:none;">
+				<div class="form-group">
+					<label>Email del usuario:</label>
+					<input type="email" class="form-control" ng-model="userToMakeMember"></input>
+				</div>
+				<button class="btn btn-primary btn-sm" ng-click="addNewMember()">invitar</button>
+				<hr></hr>
+			</div>
 			<table class="table">
 				<thead>
 					<tr>
 						<th>User:</th>
 						<th>Rol:</th>
+						<th>Desde:</th>
 						<th>Opciones</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>raulgf92@gmail.com</td>
-						<td>admin</td>
-						<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></td>
-					</tr>
-					<tr>
-						<td>jose@jose.com</td>
-						<td>user</td>
-						<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></td>
+					<tr ng-repeat="member in members">
+						<td>{{member.user}}</td>
+						<td>{{member.rol}}</td>
+						<td>{{member.since}}</td>						
+						<td><a ng-click="makeClickDeleteMember(member.user)">Borrar <span class="glyphicon glyphicon-minus-sign"></a></td>
 					</tr>
 				</tbody>
 			</table>

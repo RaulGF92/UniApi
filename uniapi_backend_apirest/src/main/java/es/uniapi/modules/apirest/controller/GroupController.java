@@ -30,7 +30,7 @@ import es.uniapi.modules.sessiongestion.SessionGestor;
 import es.uniapi.modules.sessiongestion.impl.SessionGestorMap;
 
 @RestController
-@RequestMapping(value="/group/*")
+@RequestMapping(value="/group/")
 public class GroupController {
 	
 	SessionGestor sessionGestor;

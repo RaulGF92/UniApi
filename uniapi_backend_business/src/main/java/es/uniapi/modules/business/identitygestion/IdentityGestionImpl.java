@@ -55,4 +55,18 @@ public class IdentityGestionImpl implements IdentityGestion {
 		}
 	}
 
+	@Override
+	public UserLogin findUserLoginByUser(String user) throws BussinessException {
+		// TODO Auto-generated method stub
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		UserLogin userLogin=null;
+		try {
+			userLogin=dao.getUniApiDao().getUserLoginDAO().findByEmail(user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new BussinessException("Fallo en la busqueda del usuario");
+		}
+		return userLogin;
+	}
+
 }

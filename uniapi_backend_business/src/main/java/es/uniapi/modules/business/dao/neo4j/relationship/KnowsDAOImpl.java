@@ -142,7 +142,7 @@ public class KnowsDAOImpl implements KnowsDAO {
 			Record record=result.next();
 			response=new Knows(record.get("userLoginHash").asString(), 
 					record.get("groupHash").asString(), 
-					new DateTime(record.get("groupHash").asLong()).toDate());
+					new DateTime(record.get("dateFrom").asLong()).toDate());
 			
 		}
 		
@@ -185,7 +185,7 @@ public class KnowsDAOImpl implements KnowsDAO {
 		// TODO Auto-generated method stub
 		Session session=driver.session();
 		String statement="MATCH(u:UserLogin {user:{hashcode1}}) "
-				+ ",o=(u)-[k:KNOWS]->(g:Grupo {hashcode:{hashcode2}}) "
+				+ ",o=(u)-[k:KNOWS]->(g:Group {hashcode:{hashcode2}}) "
 				+ "DELETE k";
 		StatementResult result=session.run(statement,parameters(
 				"hashcode1",user.getUser(),

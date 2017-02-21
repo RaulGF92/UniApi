@@ -1,6 +1,11 @@
 package es.uniapi.modules.business.groupgestion;
 
+import java.util.Date;
+
 import es.uniapi.modules.business.dao.intf.UniApiFactoryDAO;
+import es.uniapi.modules.business.dao.neo4j.UniapiNeo4jActionsDAO;
+import es.uniapi.modules.business.dao.neo4j.relationship.KnowsDAOImpl;
+import es.uniapi.modules.business.dao.neo4j.relationship.model.Knows;
 import es.uniapi.modules.business.exception.BussinessException;
 import es.uniapi.modules.model.Group;
 import es.uniapi.modules.model.UserLogin;
@@ -177,6 +182,114 @@ public class GroupGestionImpl implements GroupGestion {
 		
 		return groups; 
 	}
+
+	@Override
+	public UserLogin[] findAllMemberOfGroup(Group group) throws BussinessException {
+		// TODO Auto-generated method stub
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		UserLogin[] users=new UserLogin[0];
+		
+		try {
+			users=dao.getActions().getAllUserKnowGroup(group);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new BussinessException("Fallo en la busqueda de miembos del grupo");
+		}
+		
+		return users;
+	}
+
+	@Override
+	public void makeUserMemberOfGroup(UserLogin user,UserLogin userToMake, Group group) throws BussinessException {
+		// TODO Auto-generated method stub
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		GroupRole rol = this.getUserRoleOnGruop(user, group);
+		
+		if(rol!= GroupRole.NONE){
+			if(group.getMemberGestion()[2].compareTo("YES")==0 || rol!=GroupRole.Member ){
+				try {
+					dao.getActions().userKnowsGroup(userToMake, group);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					throw new BussinessException("Fallo en la eliminación de miembos del grupo");
+				}
+			}
+		}
+		
+	}
+
+	@Override
+	public void deleteUserMemberOfGroup(UserLogin user,UserLogin userToDelete, Group group) throws BussinessException {
+		// TODO Auto-generated method stub
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		GroupRole rol = this.getUserRoleOnGruop(user, group);
+		
+		if(rol!= GroupRole.NONE){
+			if(group.getMemberGestion()[3].compareTo("YES")==0 || rol!=GroupRole.Member ){
+				try {
+					dao.getActions().deleteUserKnowsGroup(userToDelete, group);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					throw new BussinessException("Fallo en la eliminación de miembos del grupo");
+				}
+			}
+		}
+		
+	}
+
+	@Override
+	public GroupRole getUserRoleOnGruop(UserLogin user, Group group) throws BussinessException {
+		// TODO Auto-generated method stub
+		GroupRole role=GroupRole.NONE;
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		if(user.getRol().compareTo("admin")==0){
+			role=GroupRole.ADMIN;
+			return role;
+		}
+		
+		try{
+			if(dao.getActions().getUserOwnerOfGroup(group).getUser().compareTo(user.getUser())==0){
+				role=GroupRole.OWNER;
+				return role;
+			}
+			
+		}catch(Exception e){
+			new BussinessException("Fallo en la busqueda del propietario del grupo");
+		}
+		
+		try {
+			UserLogin[] users;
+			users = dao.getActions().getAllUserKnowGroup(group);
+		
+			for(int i=0;i<users.length;i++){
+				if(users[i].getUser().compareTo(user.getUser()) == 0){
+					role=GroupRole.Member;
+					return role;
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			new BussinessException("Fallo en la busqueda del conocedor del grupo");
+		}
+		
+		return role;
+	}
+
+	@Override
+	public Date getInfoMember(UserLogin user, Group group) throws BussinessException {
+		KnowsDAOImpl dao=new KnowsDAOImpl();
+		Knows know = null;
+		try {
+			know = dao.getInfoGroupKnowByUser(user, group);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			new BussinessException("Fallo en la busqueda de la información");
+		}
+		return know.getCreationTime();
+	}
+	
+	
 
 	
 

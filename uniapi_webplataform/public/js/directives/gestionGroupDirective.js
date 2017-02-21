@@ -13,7 +13,8 @@ angular.module('menuApp').directive('gestiongroup', function () {
 				$scope.sharingGroupPermissions=$scope.parseVector($scope.group.sharingGroup);
 				$scope.projectPropertiesPermissions=$scope.parseVector($scope.group.projectProperties);
 				$scope.memberGestionPermissions=$scope.parseVector($scope.group.memberGestion);
-				$scope.groupCreationPermissions=$scope.parseVector($scope.group.groupCreation);			
+				$scope.groupCreationPermissions=$scope.parseVector($scope.group.groupCreation);
+				$scope.makeBioTAB();			
 			});
 			$scope.makeClickUpdate=function(){
 				$scope.group.sharingGroup=$scope.convertVector($scope.sharingGroupPermissions);
@@ -112,7 +113,49 @@ angular.module('menuApp').directive('gestiongroup', function () {
 			//-----------------------bioTAB-----------------------------
 			$scope.makeBioTAB=function(){
 				//take members of the group
-				
+				uniapi.getAllGroupMembers($scope.ngGroup).then(function(data){
+					$scope.members=data.users;
+					for(var i=0;i<$scope.members.length;i++){
+						$scope.members[i].since=new Date(data.users[i].since).toLocaleDateString();
+					}
+					
+				});
+			};
+			$scope.makeClickDeleteMember=function(user){
+				uniapi.removeMemberOfTheGroup($scope.ngGroup,user).then(function(response){
+					console.log(response);
+					if(response.state == 0){
+						alert("Se ha realizado la eliminación");
+						
+						$scope.makeBioTAB();
+					}else{
+						alert("No se ha realizado la eliminación");
+					}
+				});
+			};
+			$scope.interactAddMember=function(){
+				if($("#addMember").css("display") == "none"){
+					$("#addMember").css("display","block");
+					return;
+				}
+
+				if($("#addMember").css("display") == "block"){
+					$("#addMember").css("display","none");
+					return;
+				}
+			};
+			$scope.addNewMember=function(){
+				uniapi.inviteToGroup($scope.ngGroup,$scope.userToMakeMember).then(function(response){
+					if(response.state == 0){
+						alert("Se ha realizado la añadición");
+						$scope.makeBioTAB();
+						$("#addMember").css("display","none");
+						$scope.userToMakeMember="";
+					}else{
+						alert("No se ha realizado la añadición");
+						$scope.userToMakeMember="";
+					}
+				});
 			};
 			//--------------------SubGroupsTAB----------------------
 			$scope.makeSubGroupsTAB=function(){

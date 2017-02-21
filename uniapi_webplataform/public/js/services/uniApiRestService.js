@@ -190,7 +190,56 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 		return promise;
 	};
 	this.inviteToGroup= function(id,email){
+				var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+id+"/member/create";
+		var message={state:0,
+			tokkenSession:myService.tokenSession,
+			relatedIDs:[id],
+			users:[email]
+		};
+		var data=JSON.stringify(message);
+		console.log(data);
+		promise=$http({
+			method:"POST",
+			url:urlComplete,
+			data:data
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		
+		});
 
+		return promise;
 	};
-	
+	this.getAllGroupMembers=function(id){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+id+"/member";
+
+		promise=$http({
+			method:"GET",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		
+		});
+
+		return promise;
+	};
+	this.removeMemberOfTheGroup=function(id,user){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+id+"/member/"+user+"/delete";
+
+		promise=$http({
+			method:"DELETE",
+			url:urlComplete
+		}).then(function(response){
+			console.log(response);
+			myService.checkState(response.data.state);
+			return response.data;
+		
+		});
+
+		return promise;
+	};
 });
