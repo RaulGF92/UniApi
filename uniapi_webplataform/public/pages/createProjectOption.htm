@@ -1,0 +1,14 @@
+<h3 style="text-align: center;padding-bottom: 5%;margin: 0;">¿Que opción quieres integrar al grupo?</h3>
+<div class="row">
+	<div class="col-md-4">
+		<button class="btn btn-lg btn-primary" ng-click="createNewProject()" style="margin:10%">Nuevo</button>
+	</div>
+	<div class="col-md-8" style="border-left: groove 1px;">
+		<h>Mis proyectos:</h>
+		<hr style="margin-top:0;"></hr>
+		<select style="width:100%" ng-model="data.model">
+			<option ng-repeat="option in data.projects" value="{{option.hashcode}}">{{option.name}}</option>
+		</select>
+		<button style="margin-top:5%;margin-left:85%" ng-click="putProjectIntoGroup()" class="btn btn-sm btn-primary">Ok</button>
+	</div>
+</div>

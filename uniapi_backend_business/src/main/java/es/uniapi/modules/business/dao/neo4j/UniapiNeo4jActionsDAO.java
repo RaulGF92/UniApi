@@ -144,5 +144,55 @@ public class UniapiNeo4jActionsDAO implements UniapiActionsDAO {
 		dao.getOwnerDAO().delete(user, group);
 	}
 
+	@Override
+	public Group[] getSubgroupsOfGroup(Group group) throws Exception {
+		// TODO Auto-generated method stub
+		dao= new UniapiNeo4jDAO();
+		return dao.getSubgroupDAO().getAllSubgroupOfGroup(group);
+		
+	}
+
+	@Override
+	public void groupIsSubgroupOfGroup(Group group, Group subgroup) throws Exception {
+		// TODO Auto-generated method stub
+		dao= new UniapiNeo4jDAO();
+		dao.getSubgroupDAO().create(group, subgroup);
+	}
+
+	@Override
+	public void deleteGroupIsSubgroupOfGroup(Group group, Group subgroup) throws Exception {
+		// TODO Auto-generated method stub
+		dao= new UniapiNeo4jDAO();
+		dao.getSubgroupDAO().delete(group,subgroup);
+	}
+
+	@Override
+	public Group[] getAllSubgroupsOfGroup(Group group) throws Exception {
+		// TODO Auto-generated method stub
+		dao= new UniapiNeo4jDAO();
+		return dao.getSubgroupDAO().getAllSubgroupsOrderN(group);
+	}
+
+	@Override
+	public void putProjectIntoGroup(Group group, Project project) throws Exception {
+		// TODO Auto-generated method stub
+		dao= new UniapiNeo4jDAO();
+		dao.getContainsDAO().create(group, project);
+	}
+
+	@Override
+	public void removeProjectOfGroup(Group group, Project project) throws Exception {
+		// TODO Auto-generated method stub
+		dao= new UniapiNeo4jDAO();
+		dao.getContainsDAO().delete(group, project);		
+	}
+
+	@Override
+	public Project[] getAllProjectsIntoGroup(Group group) throws Exception {
+		// TODO Auto-generated method stub
+		dao= new UniapiNeo4jDAO();
+		return dao.getContainsDAO().findAllProjectsContainsInGroup(group);
+	}
+
 
 }

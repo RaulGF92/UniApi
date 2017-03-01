@@ -15,6 +15,13 @@
 		margin-left:90%;
 	}
 </style>
+<div id="optionProjectModal" class="modal">
+	  <!-- Modal content -->
+	<div id="optionProjectContent" class="modal-content" style="width: 40%;margin-left: 40%;margin-top: 15%;">
+		
+	</div>
+</div>
+
 <div>
 	<ul class="nav nav-tabs">
 		<li role="presentation"id="bioTABTAB" class="active" ng-click="changeTab('bioTAB')"><a>Bio</a></li>
@@ -24,7 +31,7 @@
 	</ul>
 	<div class="tabBody" id="bioTAB" style="display:block;">
 		<div id="bio">
-			<h4 class="page-header">Información basica del grupo:<a ng-click="makeClickDelete()"><spam class="glyphicon glyphicon-trash" style="padding-left: 68%;"></spam></a></h4>
+			<h4 class="page-header">Información basica del grupo:<a ng-click="makeClickDeleteGroup()"><spam class="glyphicon glyphicon-trash" style="padding-left: 68%;"></spam></a></h4>
 			<div class="form-group">
 				<label>Nombre del grupo:</label>
 				<input type="text" class="form-control" ng-model="group.name" disabled></input>
@@ -70,45 +77,43 @@
 	</div>
 	<div class="tabBody" id="subGroupsTAB" style="display:none">
 		<div class="tableContainer">
-			<a class="opcion text-right">Añadir <span class="glyphicon glyphicon-plus-sign"></span></a>	
+			<a class="opcion text-right" ng-click="createNewSubgroup()">Añadir <span class="glyphicon glyphicon-plus-sign"></span></a>	
 			<table class="table">
 					<thead>
 						<tr>
-							<th>Name:</th>
+							<th>Nombre:</th>
+							<th>Tipo:</th>
+							<th>Desde:</th>
 							<th>Opciones</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>SubGrupo1</td>
-							<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></td>
-						</tr>
-						<tr>
-							<td>SubGrupo2</td>
-							<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></td>
-						</tr>
+						<tr ng-repeat="subgroup in subgroups">
+						<td>{{subgroup.nameSubgroup}}</td>
+						<td>{{subgroup.type}}</td>
+						<td>{{subgroup.since}}</td>						
+						<td><a ng-click="deleteSubgroup(subgroup.hashcode)">Borrar <span class="glyphicon glyphicon-minus-sign"></a></td>
+					</tr>
 					</tbody>
 			</table>
 		</div>
 	</div>
 	<div class="tabBody" id="projectInsideTAB" style="display:none">
 		<div class="tableContainer">
-			<a class="opcion text-right">Añadir <span class="glyphicon glyphicon-plus-sign"></span></a>
+			<a class="opcion text-right" ng-click="anadirProyectoAlGrupo()">Añadir <span class="glyphicon glyphicon-plus-sign"></span></a>
 			<table class="table">
 					<thead>
 						<tr>
 							<th>Nombre:</th>
+							<th>Tipo:</th>
 							<th>Opciones</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Projecto1</td>
-							<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></span></td>
-						</tr>
-						<tr>
-							<td>Projecto2</td>
-							<td><a>Borrar <span class="glyphicon glyphicon-minus-sign"></a></span></td>
+						<tr ng-repeat="projectInside in projectsInside">
+							<td>{{projectInside.name}}</td>
+							<td>{{projectInside.type}}</td>
+							<td><a ng-click="borrarProjectInsideGroup(projectInside.hashcode)">Borrar <span class="glyphicon glyphicon-minus-sign"></a></span></td>
 						</tr>
 					</tbody>
 			</table>

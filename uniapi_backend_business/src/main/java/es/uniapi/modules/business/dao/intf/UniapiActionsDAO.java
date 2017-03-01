@@ -28,7 +28,12 @@ public interface UniapiActionsDAO {
 	public Group[] getAllTypeGroups(GroupType type)throws Exception;
 	public UserLogin getUserOwnerOfGroup(Group group)throws Exception;
 	public void deleteUserOwnerGroup(UserLogin user,Group group)throws Exception;
+	public Group[] getSubgroupsOfGroup(Group group) throws Exception;
+	public void groupIsSubgroupOfGroup(Group group, Group subgroup) throws Exception;
+	public void deleteGroupIsSubgroupOfGroup(Group group, Group subgroup)throws Exception;
+	public Group[] getAllSubgroupsOfGroup(Group subgroup)throws Exception;
 	
-	
-	
+	public void putProjectIntoGroup(Group group,Project project)throws Exception;
+	public void removeProjectOfGroup(Group group,Project project)throws Exception;
+	public Project[] getAllProjectsIntoGroup(Group group)throws Exception;
 }

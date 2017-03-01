@@ -1,0 +1,26 @@
+<style>
+	.optionsMenuPath{
+		font-size:20px;
+	}
+</style>
+<div class="sub-header">
+	<ol class="breadcrumb" ng-repeat="navigation in navigations">
+		<li><a ng-click="go(navigation.id)">{{navigation.name}}</a></li>
+	</ol>
+</div>
+<div class="table-responsive">
+	<table class="table table-striped">
+              <tbody>
+			<tr ng-repeat="group in groupsPath">
+				<td class="optionsMenuPath"><span style="color:blue;" class="glyphicon glyphicon-folder-close"></span></td>
+				<td><a ng-click="clickEnterGroup(group.hashcode)">{{group.name}}</a></td>
+				<td class="optionsMenuPath"><a class="glyphicon glyphicon-info-sign" ng-click="clickInfoGroup(group.hashcode)"><span></span></a></td>
+			</tr>
+             		<tr ng-repeat="project in projectPath">
+				<td class="optionsMenuPath"><span style="color:coral;" class="glyphicon glyphicon-book"></span></td>
+				<td><a ng-click="clickEnterProject(project.hashcode)">{{project.name}}</a></td>
+				<td class="optionsMenuPath"><a ng-click="clickInfoProject(project.hashcode)"><span class="glyphicon glyphicon-info-sign"></span></a> <a ng-click="clickExecutedProject(project.hashcode)"><span class="glyphicon glyphicon-dashboard"></span></a></td>
+			</tr>
+              </tbody>
+            </table>
+</div>

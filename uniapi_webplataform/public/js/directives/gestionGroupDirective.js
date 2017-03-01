@@ -6,7 +6,7 @@ angular.module('menuApp').directive('gestiongroup', function () {
 		scope: {
       			ngGroup: '@'
     		},
-		controller: ['$scope', 'uniapi', function($scope, uniapi) {
+		controller: ['$scope', 'uniapi','$compile', function($scope, uniapi,$compile) {
 			
      			uniapi.getGroup($scope.ngGroup).then(function(data){
 				$scope.group=data.groups[0];
@@ -16,6 +16,7 @@ angular.module('menuApp').directive('gestiongroup', function () {
 				$scope.groupCreationPermissions=$scope.parseVector($scope.group.groupCreation);
 				$scope.makeBioTAB();			
 			});
+
 			$scope.makeClickUpdate=function(){
 				$scope.group.sharingGroup=$scope.convertVector($scope.sharingGroupPermissions);
 				$scope.group.projectProperties=$scope.convertVector($scope.projectPropertiesPermissions);
@@ -157,13 +158,77 @@ angular.module('menuApp').directive('gestiongroup', function () {
 					}
 				});
 			};
+			$scope.makeClickDeleteGroup=function(){
+				if(confirm("¿Estas seguro que quieres eliminar el grupo?")){
+					uniapi.deleteGroup($scope.ngGroup)
+					.then(function(response){
+						if(response.state == 0){
+							alert("Se ha realizado la eliminación");
+							window.location.href="/#Groups";
+						
+						}else{
+							alert("No se ha realizado la eliminación");
+						}
+						
+					});
+				}
+			};
 			//--------------------SubGroupsTAB----------------------
 			$scope.makeSubGroupsTAB=function(){
-
+				uniapi.getSubgroups($scope.ngGroup)
+				.then(function(response){
+					console.log(response);
+					$scope.subgroups=response.subgroups;
+					for(var i=0;i<$scope.subgroups.length;i++){
+						$scope.subgroups[i].since=new Date($scope.subgroups[i].since).toLocaleDateString();
+					}
+				});
+			};
+			$scope.deleteSubgroup=function(subgroupID){
+				uniapi.deleteSubgroup($scope.ngGroup,subgroupID)
+				.then(function(response){
+					if(response.state == 0){
+						alert("Se ha realizado la eliminación");
+						
+						$scope.makeSubGroupsTAB();
+					}else{
+						alert("No se ha realizado la eliminación");
+					}
+				});
+			};
+			$scope.createNewSubgroup=function(){
+				window.localStorage.setItem("groupTarget",$scope.ngGroup);
+				window.location.href="/#NewGroup";
 			};
 			//---------------------------projectsInsideTAB--------------
 			$scope.makeprojectInsideTAB=function(){
+				uniapi.getProjectsInsideGroup($scope.ngGroup)
+				.then(function(response){	
+					console.log(response);
+					$scope.projectsInside=response;
+				});
+			};
+			$scope.anadirProyectoAlGrupo=function(){
 
+				$("#optionProjectContent").append($compile("<a ng-click='closeModal()' style='margin-left: 95%;'><spam class='glyphicon glyphicon-remove'></spam></a>")($scope));
+				$("#optionProjectContent").append($compile("<createproject-option ng-group='"+$scope.ngGroup+"'></createproject-option>")($scope));
+				$("#optionProjectModal").css("display","block");
+			};
+			$scope.closeModal=function(){				
+						$("#optionProjectContent").empty();
+						$("#optionProjectModal").css("display","none");
+			};
+			$scope.borrarProjectInsideGroup=function(projectID){
+				uniapi.deleteProjectInsideGroup($scope.ngGroup,projectID)
+				.then(function(response){
+					if(response.state == 0){
+						alert("Se ha realizado la eliminación");
+						
+						$scope.makeprojectInsideTAB();
+					}else{
+						alert("No se ha realizado la eliminación");
+					}
+				});
 			};
 			//-----------------------Permision TAB------------------------
 			$scope.makePermisionTAB=function(){

@@ -2,12 +2,16 @@ package es.uniapi.modules.business.groupgestion;
 
 import java.util.Date;
 
+import es.uniapi.modules.business.Modules;
 import es.uniapi.modules.business.dao.intf.UniApiFactoryDAO;
 import es.uniapi.modules.business.dao.neo4j.UniapiNeo4jActionsDAO;
+import es.uniapi.modules.business.dao.neo4j.relationship.IsSubgroupDAOImpl;
 import es.uniapi.modules.business.dao.neo4j.relationship.KnowsDAOImpl;
+import es.uniapi.modules.business.dao.neo4j.relationship.model.IsSubGroup;
 import es.uniapi.modules.business.dao.neo4j.relationship.model.Knows;
 import es.uniapi.modules.business.exception.BussinessException;
 import es.uniapi.modules.model.Group;
+import es.uniapi.modules.model.Project;
 import es.uniapi.modules.model.UserLogin;
 
 public class GroupGestionImpl implements GroupGestion {
@@ -66,11 +70,11 @@ public class GroupGestionImpl implements GroupGestion {
 			}
 		}
 		
-		if(!isAdmin || !knows)
+		if(!isAdmin && !knows)
 			throw new BussinessException("El usuario esta intentando eliminar un grupo que no conoce");
 		
 		try{
-			dao.getActions().deleteUserKnowsGroup(userLogin, group);
+			//dao.getActions().deleteUserKnowsGroup(userLogin, group);
 		}catch(Exception e){
 			throw new BussinessException("Fallo en la eliminación de la relación Know del usuario principal:"+userLogin.toString());
 		}
@@ -236,11 +240,10 @@ public class GroupGestionImpl implements GroupGestion {
 		}
 		
 	}
-
 	@Override
 	public GroupRole getUserRoleOnGruop(UserLogin user, Group group) throws BussinessException {
 		// TODO Auto-generated method stub
-		GroupRole role=GroupRole.NONE;
+		GroupRole role=GroupRole.VISITOR;
 		UniApiFactoryDAO dao=new UniApiFactoryDAO();
 		if(user.getRol().compareTo("admin")==0){
 			role=GroupRole.ADMIN;
@@ -288,9 +291,156 @@ public class GroupGestionImpl implements GroupGestion {
 		}
 		return know.getCreationTime();
 	}
-	
-	
 
-	
+	@Override
+	public IsSubGroup getInfoSubgroup(Group father, Group group) throws BussinessException {
+		// TODO Auto-generated method stub
+			IsSubgroupDAOImpl dao=new IsSubgroupDAOImpl();
+			IsSubGroup isgroup=null;
+			try{
+				isgroup=dao.getInfo(father,group);
+			}catch(Exception e){
+				new BussinessException("Fallo en la busqueda de la información");
+			}
+		return isgroup;
+	}
+
+	@Override
+	public Group[] getSubgroupsOfGroup(Group father) throws BussinessException {
+		// TODO Auto-generated method stub
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		Group[] groups=null;
+		
+		try {
+			groups=dao.getActions().getSubgroupsOfGroup(father);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new BussinessException("Fallo en la busqueda de los subgrupos de un grupo");
+		}
+		
+		return groups;
+	}
+
+	@Override
+	public void groupIsSubgroupOfGroup(Group group, Group subgroup) throws BussinessException {
+		// TODO Auto-generated method stub
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		
+		try {
+			dao.getActions().groupIsSubgroupOfGroup(group,subgroup);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new BussinessException("Fallo en la creación de subgrupos");
+		}
+		
+	}
+
+	@Override
+	public void deleteGroupIsSubgroupOfGroup(UserLogin userLogin,Group group, Group subgroup,GroupRole role) throws BussinessException {
+		// TODO Auto-generated method stub
+		GroupRole rol = null;
+		if(role ==null || role.compareTo(GroupRole.Member)!=0){
+			role=this.getUserRoleOnGruop(userLogin, group);
+			if(role.compareTo(GroupRole.Member)==0)
+				return;
+		}
+		
+		rol=role;
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		
+		Group[] subGroups;
+		try {
+			subGroups = dao.getActions().getAllSubgroupsOfGroup(subgroup);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			throw new BussinessException("Fallo en la busqueda de subgrupos");
+		}
+		
+		for(int i=0;i<subGroups.length;i++){
+			deleteGroupIsSubgroupOfGroup(userLogin,subgroup, subGroups[i],rol);
+		}
+		
+		//Solo se puede hacer eso cuando sepamos de todos los subgrupos del subgrupo a eliminar
+		try {
+			dao.getActions().deleteGroupIsSubgroupOfGroup(group,subgroup);
+			UserLogin owner=dao.getActions().getUserOwnerOfGroup(subgroup);
+			Modules.getGroupModule().deleteGroup(owner, subgroup);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new BussinessException("Fallo en la creación de subgrupos");
+		}
+		
+	}
+
+	@Override
+	public void putProjectIntoGroup(UserLogin user,Group group, Project project) throws BussinessException {
+		// TODO Auto-generated method stub
+		//Para poner un proyecto en un grupo debemos tener los permisos pertienentes
+		
+		/*Sharing Group Permissions:
+		 *[0]:ALL;
+		 *[1]:shareProjectsInGroup;
+		 *[2]:removeProjectsInGroup;
+		 *[3]:removeExternalProjectInGroup;
+		*/
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		GroupRole rol=this.getUserRoleOnGruop(user, group);
+		if((group.getSharingGroup()[0].compareTo("YES")==0 && group.getSharingGroup()[1].compareTo("YES")==0)
+				||
+				(rol.compareTo(GroupRole.ADMIN)==0 || rol.compareTo(GroupRole.OWNER)==0)){
+				try {
+					dao.getActions().putProjectIntoGroup(group, project);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					throw new BussinessException("Fallo en el enlazado de projecto con grupos");
+				}
+		}
+		
+	}
+
+	@Override
+	public void deleteProjectIntoGroup(UserLogin user,Group group, Project project) throws BussinessException {
+		// TODO Auto-generated method stub
+		/*Sharing Group Permissions:
+		 *[0]:ALL;
+		 *[1]:shareProjectsInGroup;
+		 *[2]:removeProjectsInGroup;
+		 *[3]:removeExternalProjectInGroup;
+		*/
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		GroupRole rol=this.getUserRoleOnGruop(user, group);
+		if((group.getSharingGroup()[0].compareTo("YES")==0 && group.getSharingGroup()[2].compareTo("YES")==0)
+				||
+				(rol.compareTo(GroupRole.ADMIN)==0 || rol.compareTo(GroupRole.OWNER)==0 || rol.compareTo(GroupRole.VISITOR)==0)){
+				try {
+					if(rol.compareTo(GroupRole.VISITOR)==0 && group.getSharingGroup()[3].compareTo("NO")==0)
+						return;
+					dao.getActions().removeProjectOfGroup(group, project);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					throw new BussinessException("Fallo en el borrado de projecto con grupos");
+				}
+		}
+	}
+
+	@Override
+	public Project[] getAllProjectsIntoGroup(UserLogin user,Group group) throws BussinessException {
+		// TODO Auto-generated method stub
+		/*Sharing Group Permissions:
+		 *[0]:ALL;
+		 *[1]:shareProjectsInGroup;
+		 *[2]:removeProjectsInGroup;
+		 *[3]:removeExternalProjectInGroup;
+		*/
+		GroupRole rol=this.getUserRoleOnGruop(user, group);
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		try {
+			return dao.getActions().getAllProjectsIntoGroup(group);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new BussinessException("fallo en la devolución de projectos en grupos");
+		}
+	}
+
 
 }

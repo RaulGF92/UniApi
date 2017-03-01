@@ -314,4 +314,28 @@ public class GroupController {
 		
 		return msg;
 	}
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value="/{token}/public",method=RequestMethod.GET)
+	public Message getPublicGroup(@PathVariable String token){
+		Message msg;
+		UserLogin userLogin;
+		
+		try {
+			userLogin = sessionGestor.checkSession(token);
+			if(userLogin==null){
+				msg=new Message(4, token,new String[0]);
+				return msg;
+			}
+		} catch (SessionGestionException e) {
+			// TODO Auto-generated catch block
+			msg=new Message(4, token,new String[0]);
+			return msg;
+		}
+		
+		
+		String[] relatedIDs={};
+		return new Message(0, token, relatedIDs);
+		
+	}
 }

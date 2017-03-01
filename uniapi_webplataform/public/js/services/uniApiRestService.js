@@ -2,8 +2,7 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 
   	var UNIAPI_URL_API_REST="http://localhost:8080";
 	var tokenSession=null;
-	var myGroups=null;
-	var myProjects=null;
+	var myProfile=null;
 	var myService = this;
 
 	this.init=function(){
@@ -11,6 +10,19 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 		if(myService.tokenSession == null || myService.tokenSession == undefined){
 			window.location.href="/loggin";
 		}
+	};
+	this.whoami=function(){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/"+tokenSession+"/whoami";
+			$http({
+				method:"GET",
+				url:urlComplete
+			}).then(function(response){
+				myService.checkState(response.data.state);
+				myService.myProfile=response.data;
+				return response.data;
+			});
+		return promise;
 	};
 	this.checkState=function(state){
 		if(state == 4){
@@ -101,12 +113,39 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 		});
 		return promise;
 	};
+	this.createProject=function(projectToCreate){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/project/"+myService.tokenSession+"/create";
+		var data=JSON.stringify(projectToCreate);
+		promise=$http({
+				method : "POST",
+				url : urlComplete,
+				data:data			
+			}).then(function(response){
+				myService.checkState(response.data.state);			
+				return response.data;
+		});
+		return promise;
+	};
 	this.shareProject= function(id,idGroup){
 	};
 	this.executedProject= function(id,inputParameters){
 
 	};
-
+	this.createGroup=function(groupToCreate){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/create";
+		var data=JSON.stringify(groupToCreate);
+		promise=$http({
+				method : "POST",
+				url : urlComplete,
+				data:data			
+			}).then(function(response){
+				myService.checkState(response.data.state);			
+				return response.data;
+		});
+		return promise;
+	};
 	this.upgradeMyGroups=function(){
 		var promise;
 		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/all";
@@ -240,6 +279,112 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 		
 		});
 
+		return promise;
+	};
+	this.getSubgroups=function(id){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+id+"/subgroups";
+
+		promise=$http({
+			method:"GET",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		});
+
+		return promise;
+	};
+	this.deleteSubgroup=function(groupID,subgroupID){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+groupID+"/subgroups/"+subgroupID;
+		promise=$http({
+			method:"DELETE",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		});
+		return promise;
+	};
+	this.createSubgroup=function(groupID,subgroupID){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+groupID+"/subgroups/"+subgroupID;
+		promise=$http({
+			method:"POST",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		});
+		return promise;
+	};
+	this.getPath=function(groupID){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/subgroups/top";
+		promise=$http({
+			method:"GET",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		});
+	};
+	this.projectsInsideGroup=function(groupID){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+groupID+"/contain/project";
+		promise=$http({
+			method:"GET",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		});
+		return promise
+	};
+	this.putGroupProject=function(groupID,projectID){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+groupID+"/contain/project/"+projectID;
+		promise=$http({
+			method:"POST",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;			
+		});
+		return promise;
+	};
+	this.getProjectsInsideGroup=function(groupID){
+		$d=$q.defer();
+		projects=[];
+		promesas=[];
+		myService.projectsInsideGroup(groupID).then(function(data){		
+			for(var i=0;i<data.relatedIDs.length;i++){
+				var projectID=data.relatedIDs[i];
+				promesas.push(myService.getProject(projectID));
+			}
+			$q.all(promesas).then(function (projectsRes) {
+				for(var i=0;i<projectsRes.length;i++){
+					if(projectsRes[i].state == 0)					
+						projects.push(projectsRes[i].projects[0]);
+				}
+				$d.resolve(projects);
+			});
+		});
+		
+		return $d.promise;
+
+	}
+	this.deleteProjectInsideGroup=function(groupID,projectID){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+groupID+"/contain/project/"+projectID;
+		promise=$http({
+			method:"DELETE",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		});
 		return promise;
 	};
 });

@@ -1,61 +1,103 @@
-angular.module('menuApp').controller("newGroupCtrl", function ($scope,$http) {
-			$scope.loadPermission=function(){
-				$scope.sharingGroupPermissions=[false,false,false,false];
-				$scope.projectPropertiesPermissions=[false,false,false];
-				$scope.memberGestionPermissions=[false,false,false,false];
-				$scope.groupCreationPermissions=[false,false,false,false];
+angular.module('menuApp').controller("newGroupCtrl", function ($scope,$http,uniapi) {
+			$scope.load=function(){
+				$scope.type="PUBLIC_GROUP";
+				$scope.fatherID=window.localStorage.getItem("groupTarget");
+				if($scope.fatherID!=null){				
+					uniapi.getGroup($scope.fatherID).then(function(response){
+						$scope.father=response.groups[0];					
+						$scope.sharingGroupPermissions=$scope.convertVector($scope.father.sharingGroup);
+						$scope.projectPropertiesPermissions=$scope.convertVector($scope.father.projectProperties);
+						$scope.memberGestionPermissions=$scope.convertVector($scope.father.memberGestion);
+						$scope.groupCreationPermissions=$scope.convertVector($scope.father.groupCreation);
+						window.localStorage.setItem("groupTarget",null);
+
+						$scope.prepareTheCheckBox("sharingGroupPermissions",$scope.sharingGroupPermissions);
+						$scope.prepareTheCheckBox("projectPropertiesPermissions",$scope.projectPropertiesPermissions);
+						$scope.prepareTheCheckBox("memberGestionPermissions",$scope.memberGestionPermissions);
+						$scope.prepareTheCheckBox("groupCreationPermissions",$scope.groupCreationPermissions);	
+					});
+				}
+		
 			};
-			angular.element(document).ready($scope.loadPermission());
+			angular.element(document).ready($scope.load());
+			$scope.prepareTheCheckBox=function(checkBoxID,vector){
+				if(!vector[0]){
+					for(var i=0;i<vector.length;i++){
+						$("#"+checkBoxID+i).removeProp("checked");
+						$("#"+checkBoxID+i).attr("disabled","disabled");
+						$("#"+checkBoxID+i).val("false");
+					}						
+				}else{
+					for(var i=0;i<vector.length;i++){
+						if(!vector[i]){
+							$("#"+checkBoxID+i).removeProp("checked");
+							$("#"+checkBoxID+i).attr("disabled","disabled");
+							$("#"+checkBoxID+i).val("false");
+						}
+					}
+				}
+				
+			};
 			$scope.checkBox=function(checkBox){
 				var check=$("#"+checkBox).prop("checked");
 				if(!check){
-					for(var i=1;i<=3;i++){
+					for(var i=0;i<=3;i++){
 						$("#"+checkBox+i).removeProp("checked");
 						$("#"+checkBox+i).attr("disabled","disabled");
-						$("#"+checkBox+i).val("false");
-					}
-					if(checkBox=="sharingGroupPermissions"){
-						$scope.sharingGroupPermissions[1]=false;
-						$scope.sharingGroupPermissions[2]=false;
-						$scope.sharingGroupPermissions[3]=false;						
-					}
-					if(checkBox=="projectPropertiesPermissions"){
-						$scope.projectPropertiesPermissions[1]=false;
-						$scope.projectPropertiesPermissions[2]=false;					
-					}
-					if(checkBox=="memberGestionPermissions"){
-						$scope.memberGestionPermissions[1]=false;
-						$scope.memberGestionPermissions[2]=false;
-						$scope.memberGestionPermissions[3]=false;				
-					}
-					if(checkBox=="groupCreationPermissions"){
-						$scope.groupCreationPermissions[1]=false;
-						$scope.groupCreationPermissions[2]=false;
-						$scope.groupCreationPermissions[3]=false;
-					}
-				}else{
-					for(var i=1;i<=3;i++){
-						$("#"+checkBox+i).prop("checked","true");
-						$("#"+checkBox+i).removeAttr("disabled");
-						$("#"+checkBox+i).val("true");
+						
+					
 						if(checkBox=="sharingGroupPermissions"){
-							$scope.sharingGroupPermissions[1]=true;
-							$scope.sharingGroupPermissions[2]=true;
-							$scope.sharingGroupPermissions[3]=true;						
+							$scope.sharingGroupPermissions[i]=false;
+							$("#"+checkBox+i).val("false");					
 						}
-						if(checkBox=="projectPropertiesPermissions"){
-							$scope.projectPropertiesPermissions[1]=true;
-							$scope.projectPropertiesPermissions[2]=true;					
+						if(checkBox=="projectPropertiesPermissions" && i<3){
+							$scope.projectPropertiesPermissions[i]=false;
+							$("#"+checkBox+i).val("false");					
 						}
 						if(checkBox=="memberGestionPermissions"){
-							$scope.memberGestionPermissions[1]=true;
-							$scope.memberGestionPermissions[2]=true;
-							$scope.memberGestionPermissions[3]=true;				
+							$scope.memberGestionPermissions[i]=false;
+							$("#"+checkBox+i).val("false");			
 						}
 						if(checkBox=="groupCreationPermissions"){
-							$scope.groupCreationPermissions[1]=true;
-							$scope.groupCreationPermissions[2]=true;
-							$scope.groupCreationPermissions[3]=true;
+							$scope.groupCreationPermissions[i]=false;
+							$("#"+checkBox+i).val("false");
+							
+						}
+					}
+				}else{
+					for(var i=0;i<=3;i++){
+						
+						if(checkBox=="sharingGroupPermissions"){
+							if($scope.convertVector($scope.father.sharingGroup)[i]){
+								$("#"+checkBox+i).prop("checked","true");
+								$("#"+checkBox+i).removeAttr("disabled");
+								$scope.sharingGroupPermissions[i]=true;		
+								$("#"+checkBox+i).val("true");
+							}			
+						}
+						if(checkBox=="projectPropertiesPermissions" && i<3){
+							if($scope.convertVector($scope.father.projectProperties)[i]){
+								$("#"+checkBox+i).prop("checked","true");
+								$("#"+checkBox+i).removeAttr("disabled");
+								$scope.projectPropertiesPermissions[i]=true;
+								$("#"+checkBox+i).val("true");
+							}		
+						}
+						if(checkBox=="memberGestionPermissions"){
+							if($scope.convertVector($scope.father.memberGestion)[i]){
+								$("#"+checkBox+i).prop("checked","true");
+								$("#"+checkBox+i).removeAttr("disabled");
+								$scope.memberGestionPermissions[i]=true;
+								$("#"+checkBox+i).val("true");
+							}				
+						}
+						if(checkBox=="groupCreationPermissions"){
+							if($scope.convertVector($scope.father.groupCreation)[i]){
+								$("#"+checkBox+i).prop("checked","true");
+								$("#"+checkBox+i).removeAttr("disabled");		
+								$scope.groupCreationPermissions[i]=true;
+								$("#"+checkBox+i).val("true");
+							}
 						}
 					}
 				}
@@ -92,8 +134,19 @@ angular.module('menuApp').controller("newGroupCtrl", function ($scope,$http) {
 						aux.push("NO");
 					}
 				}
-				vector=aux;
-				return vector;
+				return aux;
+			};
+			$scope.convertVector=function(vector){
+				var aux=new Array();					
+				for(var i=0;i<vector.length;i++){
+					if(vector[i]=="YES"){
+						aux.push(true);
+					}
+					if(vector[i]=="NO"){
+						aux.push(false);
+					}
+				}
+				return aux;
 			};
 			$scope.makeSubmit=function(){
 
@@ -112,7 +165,21 @@ angular.module('menuApp').controller("newGroupCtrl", function ($scope,$http) {
 					$scope.groupCreationPermissions,
 					$scope.description
 				);
-				console.log(groupToCreate);
-				sendNewGroup(groupToCreate);
+				uniapi.createGroup(groupToCreate)
+					.then(function(response){
+						if(response.state==0){
+							var groupID=response.relatedIDs[0];
+							uniapi.createSubgroup($scope.fatherID,groupID)
+							.then(function(response){
+								if(response.state==0){
+									alert("Se ha realizado completa la petición");
+								}else{
+									alert("Se ha creado el grupo, pero no el enlace con el grupo padre. Contacte con un administrador para arreglarlo.");
+								}
+							});
+						}else{
+							alert("No se ha podido realizar el subgrupo");
+						}
+				});
 			};
 		});

@@ -114,6 +114,7 @@ public class GroupMemberController {
 		}catch (Exception e) {
 			// TODO: handle exception
 			msg=new MessageMemberGroup(23, token, relatedID, new MemberGroup[0]);
+			return msg;
 		}
 		
 		try {
@@ -121,6 +122,7 @@ public class GroupMemberController {
 		} catch (BussinessException e1) {
 			// TODO Auto-generated catch block
 			msg=new MessageMemberGroup(1, token, relatedID, new MemberGroup[0]);
+			return msg;
 		}
 		
 		try {
@@ -128,6 +130,7 @@ public class GroupMemberController {
 		} catch (BussinessException e) {
 			// TODO Auto-generated catch block
 			msg=new MessageMemberGroup(27, token, relatedID, new MemberGroup[0]);
+			return msg;
 		}
 		msg=new Message(0, token, relatedID);
 		return msg;

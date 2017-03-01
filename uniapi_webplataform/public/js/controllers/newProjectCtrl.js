@@ -1,7 +1,16 @@
-angular.module('menuApp').controller("newProjectCtrl", function ($scope,$http) {
-			$scope.clean = function(){
-				
+angular.module('menuApp').controller("newProjectCtrl", function ($scope,$http,uniapi) {
+			$scope.load=function(){
+				$scope.fatherID=window.localStorage.getItem("projectTarget");
+				if($scope.fatherID!=null){				
+					uniapi.getGroup($scope.fatherID).then(function(response){
+						$scope.father=response.groups[0];					
+						window.localStorage.setItem("projectTarget",null);
+
+					});
+				}
+		
 			};
+			angular.element(document).ready($scope.load());
 			$scope.counter=0;
 			$scope.addArgument = function(){
 				$scope.counter++;
@@ -42,7 +51,23 @@ angular.module('menuApp').controller("newProjectCtrl", function ($scope,$http) {
 							$scope.inputDescription,
 							$scope.outputDescription);
 				console.log(proyecto);
-				var anwser=sendNewProyect(proyecto);
+				uniapi.createProject(proyecto)
+				.then(function(response){
+					if(response.state==0){
+						uniapi.putGroupProject($scope.fatherID,response.data.relatedIDs[0]).then(function(response){
+							if(response.state==0){
+								alert("Se ha realizado la creación");
+								window.location.href="/#main";
+							}else{
+								alert("Se ha realizado la creación, pero no se a enlazado con el grupo. Avise a un administrador");						window.location.href="/#main";
+							}
+						});						
+						
+					}else{
+						alert("No se ha realizado la creación");
+						window.location.href="/#main";
+					}
+				});
 			};
 			$scope.clickType= function (type){
 				$scope.type=type;

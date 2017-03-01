@@ -6,16 +6,21 @@ import es.uniapi.modules.business.dao.intf.entities.GroupDAO;
 import es.uniapi.modules.business.dao.intf.entities.PersonDAO;
 import es.uniapi.modules.business.dao.intf.entities.ProjectDAO;
 import es.uniapi.modules.business.dao.intf.entities.UserLoginDAO;
+import es.uniapi.modules.business.dao.intf.relations.ContainsDAO;
 import es.uniapi.modules.business.dao.intf.relations.IsOwnerDAO;
+import es.uniapi.modules.business.dao.intf.relations.IsSubgroupDAO;
 import es.uniapi.modules.business.dao.intf.relations.KnowsDAO;
 import es.uniapi.modules.business.dao.neo4j.entities.GroupNeo4j;
 import es.uniapi.modules.business.dao.neo4j.entities.PersonNeo4j;
 import es.uniapi.modules.business.dao.neo4j.entities.ProjectNeo4j;
 import es.uniapi.modules.business.dao.neo4j.entities.UserLoginNeo4j;
+import es.uniapi.modules.business.dao.neo4j.relationship.ContainsDAOImpl;
 import es.uniapi.modules.business.dao.neo4j.relationship.IsCreatorDAOImpl;
 import es.uniapi.modules.business.dao.neo4j.relationship.IsOwnerDAOImpl;
+import es.uniapi.modules.business.dao.neo4j.relationship.IsSubgroupDAOImpl;
 import es.uniapi.modules.business.dao.neo4j.relationship.KnowsDAOImpl;
 import es.uniapi.modules.business.dao.neo4j.relationship.MakeReferenceDAOImpl;
+import es.uniapi.modules.model.Group;
 
 public class UniapiNeo4jDAO implements UniapiDAO {
 
@@ -61,6 +66,16 @@ public class UniapiNeo4jDAO implements UniapiDAO {
 	}
 	public IsOwnerDAO getOwnerDAO(){
 		return new IsOwnerDAOImpl();
+	}
+
+	public IsSubgroupDAO getSubgroupDAO() {
+		// TODO Auto-generated method stub
+		return new IsSubgroupDAOImpl();
+	}
+
+	public ContainsDAO getContainsDAO() {
+		// TODO Auto-generated method stub
+		return new ContainsDAOImpl();
 	}
 
 }
