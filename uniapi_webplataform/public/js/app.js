@@ -13,11 +13,12 @@ var app = angular.module('menuApp',["ngRoute"]);
 			templateUrl : "pages/listProject.htm",
 			controller : "listProjectCtrl"
 		    })
-		    .when("/Config", {
+		    .when("/Exe", {
 			template : "<h1>Configuration:</h1>"
 		    })
 		    .when("/Admin", {
-			template : "<h1>Administration:</h1>"
+			templateUrl : "pages/admin.htm",
+			controller: "adminCtrl"
 		    })
 		    .when("/NewProject", {
 			templateUrl : "pages/newProject.htm",
