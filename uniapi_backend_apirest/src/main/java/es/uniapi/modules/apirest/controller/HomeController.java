@@ -140,7 +140,7 @@ public class HomeController {
 										@RequestParam(value="biografy",required=true) String biografy){
 		
 		UserLogin userLogin=new UserLogin(email, password, new Date(), "user");
-		Person person=new Person(name, subname, birthday, country, province, birthplace, biografy, profileImageUrl);
+		Person person=new Person(name, subname, birthday, country, province, birthplace, biografy, profileImageUrl,new Date());
 		System.out.println(userLogin.toString());
 		System.out.println(person.toString());
 		try {

@@ -1,0 +1,26 @@
+<h4>Todos los grupos</h4>
+<div class="panel" style="height:150px;border: groove 1px grey; overflow: scroll;">
+	<div class="panel-body">
+		<table class="table table-striped">
+			<thead>
+				<th>
+					Name
+				</th>
+
+				<th>
+					Type
+				</th>
+				<th>
+					Since
+				</th>
+			<thead>
+			<tbody>
+				<tr ng-repeat="group in groups">
+					<td>{{group.name}}</td>
+					<td>{{group.type}}</td>
+					<td>{{group.creationDate}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

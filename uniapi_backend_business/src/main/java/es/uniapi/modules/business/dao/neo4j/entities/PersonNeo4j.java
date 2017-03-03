@@ -35,7 +35,7 @@ public class PersonNeo4j implements PersonDAO {
 		Session session = driver.session();
 		String statement="CREATE (a:Person {name: {name},subname:{subname}"
 				+ ",birthday: {birthday},country:{country},province:{province}"
-				+ ",birthplace: {birthplace},biografy:{biografy},profileImageUrl:{profileImageUrl},hashcode:{hashcode}})";
+				+ ",birthplace: {birthplace},biografy:{biografy},profileImageUrl:{profileImageUrl},dateCreation:{dateCreation},hashcode:{hashcode}})";
 		
 		StatementResult result=session.run(statement,
 				parameters("name",person.getName(),
@@ -46,6 +46,7 @@ public class PersonNeo4j implements PersonDAO {
 						"birthplace",person.getBirthplace(),
 						"biografy",person.getBiografy(),
 						"profileImageUrl",person.getProfileImageUrl(),
+						"dateCreation",person.getDateCreation().getTime(),
 						"hashcode",person.hash()));
 		session.close();
 	}
@@ -81,14 +82,16 @@ public class PersonNeo4j implements PersonDAO {
 		
 		String statement="MATCH (a:Person) WHERE a.hashcode = {hashcode} return  a.name AS name , a.subname AS subname, a.birthday AS birthday,"
 				+ "a.country AS country , a.province AS province , a.birthplace AS birthplace , a.biografy AS biografy"
-				+ ",a.profileImageUrl AS profileImageUrl";
+				+ ",a.profileImageUrl AS profileImageUrl,a.dateCreation AS dateCreation";
 		StatementResult result=session.run(statement,parameters("hashcode",hash));
 		
 		while(result.hasNext()){
 			Record record=result.next();
 			person=new Person(record.get("name").asString(), 
 					record.get("subname").asString(),new DateTime(record.get("birthday").asLong()).toDate(),record.get("country").asString(), record.get("province").asString()
-					,record.get("birthplace").asString(), record.get("biografy").asString(), record.get("profileImageUrl").asString());
+					,record.get("birthplace").asString(), record.get("biografy").asString()
+					, record.get("profileImageUrl").asString(),
+					new DateTime(record.get("dateCreation").asLong()).toDate());
 		}
 		session.close();
 		return person;
@@ -104,14 +107,15 @@ public class PersonNeo4j implements PersonDAO {
 		
 		String statement="MATCH (a:Person) return  a.name AS name , a.subname AS subname, a.birthday AS birthday,"
 				+ "a.country AS country , a.province AS province , a.birthplace AS birthplace , a.biografy AS biografy"
-				+ ",a.profileImageUrl AS profileImageUrl";
+				+ ",a.profileImageUrl AS profileImageUrl, a.dateCreation AS dateCreation";
 		StatementResult result=session.run(statement);
 		
 		while(result.hasNext()){
 			Record record=result.next();
 			person=new Person(record.get("name").asString(), 
 					record.get("subname").asString(),new DateTime(record.get("birthday").asLong()).toDate(),record.get("country").asString(), record.get("province").asString()
-					,record.get("birthplace").asString(), record.get("biografy").asString(), record.get("profileImageUrl").asString());
+					,record.get("birthplace").asString(), record.get("biografy").asString(), record.get("profileImageUrl").asString(),
+					new DateTime(record.get("dateCreation").asLong()).toDate());
 			persons.add(person);
 		}
 		session.close();
@@ -127,18 +131,50 @@ public class PersonNeo4j implements PersonDAO {
 		
 		String statement="MATCH (a:Person) WHERE a.name = {name} return  a.name AS name , a.subname AS subname, a.birthday AS birthday,"
 				+ "a.country AS country , a.province AS province , a.birthplace AS birthplace , a.biografy AS biografy"
-				+ ",a.profileImageUrl AS profileImageUrl";
+				+ ",a.profileImageUrl AS profileImageUrl, a.dateCreation AS dateCreation";
 		StatementResult result=session.run(statement,parameters("name",name));
 		
 		while(result.hasNext()){
 			Record record=result.next();
 			person=new Person(record.get("name").asString(), 
 					record.get("subname").asString(),new DateTime(record.get("birthday").asLong()).toDate(),record.get("country").asString(), record.get("province").asString()
-					,record.get("birthplace").asString(), record.get("biografy").asString(), record.get("profileImageUrl").asString());
+					,record.get("birthplace").asString(), record.get("biografy").asString(), record.get("profileImageUrl").asString(),
+					new DateTime(record.get("dateCreation").asLong()).toDate());
 			persons.add(person);
 		}
 		session.close();
 		return persons.toArray(new Person[persons.size()]);
+	}
+
+	@Override
+	public void update(Person personToUpdate, Person person) {
+		// TODO Auto-generated method stub
+		Session session=driver.session();
+		
+		String statement="MATCH (a:Person) WHERE a.hashcode = {hashcode} SET  "
+				+ "a.name={name},"
+				+ "a.subname={subname},"
+				+ "a.birthday={birthday},"
+				+ "a.country={country}, "
+				+ "a.province={province}, "
+				+ "a.birthplace={birthplace}, "
+				+ "a.biografy={biografy}"
+				+ ",a.profileImageUrl={profileImageUrl},"
+				+ "a.hashcode={hash}";
+		StatementResult result=session.run(statement,parameters(
+				"hashcode",personToUpdate.hash(),
+				"name",person.getName(),
+				"subname",person.getSubname(),
+				"birthday",person.getBirthday().getTime(),
+				"country",person.getCountry(),
+				"province",person.getProvince(),
+				"birthplace",person.getBirthplace(),
+				"biografy",person.getBiografy(),
+				"profileImageUrl",person.getProfileImageUrl(),
+				"hash",person.hash()
+				));
+		
+		session.close();
 	}
 
 }

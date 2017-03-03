@@ -68,7 +68,7 @@ public class MakeReferenceDAOImpl {
 		
 		session.close();
 	}
-	
+
 	public MakeReference[] getAll(){
 		ArrayList<MakeReference> makeReferences=new ArrayList<MakeReference>();
 		

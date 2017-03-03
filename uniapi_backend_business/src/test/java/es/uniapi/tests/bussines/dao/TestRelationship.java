@@ -35,7 +35,7 @@ public class TestRelationship {
 		} */
 		System.out.flush();
 		UserLogin user1=new UserLogin("jose@jose.com","jose@jose.com", new Date(),"user");
-		Person person=new Person("Jose","Pringao Pargela",new Date(),"España","Asturias","Almeria","fdsf","https://pbs.twimg.com/profile_images/574787476599926786/Y7EItFYE.jpeg");
+		Person person=new Person("Jose","Pringao Pargela",new Date(),"España","Asturias","Almeria","fdsf","https://pbs.twimg.com/profile_images/574787476599926786/Y7EItFYE.jpeg",new Date());
 		UniapiNeo4jDAO dao1=new UniapiNeo4jDAO();
 		
 		UserLogin userTmp;

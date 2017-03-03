@@ -1,0 +1,26 @@
+<h4>Todos los projectos</h4>
+<div class="panel" style="height:150px;border: groove 1px grey; overflow: scroll;">
+	<div class="panel-body">
+		<table class="table table-striped">
+			<thead>
+				<th>
+					Name
+				</th>
+
+				<th>
+					Type
+				</th>
+				<th>
+					Since
+				</th>
+			<thead>
+			<tbody>
+				<tr ng-repeat="project in projects">
+					<td>{{project.name}}</td>
+					<td>{{project.type}}</td>
+					<td>{{project.creationDate}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -9,6 +9,7 @@ public interface PersonDAO {
 	public Person findByHashCode(String string) throws  Exception;
 	public Person[] findAll() throws Exception;
 	public Person[] findByName(String name)throws Exception;
+	public void update(Person personToUpdate, Person person);
 
 	
 }

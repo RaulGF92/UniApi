@@ -11,15 +11,18 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 			window.location.href="/loggin";
 		}
 	};
+	//-----------------------------------PERSONAL GESTION-----------------------------------------------------
 	this.whoami=function(){
+		this.init();
 		var promise;
-		var urlComplete=UNIAPI_URL_API_REST+"/"+tokenSession+"/whoami";
-			$http({
+		var urlComplete=UNIAPI_URL_API_REST+"/"+myService.tokenSession+"/whoami";
+		promise=$http({
 				method:"GET",
 				url:urlComplete
 			}).then(function(response){
 				myService.checkState(response.data.state);
 				myService.myProfile=response.data;
+				console.log(response);
 				return response.data;
 			});
 		return promise;
@@ -29,6 +32,88 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 			window.location.href="/loggin";
 		}
 	};
+	this.changePass=function(pass){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/identity/"+myService.tokenSession+"/password/"+pass;
+		promise=$http({
+			method:"PATCH",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			console.log(response.data);
+			return response.data;
+		});
+		return promise;
+	};
+	this.changeBio=function(whoami){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/identity/"+myService.tokenSession+"/bio";
+		var data=JSON.stringify(whoami);
+		$http({
+			method:"PATCH",
+			url:urlComplete,
+			data:data
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		});
+		return promise;
+	};
+	//------------------------------------------------------ADMIN GESTION-------------------------------------------------
+	this.createAccount=function(userLogin){
+		var promise;
+		var data=JSON.stringify(userLogin);
+		urlComplete=UNIAPI_URL_API_REST+"/admin/"+myService.tokenSession+"/createAccount";
+		promise=$http({
+			method:"POST",
+			url:urlComplete,
+			data:data
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		});
+		return promise;
+	};
+	this.getAllUsers=function(){
+		var urlComplete=UNIAPI_URL_API_REST+"/admin/"+myService.tokenSession+"/allUsers";
+		var promise;
+		promise=$http({
+			method:"GET",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		});
+		return promise;
+		
+	};
+	this.getAllProjects=function(){
+		var urlComplete=UNIAPI_URL_API_REST+"/admin/"+myService.tokenSession+"/allProjects";
+		var promise;
+		promise=$http({
+			method:"GET",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		});
+		return promise;
+		
+	};
+	this.getAllGroups=function(){
+		var urlComplete=UNIAPI_URL_API_REST+"/admin/"+myService.tokenSession+"/allGroups";
+		var promise;
+		promise=$http({
+			method:"GET",
+			url:urlComplete
+		}).then(function(response){
+			myService.checkState(response.data.state);
+			return response.data;
+		});
+		return promise;
+		
+	};
+	//-----------------------------------------------------PROJECT GESTION-----------------------------------------------	
 	this.getMyProjects= function(){
 		
 		$d=$q.defer();
@@ -127,11 +212,8 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 		});
 		return promise;
 	};
-	this.shareProject= function(id,idGroup){
-	};
-	this.executedProject= function(id,inputParameters){
 
-	};
+	//----------------------------------------GROUP GESTION----------------------------------------------------
 	this.createGroup=function(groupToCreate){
 		var promise;
 		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/create";
@@ -228,6 +310,7 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 		});
 		return promise;
 	};
+	//--------------------------------------------------MEMBER GROUP GESTION----------------------------------------
 	this.inviteToGroup= function(id,email){
 				var promise;
 		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+id+"/member/create";
@@ -281,6 +364,7 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 
 		return promise;
 	};
+	//------------------------------------------------SUBGROUPS GESTION---------------------------------------------
 	this.getSubgroups=function(id){
 		var promise;
 		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+id+"/subgroups";
@@ -319,6 +403,7 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 		});
 		return promise;
 	};
+	//--------------------------------------------------PATH SECTION--------------------------------------
 	this.getPath=function(groupID){
 		var promise;
 		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/subgroups/top";
@@ -330,6 +415,8 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 			return response.data;
 		});
 	};
+
+	//------------------------------PROJECT INSIDE GROUP GESTION--------------------------------------
 	this.projectsInsideGroup=function(groupID){
 		var promise;
 		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/"+groupID+"/contain/project";
@@ -387,4 +474,6 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 		});
 		return promise;
 	};
+
+	//-----------------------------------EXECUTION SECTION-----------------------------------------------------
 });

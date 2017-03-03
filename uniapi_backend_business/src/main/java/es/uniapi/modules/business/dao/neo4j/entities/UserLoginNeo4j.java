@@ -128,4 +128,19 @@ public class UserLoginNeo4j implements UserLoginDAO {
 		return userLogins.toArray(new UserLogin[userLogins.size()]);
 	}
 
+	@Override
+	public void changePassword(UserLogin user,String pass) {
+		// TODO Auto-generated method stub
+		Session session = driver.session();
+		
+		String statement="MATCH (a:UserLogin) WHERE a.user = {user} "
+				+ "SET a.pass={pass}";
+
+		StatementResult result=session.run(statement,parameters(
+				"user",user.getUser(),
+				"pass",pass));
+				
+		session.close();
+	}
+
 }

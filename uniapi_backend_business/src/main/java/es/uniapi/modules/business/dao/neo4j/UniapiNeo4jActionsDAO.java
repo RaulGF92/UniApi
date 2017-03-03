@@ -2,6 +2,7 @@ package es.uniapi.modules.business.dao.neo4j;
 
 import es.uniapi.modules.business.dao.intf.UniapiActionsDAO;
 import es.uniapi.modules.business.dao.neo4j.relationship.MakeReferenceDAOImpl;
+import es.uniapi.modules.business.dao.neo4j.relationship.model.MakeReference;
 import es.uniapi.modules.model.Group;
 import es.uniapi.modules.model.Group.GroupType;
 import es.uniapi.modules.model.Person;
@@ -192,6 +193,14 @@ public class UniapiNeo4jActionsDAO implements UniapiActionsDAO {
 		// TODO Auto-generated method stub
 		dao= new UniapiNeo4jDAO();
 		return dao.getContainsDAO().findAllProjectsContainsInGroup(group);
+	}
+
+	@Override
+	public Person getPersonOfUser(UserLogin user) {
+		// TODO Auto-generated method stub
+		dao= new UniapiNeo4jDAO();
+		MakeReference reference=dao.getMakeReferenceDAO().getByUserLogin(user);
+		return reference.getPerson();
 	}
 
 

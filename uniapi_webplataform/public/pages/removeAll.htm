@@ -1,0 +1,15 @@
+<h4>Borrar todos los datos</h4>
+<div class="alert alert-warning">
+	<p>Si deseas pulsando el boton borrar. Puedes borrar todos los datos de la base de datos, todos sus datos seran eliminados y será dispuesto para luego una cuenta administradora llamada <strong>'ADMIN'</strong>, con <strong>contraseña 'ADMIN'</strong>, misma que el nombre de usuario. Es aconsejable despues del borrado, se modifique la contraseña a una mas robusta.</p>
+</div>
+<button class="btn btn-lg btn-danger" ng-click="clickBorrar()"> Borrar</button>
+<div id="preguntaModal" class="modal">
+	<div id="preguntaContent" class="modal-content" style="width: 40%;">
+		<a ng-click="closeModal()" style="margin-left: 95%;"><spam class="glyphicon glyphicon-remove"></spam></a>
+		<h5 class="page-header">Pregunta de seguridad</h5>
+		<p>Si quieres eliminar la base de datos, introduce: <br> <strong>BORRAR BASE DE DATOS</strong></p>
+		<input style="width:100%;" ng-model="confirmacion"></input>
+		<br></br>
+		<button class="btn btn-large btn-danger" ng-click="borrarBaseDeDatos()">Confirmar</button>
+	</div>
+</div>

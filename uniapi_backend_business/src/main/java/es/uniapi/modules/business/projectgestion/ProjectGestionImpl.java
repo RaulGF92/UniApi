@@ -92,7 +92,7 @@ public class ProjectGestionImpl implements ProjectGestion {
 	}
 
 	@Override
-	public Project[] getAllProjects(UserLogin user) throws BussinessException {
+	public Project[] getAllUserProjects(UserLogin user) throws BussinessException {
 		// TODO Auto-generated method stub
 		Project[] response=new Project[0];
 		UniApiFactoryDAO dao=new UniApiFactoryDAO();
@@ -168,6 +168,23 @@ public class ProjectGestionImpl implements ProjectGestion {
 				// TODO Auto-generated catch block
 				throw new BussinessException("Fallo en la eliminación de proyectos"); 
 			}
+	}
+
+
+
+	@Override
+	public Project[] getAllProjects() throws BussinessException {
+		// TODO Auto-generated method stub
+		Project[] response=new Project[0];
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		try {
+			response=dao.getUniApiDao().getProjectDAO().findAll();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			response=new Project[0];
+		}
+		
+		return response;
 	}
 
 

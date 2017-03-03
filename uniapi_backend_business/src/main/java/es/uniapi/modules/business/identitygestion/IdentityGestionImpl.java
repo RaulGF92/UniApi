@@ -69,4 +69,32 @@ public class IdentityGestionImpl implements IdentityGestion {
 		return userLogin;
 	}
 
+	@Override
+	public void changePassword(UserLogin login,String pass) throws BussinessException {
+		// TODO Auto-generated method stub
+		String password=SHA1.encryptPassword(pass);
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		dao.getUniApiDao().getUserLoginDAO().changePassword(login,password);
+	}
+
+	@Override
+	public void changeBio(UserLogin user,Person person) throws BussinessException {
+		// TODO Auto-generated method stub
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		Person personToUpdate=dao.getActions().getPersonOfUser(user);
+		dao.getUniApiDao().getPersonDAO().update(personToUpdate,person);
+	}
+
+	@Override
+	public UserLogin[] getAllUsers() throws BussinessException {
+		// TODO Auto-generated method stub
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		try {
+			return dao.getUniApiDao().getUserLoginDAO().findAll();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new BussinessException("Fallo en la busqueda de usuarios");
+		}
+	}
+
 }

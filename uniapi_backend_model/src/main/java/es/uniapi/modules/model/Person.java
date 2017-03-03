@@ -9,8 +9,11 @@ import es.uniapi.modules.model.config.SHA1;
 public class Person {
 
 	
+	private Date dateCreation;
+
+
 	public Person(String name, String subname, Date birthday, String country, String province,
-			String birthplace, String biografy, String profileImageUrl) {
+			String birthplace, String biografy, String profileImageUrl,Date dateCreation) {
 		super();
 		this.name = name;
 		this.subname = subname;
@@ -20,6 +23,7 @@ public class Person {
 		this.birthplace = birthplace;
 		this.biografy = biografy;
 		this.profileImageUrl = profileImageUrl;
+		this.dateCreation=dateCreation;
 		this.hashcode=this.hash();
 	}
 	
@@ -85,9 +89,9 @@ public class Person {
 	
 	@Override
 	public String toString() {
-		return "Person [name=" + name + ", subname=" + subname + ", birthday=" + birthday + ", country="
-				+ country + ", province=" + province + ", birthplace=" + birthplace + ", biografy=" + biografy
-				+ ", profileImageUrl=" + profileImageUrl + "]";
+		return "Person [dateCreation=" + dateCreation + ", name=" + name + ", subname=" + subname + ", birthday="
+				+ birthday + ", country=" + country + ", province=" + province + ", birthplace=" + birthplace
+				+ ", biografy=" + biografy + ", profileImageUrl=" + profileImageUrl + ", hashcode=" + hashcode + "]";
 	}
 
 	public String hash() {
@@ -152,6 +156,14 @@ public class Person {
 
 	public void setHashcode(String hashcode) {
 		this.hashcode = hashcode;
+	}
+
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
 	}
 	
 	

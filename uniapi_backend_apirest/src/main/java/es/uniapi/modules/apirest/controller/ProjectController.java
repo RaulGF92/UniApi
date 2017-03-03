@@ -114,7 +114,7 @@ public class ProjectController {
 		
 		Project[] projects;
 		try {
-			projects = Modules.getProjectModule().getAllProjects(user);
+			projects = Modules.getProjectModule().getAllUserProjects(user);
 			for(int i=0;i<projects.length;i++){
 				if(projects[i].hash().compareTo(projectId)==0){
 					Modules.getProjectModule().updateProject(projectId,projectToUpdate);
@@ -146,7 +146,7 @@ public class ProjectController {
 		
 		Project[] projects;
 		try {
-			projects = Modules.getProjectModule().getAllProjects(user);
+			projects = Modules.getProjectModule().getAllUserProjects(user);
 			for(int i=0;i<projects.length;i++){
 				if(projects[i].hash().compareTo(projectId)==0){
 					Modules.getProjectModule().deleteProject(user,projectId);
@@ -264,7 +264,7 @@ public class ProjectController {
 		}
 		
 		try {
-			Project[] projects=Modules.getProjectModule().getAllProjects(user);
+			Project[] projects=Modules.getProjectModule().getAllUserProjects(user);
 			String[] projectsID=new String[projects.length];
 			for(int i=0;i<projects.length;i++){
 				projectsID[i]=projects[i].hash();

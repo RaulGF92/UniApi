@@ -10,19 +10,17 @@
 <div class="admin">
 	<ul class="nav nav-tabs">
 		<li role="presentation" id="personalTABTAB" class="active" ng-click="changeTab('personalTAB')"><a>Personal</a></li>
-		<li role="presentation" id="applicationTABTAB" ng-click="changeTab('applicationTAB')"><a>Admin</a></li>		
+		<li role="presentation" id="applicationTABTAB" style="display:none" ng-click="changeTab('applicationTAB')"><a>Administración</a></li>		
 	</ul>
 
 	<div id="perTab" class="container" style="width:100%;display:block;padding-top:2%" >
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<h4>Change password:</h4>
 				<change-password></change-password>
 			</div>
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<h4>Datos personales:</h4>
 				<personal-bio></personal-bio>
 			</div>	
 		</div>
@@ -30,26 +28,27 @@
 	<div id="appTab" class="container" style="width:100%;display:none;padding-top:2%">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<h4>Gestiona los usuarios:</h4>
+				<add-users></add-users>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">
 				<see-allusers></see-allusers>
 			</div>
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<h4>Gestiona los usuarios:</h4>
-				<see-allusers></see-allusers>
+				<see-allprojects></see-allprojects>
 			</div>
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<h4>Gestiona los proyectos:</h4>
-				<see-allproyects></see-proyects>
+				<see-allgroups></see-allgroups>
 			</div>
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<h4>restart all the data</h4>
-				<restore-data></restore-data>
+				<remove-data></remove-data>
 			</div>	
 		</div>
 	</div>

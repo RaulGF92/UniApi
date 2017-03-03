@@ -1,0 +1,32 @@
+<h4>Datos personales:</h4>
+
+<div class="form-group">
+	<label for="newPass">Nombre:</label>
+	<input type="text" class="form-control" id="nombre" ng-model="whoami.person.name">
+</div>
+<div class="form-group">
+	<label for="rePass">Apellidos:</label>
+	<input type="text" class="form-control" id="apellidos" ng-model="whoami.person.subname">
+</div>
+<div class="form-group">
+	<label for="newPass">Lugar de nacimiento:</label>
+	<input type="text" class="form-control" id="lugardenacimiento" ng-model="whoami.person.birthplace">
+</div>
+<div class="form-group">
+	<label for="rePass">Provincia:</label>
+	<input type="text" class="form-control" id="provincia" ng-model="whoami.person.province">
+</div>
+<div class="form-group">
+	<label for="newPass">Pais:</label>
+	<input type="text" class="form-control" id="pais" ng-model="whoami.person.country">
+</div>
+<div class="form-group">
+	<label for="rePass">Url de la imagen:</label>
+	<input type="text" class="form-control" id="urlImagen" ng-model="whoami.person.profileImageUrl">
+</div>
+<div>
+	<label for="rePass">Bibliografia:</label>
+	<textarea class="form-control" id="bibliografia" ng-model="whoami.person.biografy"></textarea>
+</div>
+<br></br>
+<button class="btn btn-default" ng-click="changeBio()">Cambiar</button>

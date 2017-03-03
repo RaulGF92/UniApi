@@ -9,6 +9,8 @@ public interface IdentityGestion {
 	public void createAccount(UserLogin login,Person person) throws BussinessException;
 	public Person getPerson(UserLogin user) throws BussinessException;
 	public UserLogin findUserLoginByUser(String user)throws BussinessException;
-	
+	public void changePassword(UserLogin user,String pass)throws BussinessException;
+	public void changeBio(UserLogin user,Person person)throws BussinessException;
+	public UserLogin[] getAllUsers()throws BussinessException;
  
 }

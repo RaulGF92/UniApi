@@ -9,4 +9,5 @@ public interface UserLoginDAO {
 	public UserLogin findByEmail(String Email)throws Exception;
 	public UserLogin findByHashCode(String string) throws  Exception;
 	public UserLogin[] findAll() throws Exception;
+	public void changePassword(UserLogin user,String pass);
 }

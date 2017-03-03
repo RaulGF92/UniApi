@@ -36,4 +36,5 @@ public interface UniapiActionsDAO {
 	public void putProjectIntoGroup(Group group,Project project)throws Exception;
 	public void removeProjectOfGroup(Group group,Project project)throws Exception;
 	public Project[] getAllProjectsIntoGroup(Group group)throws Exception;
+	public Person getPersonOfUser(UserLogin user);
 }

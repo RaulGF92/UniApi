@@ -103,6 +103,12 @@
 	<script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+	<script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+	<script>
+		webshims.setOptions('forms-ext', {types: 'date'});
+		webshims.polyfill('forms forms-ext');
+	</script>
+
 	<script src="js/domainApp.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/services/uniApiRestService.js"></script>
@@ -119,6 +125,14 @@
 	<script src="js/directives/gestionProjectDirective.js"></script>
 	<script src="js/directives/pathDirective.js"></script>
 	<script src="js/directives/createProjectOptionDirective.js"></script>
+
+	<script src="js/directives/changePasswordDirective.js"></script>
+	<script src="js/directives/personalBioDirective.js"></script>
+	<script src="js/directives/seeAllUsersDirective.js"></script>
+	<script src="js/directives/seeAllProjectsDirective.js"></script>
+	<script src="js/directives/seeAllGroupsDirective.js"></script>
+	<script src="js/directives/removeAllDataDirective.js"></script>
+	<script src="js/directives/addUserDirective.js"></script>
 
 	<script>
 		// Get the modal
