@@ -4,6 +4,8 @@ import es.uniapi.modules.business.groupgestion.GroupGestion;
 import es.uniapi.modules.business.groupgestion.GroupGestionImpl;
 import es.uniapi.modules.business.identitygestion.IdentityGestion;
 import es.uniapi.modules.business.identitygestion.IdentityGestionImpl;
+import es.uniapi.modules.business.pathgestion.PathGestion;
+import es.uniapi.modules.business.pathgestion.PathGestionImpl;
 import es.uniapi.modules.business.projectgestion.ProjectGestion;
 import es.uniapi.modules.business.projectgestion.ProjectGestionImpl;
 import es.uniapi.modules.business.servicegestion.GestorWork;
@@ -23,6 +25,9 @@ public class Modules {
 	}
 	public static ProjectGestion getProjectModule(){
 		return new ProjectGestionImpl();
+	}
+	public static PathGestion getPathModule(){
+		return new PathGestionImpl();
 	}
 
 }
