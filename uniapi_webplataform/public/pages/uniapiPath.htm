@@ -3,9 +3,15 @@
 		font-size:20px;
 	}
 </style>
+<div id="pathModal" class="modal">
+	  <!-- Modal content -->
+	<div id="pathContent" class="modal-content" style="width: 70%;margin-left: 25%;margin-top:7%;">
+		
+	</div>
+</div>
 <div class="sub-header">
-	<ol class="breadcrumb" ng-repeat="navigation in navigations">
-		<li><a ng-click="go(navigation.id)">{{navigation.name}}</a></li>
+	<ol class="breadcrumb">
+		<li ng-id="{{'menu'+navigation.id}}" ng-repeat="navigation in navigations"><a ng-click="go(navigation.id)">{{navigation.name}}</a></li>
 	</ol>
 </div>
 <div class="table-responsive">
@@ -16,10 +22,17 @@
 				<td><a ng-click="clickEnterGroup(group.hashcode)">{{group.name}}</a></td>
 				<td class="optionsMenuPath"><a class="glyphicon glyphicon-info-sign" ng-click="clickInfoGroup(group.hashcode)"><span></span></a></td>
 			</tr>
-             		<tr ng-repeat="project in projectPath">
+             		<tr ng-repeat="project in projectsPath">
 				<td class="optionsMenuPath"><span style="color:coral;" class="glyphicon glyphicon-book"></span></td>
 				<td><a ng-click="clickEnterProject(project.hashcode)">{{project.name}}</a></td>
-				<td class="optionsMenuPath"><a ng-click="clickInfoProject(project.hashcode)"><span class="glyphicon glyphicon-info-sign"></span></a> <a ng-click="clickExecutedProject(project.hashcode)"><span class="glyphicon glyphicon-dashboard"></span></a></td>
+				<td class="optionsMenuPath">
+					<a ng-click="clickInfoProject(project.hashcode)">
+						<span class="glyphicon glyphicon-info-sign"></span>
+					</a> 						
+					<a ng-click="clickExecutedProject(project.hashcode)">
+						<span class="glyphicon glyphicon-dashboard"></span>
+					</a>
+				</td>
 			</tr>
               </tbody>
             </table>

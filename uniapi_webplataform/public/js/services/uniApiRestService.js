@@ -148,8 +148,6 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 				url : urlComplete			
 			}).then(function(response){	
 				myService.checkState(response.data.state);
-				console.log("[UniApi_Service]:Upgrating my projects");			
-				console.log(response.data);
 				return response.data;
 		});
 
@@ -164,8 +162,6 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 				url:urlComplete		
 			}).then(function(response){
 				myService.checkState(response.data.state);
-				console.log("[UniApi_Service]:get a project");			
-				console.log(response.data);
 				return response.data;
 		});
 
@@ -236,8 +232,6 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 				url : urlComplete			
 			}).then(function(response){
 				myService.checkState(response.data.state);
-				console.log("[UniApi_Service]:Upgrating my groups");			
-				console.log(response.data);
 				return response.data;
 		});
 
@@ -252,8 +246,6 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 				url:urlComplete		
 			}).then(function(response){
 				myService.checkState(response.data.state);
-				console.log("[UniApi_Service]:get a group");			
-				console.log(response.data);
 				return response.data;
 		});
 
@@ -356,7 +348,6 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 			method:"DELETE",
 			url:urlComplete
 		}).then(function(response){
-			console.log(response);
 			myService.checkState(response.data.state);
 			return response.data;
 		
@@ -404,17 +395,126 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 		return promise;
 	};
 	//--------------------------------------------------PATH SECTION--------------------------------------
-	this.getPath=function(groupID){
+	this.getMainNotProcessePath=function(){
 		var promise;
-		var urlComplete=UNIAPI_URL_API_REST+"/group/"+myService.tokenSession+"/subgroups/top";
+		var urlComplete=UNIAPI_URL_API_REST+"/path/"+myService.tokenSession+"/main";
 		promise=$http({
-			method:"GET",
-			url:urlComplete
-		}).then(function(response){
-			myService.checkState(response.data.state);
-			return response.data;
-		});
+				method:"GET",
+				url:urlComplete
+			}).then(function(response){
+				myService.checkState(response.data.state);
+				return response.data;
+			});
+		return promise;
 	};
+	this.getNotProcessePath=function(groupID){
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/path/"+myService.tokenSession+"/enter/"+groupID;
+		promise=$http({
+				method:"GET",
+				url:urlComplete
+			}).then(function(response){
+				myService.checkState(response.data.state);
+				return response.data;
+			});
+		return promise;
+	};
+	this.getMainPathGroups=function(){
+		$dGroup=$q.defer();		
+		myService.init();
+		promesasGroup=[];
+		groups=[];
+		
+		myService.getMainNotProcessePath().then(function(res){
+			console.log(res);
+			for(var i=0;i<res.groupIDs.length;i++){
+				var groupID=res.groupIDs[i];
+				promesasGroup.push(myService.getGroup(groupID));
+			}
+			$q.all(promesasGroup).then(function (groupsRes) {
+				for(var i=0;i<groupsRes.length;i++){
+					if(groupsRes[i].state == 0)
+						groups.push(groupsRes[i].groups[0]);
+				}
+				console.log(groups);
+				$dGroup.resolve(groups);
+			});
+		});
+
+		return $dGroup.promise;
+	};
+
+	this.getMainPathProjects=function(){
+		myService.init();
+		$dProject=$q.defer();
+		promesasProjects=[];
+		projects=[];
+		myService.getMainNotProcessePath()
+		.then(function(res){
+			for(var i=0;i<res.projectIDs.length;i++){
+				var projectID=res.projectIDs[i];
+				promesasProjects.push(myService.getProject(projectID));
+			}
+			$q.all(promesasProjects).then(function (projectsRes) {
+				console.log(projectsRes.length);
+				for(var i=0;i<projectsRes.length;i++){
+					if(projectsRes[i].state == 0)					
+						projects.push(projectsRes[i].projects[0]);
+				}
+				$dProject.resolve(projects);
+			});
+		});
+
+		return $dProject.promise;
+	};
+	this.getPathGroups=function(groupID){
+		$dGroupPath=$q.defer();		
+		myService.init();
+		promesasGroup=[];
+		groups=[];
+		
+		myService.getNotProcessePath(groupID).then(function(res){
+			console.log(res);
+			for(var i=0;i<res.groupIDs.length;i++){
+				var groupID=res.groupIDs[i];
+				promesasGroup.push(myService.getGroup(groupID));
+			}
+			$q.all(promesasGroup).then(function (groupsRes) {
+				for(var i=0;i<groupsRes.length;i++){
+					if(groupsRes[i].state == 0)
+						groups.push(groupsRes[i].groups[0]);
+				}
+				console.log(groups);
+				$dGroupPath.resolve(groups);
+			});
+		});
+
+		return $dGroupPath.promise;
+	};
+
+	this.getPathProjects=function(groupID){
+		myService.init();
+		$dProjectPath=$q.defer();
+		promesasProjects=[];
+		projects=[];
+		myService.getNotProcessePath(groupID)
+		.then(function(res){
+			for(var i=0;i<res.projectIDs.length;i++){
+				var projectID=res.projectIDs[i];
+				promesasProjects.push(myService.getProject(projectID));
+			}
+			$q.all(promesasProjects).then(function (projectsRes) {
+				console.log(projectsRes.length);
+				for(var i=0;i<projectsRes.length;i++){
+					if(projectsRes[i].state == 0)					
+						projects.push(projectsRes[i].projects[0]);
+				}
+				$dProjectPath.resolve(projects);
+			});
+		});
+
+		return $dProjectPath.promise;
+	};	
 
 	//------------------------------PROJECT INSIDE GROUP GESTION--------------------------------------
 	this.projectsInsideGroup=function(groupID){

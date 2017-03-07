@@ -6,20 +6,81 @@ angular.module('menuApp').directive('uniapiPath', function () {
 		scope: {
       			ngOnlypublic: '@'
     		},
-		controller: ['$scope', 'uniapi', function($scope, uniapi) {
+		controller: ['$scope', 'uniapi','$compile', function($scope, uniapi,$compile) {
+			
 			$scope.load=function(){
-				var publicID=uniapi.getPublicID();
-				uniapi.getPath(publicID)
+				uniapi.getMainPathProjects()
 				.then(function(response){
-					$scope.groupsPath=response.groups;
+					console.log("projects");
+					console.log(response);
+					$scope.projectsPath=response;
 				});
-				uniapi.getGroupProjects(publicID)
+				console.log("--------------------");
+				uniapi.getMainPathGroups()
 				.then(function(response){
-					$scope.projectsPath=response.projects;
-				});		
+					$scope.groupsPath=response;
+				});
+
 				$scope.navigations=[];
-				$scope.navigations.push({name:"home",id:publicID});
-			}
+				$scope.navigations.push({name:"home",id:"main"});
+			};
+			$scope.go=function(groupID){
+				if(groupID == "main"){
+					uniapi.getMainPathProjects()
+					.then(function(response){
+						console.log("projects");
+						console.log(response);
+						$scope.projectsPath=response;
+					});
+					console.log("--------------------");
+					uniapi.getMainPathGroups()
+					.then(function(response){
+						$scope.groupsPath=response;
+					});
+
+					$scope.navigations=[];
+					$scope.navigations.push({name:"home",id:"main"});
+				}else{
+					var target=$scope.navigations.length;
+					for(var i=0;i<$scope.navigations.length;i++){
+						$("menu"+groupID).removeClass("active");
+							if($scope.navigations[i].id == groupID){
+								$("menu"+groupID).addClass("active");
+								$scope.navigations.splice(i, $scope.navigations.length);
+								$scope.enterGroup(groupID);
+								return;
+							}
+					}
+				}			
+			};
+			$scope.clickEnterGroup=function(groupID){
+				$scope.enterGroup(groupID);
+			};
+			$scope.enterGroup=function(groupID){
+				uniapi.getGroup(groupID).then(function(response){
+					$scope.navigations.push({name:response.groups[0].name,id:groupID});	
+					uniapi.getPathProjects(groupID)
+					.then(function(response){
+						$scope.projectsPath=response;
+					});
+					uniapi.getPathGroups(groupID)
+					.then(function(response){
+						$scope.groupsPath=response;
+					});
+				});
+			};
+			$scope.clickInfoGroup=function(groupID){
+				$("#pathContent").append($compile("<a ng-click='closeModal()' style='margin-left: 95%;'><spam class='glyphicon glyphicon-remove'></spam></a>")($scope));
+				$("#pathContent").append($compile("<gestiongroup ng-group='"+groupID+"' ng-visit=true ></gestiongroup>")($scope));
+				$("#pathModal").css("display","block");
+	
+			};
+			$scope.closeModal=function(){				
+				$("#pathContent").empty();
+				$("#pathModal").css("display","none");
+			};
+			angular.element(document).ready($scope.load());
+
 		}],
 	}
 	

@@ -4,19 +4,27 @@ angular.module('menuApp').directive('gestiongroup', function () {
 		restrict:"E",   
 		templateUrl:"pages/gestionGroup.htm",
 		scope: {
-      			ngGroup: '@'
+      			ngGroup: '@',
+			ngVisit: '@'
     		},
 		controller: ['$scope', 'uniapi','$compile', function($scope, uniapi,$compile) {
 			
-     			uniapi.getGroup($scope.ngGroup).then(function(data){
-				$scope.group=data.groups[0];
-				$scope.sharingGroupPermissions=$scope.parseVector($scope.group.sharingGroup);
-				$scope.projectPropertiesPermissions=$scope.parseVector($scope.group.projectProperties);
-				$scope.memberGestionPermissions=$scope.parseVector($scope.group.memberGestion);
-				$scope.groupCreationPermissions=$scope.parseVector($scope.group.groupCreation);
-				$scope.makeBioTAB();			
-			});
-
+			$scope.makeForVisit=function(){
+				//Desabilitar la modificación
+			};
+			$scope.load=function(){
+	     			uniapi.getGroup($scope.ngGroup).then(function(data){
+					$scope.group=data.groups[0];
+					$scope.sharingGroupPermissions=$scope.parseVector($scope.group.sharingGroup);
+					$scope.projectPropertiesPermissions=$scope.parseVector($scope.group.projectProperties);
+					$scope.memberGestionPermissions=$scope.parseVector($scope.group.memberGestion);
+					$scope.groupCreationPermissions=$scope.parseVector($scope.group.groupCreation);
+					$scope.makeBioTAB();			
+				});
+				if($scope.ngVisit){
+					$scope.makeForVisit();
+				}
+			};
 			$scope.makeClickUpdate=function(){
 				$scope.group.sharingGroup=$scope.convertVector($scope.sharingGroupPermissions);
 				$scope.group.projectProperties=$scope.convertVector($scope.projectPropertiesPermissions);
@@ -363,6 +371,7 @@ angular.module('menuApp').directive('gestiongroup', function () {
 				};
 			};
 			//----------------------------------------------------------------------
+			angular.element(document).ready($scope.load());
    		 }],
 		link: function(scope, iElement, iAttrs, ctrl) {
      			 scope.id=iAttrs.ngGroup;

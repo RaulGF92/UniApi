@@ -1,6 +1,7 @@
 package es.uniapi.modules.apirest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,7 @@ public class PathController {
 		 this.handlerMapping = handlerMapping;
 	}
 	
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value="/{token}/main")
 	public Message getMainPath(@PathVariable String token){
 		
@@ -42,7 +44,7 @@ public class PathController {
 			return new Message(4, token, relatedIDs);
 		
 		try{
-			Group[] groups=Modules.getPathModule().getMainPath();
+			Group[] groups=Modules.getPathModule().getMainPath(user);
 			groupIDs=new String[groups.length];
 			for(int i=0;i<groups.length;i++){
 				groupIDs[i]=groups[i].hash();
@@ -51,12 +53,14 @@ public class PathController {
 			
 		}
 		
+		projectIDs=this.getProjectsInGroup(user, getPublicGroup());
 		Group publicGroup=this.getPublicGroup();
 		projectIDs=this.getProjectsInGroup(user, publicGroup);
 		
 		return new MessagePath(0,token,relatedIDs,objetiveGroup,groupIDs,projectIDs);
 	}
 	
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value="/{token}/enter/{groupID}")
 	public Message getGroupPath(@PathVariable String token,@PathVariable String groupID){
 		String[] relatedIDs={};
@@ -125,7 +129,7 @@ public class PathController {
 	public String[]	getSubgroupsInGroup(UserLogin user,Group group){
 		String[] response;
 		try {
-			Group[] groups=Modules.getPathModule().getSubGroupsOfGroup();
+			Group[] groups=Modules.getPathModule().getSubGroupsOfGroup(user, group);
 			response=new String[groups.length];
 			for(int i=0;i<groups.length;i++){
 				response[i]=groups[i].hash();

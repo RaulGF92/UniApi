@@ -4,7 +4,7 @@ angular.module('menuApp').controller("listGroupCtrl",function($scope,$http,uniap
 	});
 	$scope.clickGroup=function(idGroup){
 		$("#groupContent").append($compile("<a ng-click='closeModal()' style='margin-left: 95%;'><spam class='glyphicon glyphicon-remove'></spam></a>")($scope));
-		$("#groupContent").append($compile("<gestiongroup ng-group='"+idGroup+"'></gestiongroup>")($scope));
+		$("#groupContent").append($compile("<gestiongroup ng-group='"+idGroup+"' ng-visit=false ></gestiongroup>")($scope));
 		$("#projectModal").css("display","block");
 	};
 	$scope.closeModal=function(){				

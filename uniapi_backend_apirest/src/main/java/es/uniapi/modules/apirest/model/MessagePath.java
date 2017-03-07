@@ -14,4 +14,28 @@ public class MessagePath extends Message {
 		this.projectIDs=projectsIDs;
 	}
 
+	public String getObjetiveGroup() {
+		return objetiveGroup;
+	}
+
+	public void setObjetiveGroup(String objetiveGroup) {
+		this.objetiveGroup = objetiveGroup;
+	}
+
+	public String[] getGroupIDs() {
+		return groupIDs;
+	}
+
+	public void setGroupIDs(String[] groupIDs) {
+		this.groupIDs = groupIDs;
+	}
+
+	public String[] getProjectIDs() {
+		return projectIDs;
+	}
+
+	public void setProjectIDs(String[] projectIDs) {
+		this.projectIDs = projectIDs;
+	}
+
 }
