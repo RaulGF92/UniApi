@@ -34,6 +34,22 @@ public class ServicePython extends ProgrammingService
 
 	}
 
+	@Override
+	public boolean isWorking() {
+		try {
+			if (this.currentExecution == null || !this.currentExecution.isAlive()){
+				super.state=ExecutionState.Stopped;
+				super.finishServiceDate=new DateTime().toDate();
+				return false;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+		return true;
+
+	}
+
 	public boolean existProject() throws ServiceException {
 		// TODO Auto-generated method stub
 		if (pythonProyect == null)
@@ -42,8 +58,12 @@ public class ServicePython extends ProgrammingService
 		return directory.exists();
 	}
 
+	@Override
 	public File[] getResponse() throws ServiceException {
 		// TODO Auto-generated method stub
+		responsePython[0]=new File(this.currentExecution.getTicket().getArguments().get(this.currentExecution.getTicket().getArguments().size()-1)
+				+"/"+this.getProject().getResponseName());
+		responsePython[1]=new File(this.currentExecution.getTicket().getOutputPath());
 		if (responsePython[0] == null || responsePython[1] == null)
 			throw new ServiceException("La respuesta entregada es vacia y contiene null en algunos de sus elementos");
 		return responsePython;
@@ -54,13 +74,14 @@ public class ServicePython extends ProgrammingService
 		// TODO Auto-generated method stub
 
 		TicketExecution ticket = null;
-		String mainPath = super.getAbsoluteProjectPath(pythonProyect) + "/" + pythonProyect.getMainName();
+		String mainPath = super.getAbsoluteProjectPath(pythonProyect).concat("/");
+		mainPath=mainPath.concat(pythonProyect.getMainName());
 		ArrayList<String> arguments=new ArrayList<String>();
 
 		for (int i = 0; i < inputs.length; i++) {
 			arguments.add(inputs[i]);
 		}
-		arguments.add(outputPath);
+		arguments.add(outputPath+"/");
 		
 		ticket = new TicketExecution("python",mainPath, arguments, outputPath + "/" +pythonProyect.getName()+"_UniApi_Output");
 
@@ -104,15 +125,6 @@ public class ServicePython extends ProgrammingService
 		return super.getAbsoluteProjectPath(pythonProyect);
 	}
 
-	@Override
-	public boolean isWorking() {
-		// TODO Auto-generated method stub
-		if(currentExecution.isAlive())
-			return true;
-		super.state=ExecutionState.Stopped;
-		super.finishServiceDate=new DateTime().toDate();
-		return false;
-	}
 
 	@Override
 	public Project getProject() {

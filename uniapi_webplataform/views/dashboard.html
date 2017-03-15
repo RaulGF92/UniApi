@@ -44,16 +44,24 @@
 
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" style="padding-left:50%;font-family: 'Anton', sans-serif;font-size:22px;" href="#/"><span style="padding-right:10px" class="glyphicon glyphicon-cloud"></span><span>UniApi</span></a>
-       		 </div>
-    </nav>
-	<!-- The Modal -->
+			<a class="navbar-brand" style="padding-left:50%;font-family: 'Anton', sans-serif;font-size:22px;" href="#/">
+				<span style="padding-right:10px" class="glyphicon glyphicon-cloud"></span><span>UniApi</span>
+			</a>
+	       	 </div>
+	</nav>
+	<!-- The Modals -->
 	<div id="myModal" class="modal">
-	  <!-- Modal content -->
-	  <div class="modal-content">
-	  	<img src="resource/img/carga.gif" style="padding-left:45%">
-		<h4 class="text-center">We are loading the initial data. Wait please...</h4>
-	  </div>
+		<!-- Modal content -->
+		<div class="modal-content">
+			<img src="resource/img/carga.gif" style="padding-left:45%">
+			<h4 class="text-center">We are loading the initial data. Wait please...</h4>
+		</div>
+	</div>
+	<div id="addModal" class="modal">
+		  <!-- Modal content -->
+		<div id="addContent" class="modal-content" style="width: 40%;margin-left: 40%;margin-top: 15%;">
+		
+		</div>
 	</div>
 
     <div class="container-fluid" id="page" style="display:none;">
@@ -73,9 +81,9 @@
             <li><a href="#Exe">Ejecuciones</a></li>
 	    <li><a href="#Admin">Administración</a></li>
 	  </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="#NewProject">Nuevo proyecto</a></li>
-            <li><a href="#NewGroup">Nuevo grupo</a></li>
+          <ul class="nav nav-sidebar" ng-controller="addItems">
+            <li><a ng-click="optionProject()">Nuevo proyecto</a></li>
+            <li><a ng-click="optionGroup()">Nuevo grupo</a></li>
           </ul>
         </div>
 
@@ -104,6 +112,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 	<script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+	<link href="resource/jsoneditor/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
+    	<script src="resource/jsoneditor/dist/jsoneditor.min.js"></script>
 	<script>
 		webshims.setOptions('forms-ext', {types: 'date'});
 		webshims.polyfill('forms forms-ext');
@@ -119,7 +129,8 @@
 	<script src="js/controllers/newGroupCtrl.js"></script>
 	<script src="js/controllers/newProjectCtrl.js"></script>
 	<script src="js/controllers/adminCtrl.js"></script>
-	
+	<script src="js/controllers/addItem.js"></script>
+	<script src="js/controllers/executionServicesCtrl.js"></script>
 
 	<script src="js/directives/gestionGroupDirective.js"></script>
 	<script src="js/directives/gestionProjectDirective.js"></script>
@@ -132,6 +143,7 @@
 	<script src="js/directives/seeAllGroupsDirective.js"></script>
 	<script src="js/directives/removeAllDataDirective.js"></script>
 	<script src="js/directives/addUserDirective.js"></script>
+	<script src="js/directives/ejecucionProyectoDirective.js"></script>
 
 	<script>
 		// Get the modal

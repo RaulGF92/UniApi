@@ -116,6 +116,10 @@ public class Execution extends Thread {
 			// throw exception
 			throw new ExecutionException("El comando tratado a ejecutar esta vacio");
 		
+		String commando="";
+		for(int i=0;i<command.length;i++){
+			commando=commando+" "+command[i];
+		}
 		return command;
 		
 	}
@@ -125,5 +129,13 @@ public class Execution extends Thread {
 			throw new ExecutionException("El proceso devuelto es de tipo null");
 		return processExecution;
 
+	}
+
+	public TicketExecution getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(TicketExecution ticket) {
+		this.ticket = ticket;
 	}
 }

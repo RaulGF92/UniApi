@@ -3,6 +3,7 @@ package es.uniapi.modules.business.dao.neo4j;
 import es.uniapi.modules.business.dao.intf.UniapiActionsDAO;
 import es.uniapi.modules.business.dao.neo4j.relationship.MakeReferenceDAOImpl;
 import es.uniapi.modules.business.dao.neo4j.relationship.model.MakeReference;
+import es.uniapi.modules.model.Execution;
 import es.uniapi.modules.model.Group;
 import es.uniapi.modules.model.Group.GroupType;
 import es.uniapi.modules.model.Person;
@@ -201,6 +202,49 @@ public class UniapiNeo4jActionsDAO implements UniapiActionsDAO {
 		dao= new UniapiNeo4jDAO();
 		MakeReference reference=dao.getMakeReferenceDAO().getByUserLogin(user);
 		return reference.getPerson();
+	}
+
+	@Override
+	public void userLoginCreateExecution(UserLogin userLogin, Execution execution) throws Exception {
+		// TODO Auto-generated method stub
+		
+		dao=new UniapiNeo4jDAO();
+		dao.getGeneratorDAO().create(userLogin, execution);
+	}
+
+	@Override
+	public Execution[] getAllExecutionGeneratedByUser(UserLogin user) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		return dao.getGeneratorDAO().getUserExecution(user);
+	}
+
+	@Override
+	public UserLogin getUserOfExecution(Execution execution) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		return dao.getGeneratorDAO().getGeneratorOfExecution(execution);
+	}
+
+	@Override
+	public void executionUseProject(Execution execution, Project project) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		dao.getUseDAO().create(execution, project);
+	}
+
+	@Override
+	public Project getProjectUseForExecution(Execution execution) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		return dao.getUseDAO().getProjectUseForExecution(execution);
+	}
+
+	@Override
+	public Execution[] getExecutionsUsingProject(Project project) throws Exception {
+		// TODO Auto-generated method stub
+		dao=new UniapiNeo4jDAO();
+		return dao.getUseDAO().getExecutionsUsingProject(project);
 	}
 
 

@@ -1,0 +1,43 @@
+<style>
+	.dameAire{
+		margin:10px;
+	}
+</style>
+<div id="executionModal" class="modal">
+	  <!-- Modal content -->
+	<div id="executionContent" style="width: 70%;margin-left: 25%;margin-top:7%" class="modal-content">
+		
+	</div>
+</div>
+<h1 class="page-header">Ejecución de proyectos:</h1>
+<div id="myProjectsExecution" class="row">
+	<div class="col-md-9">
+		<div class="row">
+			<div class="col-md-4">
+				<h4>Mis proyectos:</h4>
+			</div>
+			<div class="col-md-8">
+				<select style="width:100%"></select>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<button class="btn btn-primary" ng-click="openModal()">Ejecutar</button>
+	</div>
+</div>
+<div id="executionsInfo">
+	<h2>Proyectos en ejecución:</h2>
+	<ul class="list-group">
+	  <li class="list-group-item list-group-item-warning dameAire">Dapibus ac facilisis in</li>
+	  <li class="list-group-item list-group-item-warning dameAire">Cras sit amet nibh libero</li>
+	  <li class="list-group-item list-group-item-warning dameAire">Porta ac consectetur ac</li>
+	  <li class="list-group-item list-group-item-warning dameAire">Vestibulum at eros</li>
+	</ul>
+	<h2>Proyectos finalizados:</h2>
+	<ul class="list-group">
+	  <li class="list-group-item list-group-item-success dameAire">Dapibus ac facilisis in</li>
+	  <li class="list-group-item list-group-item-success dameAire">Cras sit amet nibh libero</li>
+	  <li class="list-group-item list-group-item-success dameAire">Porta ac consectetur ac</li>
+	  <li class="list-group-item list-group-item-danger dameAire"> Vestibulum at eros</li>
+	</ul>
+</div>

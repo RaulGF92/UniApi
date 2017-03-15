@@ -16,7 +16,7 @@ public interface GestorWork {
 	 * @return Una entidad Utiliza_Un con la información detallada de la acción
 	 * @throws GestorServiceException
 	 */
-	public UsingOne createService(UserLogin user,Project proyect) throws GestorServiceException;
+	public UsingOne createService(UserLogin user,Project proyect,Execution execution) throws GestorServiceException;
 	
 	/**
 	 * Dado un servicio indicado, este sera buscado por los conjuntos de servicios. Posteriormente sera detenido y eliminado
@@ -24,7 +24,7 @@ public interface GestorWork {
 	 * @param service Servicio que se quiere destruir
 	 * @throws GestorServiceException
 	 */
-	public void DestroyService(UserLogin user,ProgrammingService service) throws GestorServiceException;
+	public void DestroyService(Execution execution) throws GestorServiceException;
 	
 	/**
 	 * Para cada servicio que sea previamente creado y posteriormmente lanzado. Sera necesario preparar una jerarquia para que disponga de espacio.
@@ -65,27 +65,10 @@ public interface GestorWork {
 	 * @throws GestorServiceException
 	 */
 	public ProgrammingService[] destroyFileExecutionHierarchy(boolean destroyALL) throws GestorServiceException;
-	/**
-	 * Retorna todas los servicios que estan activos, indistintamente de los usuarios que sean
-	 * 
-	 * @return ServiceProgramming[] Devuelve todas las aplicaciones que estan en ejecucion
-	 * @throws GestorServiceException
-	 */
-	public ProgrammingService[] getAllActiveServices() throws GestorServiceException;
-	/**
-	 * Retorna todos los servicios que estan activos por parte de un usuario
-	 * @param userID ID del usuario que se quiere conocer los servicios
-	 * @return ProgrammingService[] devuelve un conjunto de aplicaciones activas
-	 * @throws GestorServiceException
-	 */
-	public ProgrammingService[] getUserActiveServices(String Email) throws GestorServiceException;
-	/**
-	 * Retorna todos los servicios lanzados por el usuario
-	 * @param userID ID del usuario que quiere conocer los servicios
-	 * @return ProgrammingService[] devuelve un conjunto de aplicaciones activas
-	 * @throws GestorServiceException
-	 */
-	public ProgrammingService[] getAllUserServices(String Email) throws GestorServiceException;
+
+	public void reciveExecution(Execution execution) throws GestorServiceException;
+
+	public void destroyExecution(Execution execution)throws GestorServiceException;
 	
 	
 }

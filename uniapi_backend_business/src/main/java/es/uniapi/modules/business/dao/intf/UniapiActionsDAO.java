@@ -1,5 +1,6 @@
 package es.uniapi.modules.business.dao.intf;
 
+import es.uniapi.modules.model.Execution;
 import es.uniapi.modules.model.Group;
 import es.uniapi.modules.model.Group.GroupType;
 import es.uniapi.modules.model.Person;
@@ -37,4 +38,13 @@ public interface UniapiActionsDAO {
 	public void removeProjectOfGroup(Group group,Project project)throws Exception;
 	public Project[] getAllProjectsIntoGroup(Group group)throws Exception;
 	public Person getPersonOfUser(UserLogin user);
+	
+	public void userLoginCreateExecution(UserLogin userLogin,Execution execution)throws Exception;
+	public Execution[] getAllExecutionGeneratedByUser(UserLogin user)throws Exception;
+	public UserLogin getUserOfExecution(Execution execution)throws Exception;
+	
+	public void executionUseProject(Execution execution,Project project)throws Exception; 
+	public Project getProjectUseForExecution(Execution execution)throws Exception;
+	public Execution[] getExecutionsUsingProject(Project project)throws Exception;
+	
 }

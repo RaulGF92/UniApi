@@ -1,5 +1,6 @@
 package es.uniapi.modules.execution_enviroment.service.programming;
 
+import java.io.File;
 import java.util.Date;
 
 import org.joda.time.DateTime;
@@ -20,6 +21,7 @@ public abstract class ProgrammingService implements GeneralService {
 	//private final String INSTALATION_PROJECT_PATH="C:\\UniApi\\data\\Proyects";
 	private final String INSTALATION_PROJECT_PATH;
 	private long id;
+
 	
 	public ProgrammingService(long id){
 		this.createServiceDate=new DateTime().toDate();
@@ -32,7 +34,7 @@ public abstract class ProgrammingService implements GeneralService {
 		
 		//Cojer del archivo de propiedades el path de los proyectos
 		
-		String proyectsPath=proyect.getName()+"id["+proyect.hash()+"]";
+		String proyectsPath=proyect.getName()+"_id["+proyect.hash()+"]";
 		String response=INSTALATION_PROJECT_PATH+"/"+proyectsPath;
 		
 		return response;
@@ -50,14 +52,11 @@ public abstract class ProgrammingService implements GeneralService {
 		return now.getMillis()-past.getMillis(); 
 	}
 	
-	public boolean isWorking(){
-		if(ExecutionState.Running==state)
-			return true;
-		return false;
-	}
+	public abstract boolean isWorking();
 	
 	public abstract void stopedCurrentService() throws ServiceException;
 	public abstract void executedService(String[] inputs,String outputPath) throws ServiceException;
+	public abstract File[] getResponse() throws ServiceException;
 	
 	public long getId() {
 		return id;

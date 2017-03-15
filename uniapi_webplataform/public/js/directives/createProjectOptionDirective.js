@@ -19,6 +19,11 @@ angular.module('menuApp').directive('createprojectOption', function () {
 				window.location.href="/#NewProject";
 			};
 			$scope.putProjectIntoGroup=function(){
+				if($scope.data.model =="null"){
+					alert("projectoNull");
+				}else{
+					alert($scope.data.model);
+				}
 				uniapi.putGroupProject($scope.ngGroup,$scope.data.model)
 				.then(function(response){
 					if(response.state==0){

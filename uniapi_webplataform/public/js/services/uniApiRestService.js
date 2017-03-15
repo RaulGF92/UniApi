@@ -4,12 +4,25 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 	var tokenSession=null;
 	var myProfile=null;
 	var myService = this;
-
+	
 	this.init=function(){
 		myService.tokenSession=localStorage.getItem("tokenSession");
 		if(myService.tokenSession == null || myService.tokenSession == undefined){
 			window.location.href="/loggin";
 		}
+	};
+	this.getPublicID=function(){
+		this.init();
+		var promise;
+		var urlComplete=UNIAPI_URL_API_REST+"/path/"+myService.tokenSession+"/public";
+		promise=$http({
+				method:"GET",
+				url:urlComplete
+			}).then(function(response){
+				myService.checkState(response.data.state);
+				return response.data.relatedIDs[0];
+			});
+		return promise;
 	};
 	//-----------------------------------PERSONAL GESTION-----------------------------------------------------
 	this.whoami=function(){

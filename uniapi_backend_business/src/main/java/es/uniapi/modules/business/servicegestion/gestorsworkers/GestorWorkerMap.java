@@ -1,6 +1,7 @@
 package es.uniapi.modules.business.servicegestion.gestorsworkers;
 
 
+import es.uniapi.modules.business.dao.intf.UniApiFactoryDAO;
 import es.uniapi.modules.business.exception.GestorServiceException;
 import es.uniapi.modules.execution_enviroment.model.ServiceException;
 import es.uniapi.modules.execution_enviroment.service.factory.ServiceFactory;
@@ -13,9 +14,12 @@ import es.uniapi.modules.model.config.AppConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.neo4j.graphdb.event.KernelEventHandler.ExecutionOrder;
 
 import es.uniapi.modules.business.servicegestion.GestorWork;
@@ -29,7 +33,7 @@ public class GestorWorkerMap implements GestorWork{
 	private final String INSTALATION_PROJECT_PATH;
 	
 	private static GestorWorkerMap singleton;
-	private static boolean created=true;
+	private static boolean created=false;
 	
 	private Dobby theDobby;
 	private Bingo theBingo; 
@@ -46,15 +50,15 @@ public class GestorWorkerMap implements GestorWork{
 	private GestorWorkerMap(){
 		
 		created=true;
-		this.theDobby=null;
-		this.theDobby=null;
+		this.theDobby=new Dobby();
+		theDobby.start();
 		this.servicesOrderByUsers=ComandasOfServices.getCommandasOfService();
 		this.factoria=new ServiceFactoryImplOne();
 		this.INSTALATION_PROJECT_PATH=AppConfiguration.getConfiguration().getExecutionSite();
 	}
 	
 	@Override
-	public UsingOne createService(UserLogin user, Project proyect) throws GestorServiceException {
+	public UsingOne createService(UserLogin user, Project proyect,Execution execution) throws GestorServiceException {
 		// TODO Auto-generated method stub
 		UsingOne usingOne=null;
 		
@@ -74,16 +78,19 @@ public class GestorWorkerMap implements GestorWork{
 			//Inicialización de la carpeta del servicio
 			serviceSpace=this.treatmentForNewService(userSpace, service);
 			
-			//gochada
 			String inputs="";
-			for(int i=0;i<proyect.getDefaultInputs().length;i++){
-				inputs=inputs+proyect.getDefaultInputs()[i]+";";
+			JSONObject obj=new JSONObject(execution.getInputJson());
+			JSONArray arr=obj.getJSONArray("inputs");
+			String[] v=new String[arr.length()];
+			for(int i=0;i<arr.length();i++){
+				inputs=inputs+arr.getString(i)+";";
+				v[i]=arr.getString(i);
 			}
 			
 			usingOne=new UsingOne(serviceSpace+"/"+proyect.getResponseName(),serviceSpace+"/"+proyect.getName()+"_UniApi_Output",inputs,new DateTime().toDate());
 			
-			this.servicesOrderByUsers.addComanda(user.getUser(),service);
-			service.executedService(proyect.getDefaultInputs(),serviceSpace);
+			this.servicesOrderByUsers.addComanda(execution,service);
+			service.executedService(v,serviceSpace);
 			
 			
 			
@@ -97,22 +104,24 @@ public class GestorWorkerMap implements GestorWork{
 	}
 
 	@Override
-	public void DestroyService(UserLogin user,ProgrammingService service) throws GestorServiceException {
+	public void DestroyService(Execution execution) throws GestorServiceException {
 		// TODO Auto-generated method stub
-		ArrayList<ProgrammingService> services=this.servicesOrderByUsers.getUserServices(user.getUser());
-		for(int i=0;i<services.size();i++){
-			ProgrammingService aux=services.get(i);
-			if(aux.getId()==service.getId())
-				if(aux.isWorking()){
-					try {
-						aux.stopedCurrentService();
-					} catch (ServiceException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}finally {
-						services.remove(i);
-					}
-				}
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		
+		try {
+			this.servicesOrderByUsers.getProgrammingService(execution.hash()).stopedCurrentService();
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			throw new GestorServiceException("No se ha podido parar el servicio");
+		}
+		execution.setStateOfExecution(es.uniapi.modules.model.Execution.ExecutionState.FINISH_WITH_ERROR);
+		execution.setFinishDate(new Date());
+		
+		try {
+			dao.getUniApiDao().getExecution().update(execution.hash(), execution);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new GestorServiceException("No se ha podido modificar la ejecucion, pero si parar el servicio");
 		}
 	}
 
@@ -153,10 +162,6 @@ public class GestorWorkerMap implements GestorWork{
 		 */
 		String response=this.INSTALATION_PROJECT_PATH+"/"+email;
 		
-		if(servicesOrderByUsers.existUser(email)){
-			return response;
-		}
-		
 		File userSpace=new File(response);
 		userSpace.mkdir();
 		return response;
@@ -174,9 +179,44 @@ public class GestorWorkerMap implements GestorWork{
 	public ProgrammingService[] destroyFileExecutionHierarchy(boolean destroyALL) throws GestorServiceException {
 		// TODO Auto-generated method stb
 		
-		ProgrammingService[] response=getAllActiveServices();
-		if(response.length > 0 && destroyALL != true)
-			return response;
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		ArrayList<ProgrammingService> arr=new ArrayList<ProgrammingService>();
+		try {
+			if(dao.getUniApiDao().getExecution().findAllExecution().length<0){
+				throw new GestorServiceException("No existe jerarquia que borrar");
+			}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			throw new GestorServiceException("Fallo en la actualización de las ejecuciones");
+		}
+		
+		String[] executions=servicesOrderByUsers.getAllExecution();
+		for(int i=0;i<executions.length;i++){
+			ProgrammingService aux=servicesOrderByUsers.getProgrammingService(executions[i]);
+			if(aux.isWorking())
+				arr.add(aux);
+			if(destroyALL){
+				try{
+					aux.stopedCurrentService();
+					Execution exe=dao.getUniApiDao()
+							.getExecution()
+							.findByHash(executions[i]);
+					exe.setFinishDate(new Date());
+					es.uniapi.modules.model.Execution.ExecutionState state = null;
+					exe.setStateOfExecution(state.FINISH_WITH_ERROR);
+					dao.getUniApiDao().getExecution().update(executions[i], exe);
+				}catch (Exception e) {
+					// TODO: handle exception
+					throw new GestorServiceException("Fallo en la actualización de las ejecuciones");
+				}
+			}
+				
+			
+		}
+		
+		if(!destroyALL)
+			return arr.toArray(new ProgrammingService[arr.size()]);
+			
 		
 		File fileExecutionHierarchy=new File(INSTALATION_PROJECT_PATH);
 		cleanDirs(fileExecutionHierarchy.listFiles());
@@ -197,40 +237,29 @@ public class GestorWorkerMap implements GestorWork{
 		}
 	}
 
+
 	@Override
-	public ProgrammingService[] getAllActiveServices() throws GestorServiceException {
+	public void reciveExecution(Execution execution) throws GestorServiceException {
 		// TODO Auto-generated method stub
-		ArrayList<ProgrammingService> services=this.servicesOrderByUsers.getAllServices();
-		ArrayList<ProgrammingService> activesServices=new ArrayList<ProgrammingService>();
-		for(int i=0;i<services.size();i++){
-			if(services.get(i).getState()==ExecutionState.Running){
-				activesServices.add(services.get(i));
-			}
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		Project project;
+		UserLogin user;
+		
+		try {
+			project=dao.getActions().getProjectUseForExecution(execution);
+			user=dao.getActions().getUserOfExecution(execution);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new GestorServiceException("Fallo en la busqueda de la información adicional de la ejecucion");
 		}
-		ProgrammingService[] response=new ProgrammingService[activesServices.size()];
-		return activesServices.toArray(response); 
+		
+		this.createService(user, project, execution);
 	}
 
 	@Override
-	public ProgrammingService[] getUserActiveServices(String email) throws GestorServiceException {
+	public void destroyExecution(Execution execution) {
 		// TODO Auto-generated method stub
-		ArrayList<ProgrammingService> services=this.servicesOrderByUsers.getUserServices(email);
-		ArrayList<ProgrammingService> activesServices=new ArrayList<ProgrammingService>();
-		for(int i=0;i<services.size();i++){
-			if(services.get(i).getState()==ExecutionState.Running){
-				activesServices.add(services.get(i));
-			}
-		}
-		ProgrammingService[] response=new ProgrammingService[activesServices.size()];
-		return activesServices.toArray(response); 
-	}
-
-	@Override
-	public ProgrammingService[] getAllUserServices(String email) throws GestorServiceException {
-		// TODO Auto-generated method stub
-		ArrayList<ProgrammingService> services=this.servicesOrderByUsers.getUserServices(email);
-		ProgrammingService[] response=new ProgrammingService[services.size()];
-		return services.toArray(response); 
+		
 	}
 
 

@@ -1,5 +1,7 @@
 package es.uniapi.modules.execution_enviroment.service.programming.Impl;
 
+import java.io.File;
+
 import es.uniapi.modules.execution_enviroment.model.ServiceException;
 import es.uniapi.modules.execution_enviroment.service.programming.ProgrammingService;
 import es.uniapi.modules.model.Project;
@@ -47,6 +49,18 @@ public class ServiceOctave extends ProgrammingService {
 	public Project getProject() {
 		// TODO Auto-generated method stub
 		return this.octaveProyect;
+	}
+
+	@Override
+	public File[] getResponse() throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isWorking() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

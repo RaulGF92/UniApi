@@ -4,7 +4,8 @@ angular.module('menuApp').directive('gestionproject', function () {
 		restrict:"E",   
 		templateUrl:"pages/gestionProject.htm",
 		scope: {
-      			ngProject: '@'
+      			ngProject: '@',
+			ngVisitproject:'@'
     		},
 		controller: ['$scope', 'uniapi', function($scope, uniapi) {
 			uniapi.getProject($scope.ngProject).then(function(response){

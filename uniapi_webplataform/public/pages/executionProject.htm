@@ -1,0 +1,42 @@
+<h3 class="page-header">Ejecución de proyecto</h3>
+<ul class="nav nav-tabs">
+	<li role="presentation"id="inputTAB" ng-click="clickTab('inputTAB')"><a>Entrada</a></li>
+	<li role="presentation" id="outputTAB" class="active" ng-click="clickTab('outputTAB')"><a>Salida</a></li>
+</ul>
+<div class="row" id="input" style="display:none;">
+	<div class="col-md-6" style="border-right:1px solid #eee">
+		<h4>Descripción de entrada:</h4>
+		<textarea style="width: 100%; height: 150px;"></textarea>
+		<hr></hr>
+		<h4>Descripción de salida:</h4>		
+		<textarea style="width: 100%; height: 150px;"></textarea>
+	</div>
+	<div class="col-md-6">
+		<h4>Valores de entrada:</h4>
+		<div id="jsoneditorInput" style="width: 100%; height: 300px;"></div>
+		<br></br>
+		<button style="margin-left:70%" class="btn btn-lg btn-primary">Ejecutar</button>
+	</div>
+</div>
+<div class="row" id="output">
+	<div class="col-md-6" style="border-right:1px solid #eee">
+		<h4>Información de la ejecución</h4>
+		<div style="width: 100%; height: 150px;">
+			<h4 class="text-center">Tiempo de ejecución:</h4>
+			<h4 class="text-center">2d: 1h : 12min</h4>
+			<div>
+				<h4 class="text-center">Tipo de servicio:</h4>
+				<h4 class="text-center">Python</h4>	
+			</div>
+		</div>
+		<hr></hr>
+		<h4>Descripción de salida:</h4>		
+		<textarea style="width: 100%; height: 150px;"></textarea>
+	</div>
+	<div class="col-md-6">
+		<h4>Valores de salida:</h4>
+		<div id="jsoneditorOutput" style="width: 100%; height: 300px;"></div>
+		<br></br>
+		<button style="margin-left:70%" class="btn btn-lg btn-primary">Ejecutar</button>
+	</div>
+</div>

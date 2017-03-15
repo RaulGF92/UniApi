@@ -9,9 +9,6 @@ angular.module('menuApp').directive('gestiongroup', function () {
     		},
 		controller: ['$scope', 'uniapi','$compile', function($scope, uniapi,$compile) {
 			
-			$scope.makeForVisit=function(){
-				//Desabilitar la modificación
-			};
 			$scope.load=function(){
 	     			uniapi.getGroup($scope.ngGroup).then(function(data){
 					$scope.group=data.groups[0];
@@ -21,9 +18,6 @@ angular.module('menuApp').directive('gestiongroup', function () {
 					$scope.groupCreationPermissions=$scope.parseVector($scope.group.groupCreation);
 					$scope.makeBioTAB();			
 				});
-				if($scope.ngVisit){
-					$scope.makeForVisit();
-				}
 			};
 			$scope.makeClickUpdate=function(){
 				$scope.group.sharingGroup=$scope.convertVector($scope.sharingGroupPermissions);

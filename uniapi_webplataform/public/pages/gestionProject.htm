@@ -1,4 +1,4 @@
-<ul style="float:right;">
+<ul ng-show="!ngVisitproject" style="float:right;">
 	<a ng-attr-id="update" ng-click="makeClickUpdate()" style="margin-right: 15px;">
 		<span class="glyphicon glyphicon-pencil"></span>
 	</a>
@@ -37,13 +37,13 @@
 	<div class="form-group">
 		<label for="defaultInputs">Entradas por defecto del proyecto:</label>
 		<div id="defaultInputs">
-			<button class="btn" ng-click="addDefaultInput()">+</button><b> </b><button class="btn" ng-click="resetDefaultInput()">Reset</button>
+			<button ng-show="!ngVisitproject" class="btn" ng-click="addDefaultInput()">+</button><b> </b><button ng-show="!ngVisitproject" class="btn" ng-click="resetDefaultInput()">Reset</button>
 			<div id="contenedor">
 				<ul id="arrayDefaultInput">
 						<li ng-repeat="x in inputsDefault track by $index">[{{$index}}]: <input ng-attr-id="{{'value_'+$index}}" ng-model="x" type="text"></li>
 				</ul>
 			</div>
-			<button class="btn" ng-click="removeDefaultInput()">-</button>
+			<button class="btn" ng-show="!ngVisitproject" ng-click="removeDefaultInput()">-</button>
 		</div>
 	</div>
 	<div class="form-group">

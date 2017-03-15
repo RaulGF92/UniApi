@@ -88,6 +88,18 @@ public class PathController {
 		
 		return new MessagePath(0,token,relatedIDs,objetiveGroup,groupIDs,projectIDs);
 	}
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value="/{token}/public")
+	public Message getGroupPath(@PathVariable String token){
+		//Devuelve los grupos y proyectos que se encuentran dentro del grupo
+		UserLogin user=checkSession(token);
+		if(user == null)
+			return new Message(4, token, new String[0]);
+		
+		Group publicGroup=this.getPublicGroup();
+		String[] relatedIDs={publicGroup.hash()};
+		return new Message(0, token,relatedIDs);
+	}
 	
 	public UserLogin checkSession(String token){
 		sessionGestor=SessionGestorMap.getSessionGestor();
@@ -109,7 +121,6 @@ public class PathController {
 			// TODO Auto-generated catch block
 			return null;
 		}
-		
 		
 	}
 	public String[] getProjectsInGroup(UserLogin user,Group group){

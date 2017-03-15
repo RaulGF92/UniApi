@@ -14,7 +14,8 @@ var app = angular.module('menuApp',["ngRoute"]);
 			controller : "listProjectCtrl"
 		    })
 		    .when("/Exe", {
-			template : "<h1>Configuration:</h1>"
+			templateUrl : "pages/executionServices.htm",
+			controller : "executionServicesCtrl"
 		    })
 		    .when("/Admin", {
 			templateUrl : "pages/admin.htm",
