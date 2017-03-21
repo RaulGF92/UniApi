@@ -83,8 +83,8 @@ public class GestorWorkerMap implements GestorWork{
 			JSONArray arr=obj.getJSONArray("inputs");
 			String[] v=new String[arr.length()];
 			for(int i=0;i<arr.length();i++){
-				inputs=inputs+arr.getString(i)+";";
-				v[i]=arr.getString(i);
+				inputs=inputs+arr.get(i)+";";
+				v[i]=""+arr.get(i);
 			}
 			
 			usingOne=new UsingOne(serviceSpace+"/"+proyect.getResponseName(),serviceSpace+"/"+proyect.getName()+"_UniApi_Output",inputs,new DateTime().toDate());

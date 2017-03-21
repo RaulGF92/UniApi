@@ -97,15 +97,17 @@ public class HomeController {
 	@RequestMapping(value="/{token}/whoami", method = RequestMethod.GET)
 	public Message getWhoAmi(@PathVariable String token){
 		
-		System.out.println("[WhoAmi] token:"+token);
 		Message responseResponse=null;
 		sessionGestor=SessionGestorMap.getSessionGestor();
 		
 		try {
+			
 			UserLogin userLogin=sessionGestor.checkSession(token);
+			System.out.println("[WhoAmi] token:"+token);
 			if(userLogin==null){
 				throw new SessionGestionException("No se ha encontrado el tokken");
 			}
+			System.out.println("[whoami] "+userLogin.toString());
 			
 			Person person=Modules.getIdentityModule()
 					.getPerson(userLogin);
@@ -118,7 +120,7 @@ public class HomeController {
 			// TODO Auto-generated catch block
 			return new MessageWhoAmi(3,token,new String[0],null,null);
 		}
-		System.out.println(responseResponse.toString());
+		//System.out.println(responseResponse.toString());
 		return responseResponse;
 		
 		//Person person=new Person("Raúl","Garcia",new Date(),"España","Asturias","Candás","pues Aquí tamos","http://farm4.static.flickr.com/3628/3430561773_9b6087d1e1.jpg");

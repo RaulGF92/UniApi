@@ -9,6 +9,8 @@ import es.uniapi.modules.business.pathgestion.PathGestionImpl;
 import es.uniapi.modules.business.projectgestion.ProjectGestion;
 import es.uniapi.modules.business.projectgestion.ProjectGestionImpl;
 import es.uniapi.modules.business.servicegestion.GestorWork;
+import es.uniapi.modules.business.servicegestion.ServiceGestion;
+import es.uniapi.modules.business.servicegestion.ServiceGestionImpl;
 import es.uniapi.modules.business.servicegestion.gestorsworkers.GestorWorkerMap;
 
 public class Modules {
@@ -24,10 +26,13 @@ public class Modules {
 		return GestorWorkerMap.getGestorWorkerMap();
 	}
 	public static ProjectGestion getProjectModule(){
-		return new ProjectGestionImpl();
+		return ProjectGestionImpl.getProjectGestionImpl();
 	}
 	public static PathGestion getPathModule(){
 		return new PathGestionImpl();
+	}
+	public static ServiceGestion getExecutionModule(){
+		return new ServiceGestionImpl();
 	}
 	
 

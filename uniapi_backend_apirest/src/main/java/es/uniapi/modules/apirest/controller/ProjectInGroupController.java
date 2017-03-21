@@ -39,6 +39,7 @@ public class ProjectInGroupController {
 		Project project = null;
 		UserLogin user = this.checkSession(token);
 		String[] relatedID = { projectID };
+		
 		if (user == null)
 			return new Message(4, token, relatedID);
 		// take group

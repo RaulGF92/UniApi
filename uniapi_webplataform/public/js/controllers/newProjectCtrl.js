@@ -54,7 +54,7 @@ angular.module('menuApp').controller("newProjectCtrl", function ($scope,$http,un
 				uniapi.createProject(proyecto)
 				.then(function(response){
 					if(response.state==0){
-						uniapi.putGroupProject($scope.fatherID,response.data.relatedIDs[0]).then(function(response){
+						uniapi.putGroupProject($scope.fatherID,response.relatedIDs[0]).then(function(response){
 							if(response.state==0){
 								alert("Se ha realizado la creación");
 								window.location.href="/#main";

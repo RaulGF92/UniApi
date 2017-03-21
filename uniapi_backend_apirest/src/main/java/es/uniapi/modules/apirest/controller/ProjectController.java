@@ -66,7 +66,7 @@ public class ProjectController {
 		try {
 			project=Modules.getProjectModule().getProject(projectId);
 			projects[0]=project;
-			relatedIDs[0]=project.hash();
+			relatedIDs[0]=projectId;
 			messageProject=new MessageProject(0, token,relatedIDs, projects);
 		} catch (BussinessException e) {
 			// TODO Auto-generated catch block

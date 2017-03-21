@@ -90,6 +90,17 @@ angular.module('menuApp').directive('uniapiPath', function () {
 				$("#pathModal").css("display","block");
 	
 			};
+			$scope.clickExecutedProject=function(projectID){
+				var groupID=window.localStorage.getItem("groupTarget");
+				$("#runPathExecutionContent").append($compile("<a ng-click='closeExeModal()' style='margin-left: 95%;'><spam class='glyphicon glyphicon-remove'></spam></a>")($scope));
+				$("#runPathExecutionContent").append($compile("<ejecution-project ng-exe='' ng-exegroup='"+
+					groupID+"' ng-exeproject='"+projectID+"'></ejecution-project>")($scope));
+				$("#runPathExecution").css("display","block");				
+			};
+			$scope.closeExeModal=function(){				
+				$("#runPathExecutionContent").empty();
+				$("#runPathExecution").css("display","none");
+			};
 			$scope.closeModal=function(){				
 				$("#pathContent").empty();
 				$("#pathModal").css("display","none");

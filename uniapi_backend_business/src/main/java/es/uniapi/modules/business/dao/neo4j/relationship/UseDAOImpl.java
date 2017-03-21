@@ -89,6 +89,8 @@ public class UseDAOImpl implements UseDAO {
 		String statement="MATCH (e:Execution), "
 				+ "h=(u)-[r:USE]->(p:Project {hashcode:{hashcode}}) RETURN "
 				+ "e.stateOfExecution AS stateOfExecution,"
+				+ "e.nameExecution AS nameExecution,"
+				+ "e.groupOfExecution AS groupOfExecution,"
 				+ "e.inputJson AS inputJson,"
 				+ "e.creationDate AS creationDate,"
 				+ "e.finishDate AS finishDate,"
@@ -101,7 +103,9 @@ public class UseDAOImpl implements UseDAO {
 		while(result.hasNext()){
 			Record record = result.next();
 			execution=new Execution(
-					ExecutionState.valueOf(record.get("stateOfExecution").asString()), 
+					record.get("nameExecution").asString(),
+					record.get("groupOfExecution").asString(),
+					ExecutionState.valueOf(record.get("stateOfExecution").asString()),
 					record.get("inputJson").asString(), 
 					new DateTime(record.get("creationDate").asLong()).toDate(), 
 					new DateTime(record.get("finishDate").asLong()).toDate(), 

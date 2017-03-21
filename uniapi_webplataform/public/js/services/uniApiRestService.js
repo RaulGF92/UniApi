@@ -589,4 +589,108 @@ angular.module('menuApp').service('uniapi', function ($http,$q) {
 	};
 
 	//-----------------------------------EXECUTION SECTION-----------------------------------------------------
+	this.getExecutionsRunning=function(){
+		this.init();
+		$dExecutionsRunning=$q.defer();
+		executions=[];
+		promesasRunning=[];
+		myService.getAllExecutionsRunning().then(function(data){		
+			for(var i=0;i<data.relatedIDs.length;i++){
+				var executionID=data.relatedIDs[i];
+				promesasRunning.push(myService.getExecution(executionID));
+			}
+			$q.all(promesasRunning).then(function (executionRes) {
+				for(var i=0;i<executionRes.length;i++){
+					if(executionRes[i].state == 0)					
+						executions.push(executionRes[i].executions[0]);
+				}
+				$dExecutionsRunning.resolve(executions);
+			});
+		});
+		
+		return $dExecutionsRunning.promise;
+	};
+	this.getExecutionFinish=function(){
+		this.init();		
+		$dExecutionFinish=$q.defer();
+		executions=[];
+		promesasFinish=[];
+		myService.getAllExecutionsFinish().then(function(data){
+			console.log(data);		
+			for(var i=0;i<data.relatedIDs.length;i++){
+				var executionID=data.relatedIDs[i];
+				promesasFinish.push(myService.getExecution(executionID));
+			}
+			$q.all(promesasFinish).then(function (executionRes) {
+				for(var i=0;i<executionRes.length;i++){
+					if(executionRes[i].state == 0)					
+						executions.push(executionRes[i].executions[0]);
+				}
+				$dExecutionFinish.resolve(executions);
+			});
+		});
+		
+		return $dExecutionFinish.promise;
+	};
+	this.getAllExecutionsRunning=function(){
+		var urlComplete=UNIAPI_URL_API_REST+"/execution/"+myService.tokenSession+"/running";
+		var promise;
+		promise=$http({method:"GET",
+				url:urlComplete
+			}).then(function(response){
+				myService.checkState(response.data.state);
+				console.log("response");
+				console.log(response);
+				return response.data;
+			});
+		return promise;
+	};
+	this.getAllExecutionsFinish=function(){
+		var urlComplete=UNIAPI_URL_API_REST+"/execution/"+myService.tokenSession+"/finish";
+		var promise;
+		promise=$http({method:"GET",
+				url:urlComplete
+			}).then(function(response){
+				myService.checkState(response.data.state);
+				return response.data;
+			});
+		return promise;
+	};
+	this.getExecution=function(executedID){
+		this.init();
+		var urlComplete=UNIAPI_URL_API_REST+"/execution/"+myService.tokenSession+"/"+executedID;
+		var promise;
+		promise=$http({method:"GET",
+				url:urlComplete
+			}).then(function(response){
+				myService.checkState(response.data.state);
+				return response.data;
+			});
+		return promise;
+	};
+	this.executedProject=function(inputs,groupID,projectID){
+		this.init();
+		var urlComplete=UNIAPI_URL_API_REST+"/execution/"+myService.tokenSession+"/"+groupID+"/"+projectID;
+		var promise;
+		var data=JSON.stringify(inputs);
+		promise=$http({method:"POST",
+				url:urlComplete,
+				data:data
+			}).then(function(response){
+				myService.checkState(response.data.state);
+				return response.data;
+			});
+		return promise;
+	};
+	this.getProjectOfExecution=function(executionID){
+		var urlComplete=UNIAPI_URL_API_REST+"/execution/"+myService.tokenSession+"/"+executionID+"/project";
+		var promise;
+		promise=$http({method:"GET",
+				url:urlComplete
+			}).then(function(response){
+				myService.checkState(response.data.state);
+				return response.data.projects[0];
+			});
+		return promise;
+	};
 });

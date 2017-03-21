@@ -23,9 +23,11 @@ import es.uniapi.modules.model.Project;
 public class ServiceGit extends EspecialService implements es.uniapi.modules.execution_enviroment.service.especial.Intf.ServiceGit {
 
 	Project projectGit;
-	String option;
-	
-	public void inicializateService(Project project,String option) throws ServiceException {
+	GitOption option;
+	public enum GitOption{
+		LOAD,NEW
+	}
+	public void inicializateService(Project project,GitOption option) throws ServiceException {
 		// TODO Auto-generated method stub
 		this.projectGit=project;
 		this.option=option;
@@ -38,12 +40,12 @@ public class ServiceGit extends EspecialService implements es.uniapi.modules.exe
 		File directory=new File(super.getAbsoluteProjectPath(projectGit));
 		return directory.exists();
 	}
-	public void run(String option){
+	public void run(){
 		switch(this.option){
-		case "loadProject":
+		case LOAD:
 			this.loadProject();
 		break;
-		case "newProject":
+		case NEW:
 			this.newProyect();
 		break;
 		}
@@ -51,7 +53,12 @@ public class ServiceGit extends EspecialService implements es.uniapi.modules.exe
 	public void loadProject(){
 		// TODO Auto-generated method stub
 		try {
-			GitControl git=new GitControl(super.getAbsoluteProjectPath(projectGit),projectGit.getGitRepositoryURL(),projectGit.getEmail(),projectGit.getPassword());
+			System.out.println(super.getAbsoluteProjectPath(projectGit));
+			GitControl git=new GitControl(
+					super.getAbsoluteProjectPath(projectGit),
+					projectGit.getGitRepositoryURL(),
+					projectGit.getEmail(),
+					projectGit.getPassword());
 			git.pullFromRepo();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

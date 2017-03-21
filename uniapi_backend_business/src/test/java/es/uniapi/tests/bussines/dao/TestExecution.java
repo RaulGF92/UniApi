@@ -29,7 +29,7 @@ public class TestExecution {
 			
 		}
 		
-		Execution execution=new Execution(ExecutionState.START,
+		Execution execution=new Execution("prueba","prueba",ExecutionState.START,
 				"", new Date(), null, "", "");
 		try {
 			dao.getUniApiDao().getExecution().create(execution);

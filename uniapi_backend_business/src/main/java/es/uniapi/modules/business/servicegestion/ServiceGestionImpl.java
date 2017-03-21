@@ -44,7 +44,8 @@ public class ServiceGestionImpl implements ServiceGestion {
 			inputs=json;
 		}
 		
-		Execution execution=new Execution(
+		Execution execution=new Execution(project.getName(),
+				group.getName(),
 				ExecutionState.RUNNING, 
 				inputs.toString(), 
 				new Date(), 
@@ -122,7 +123,7 @@ public class ServiceGestionImpl implements ServiceGestion {
 		
 		ArrayList<Execution> response=new ArrayList<Execution>();
 		response.addAll(Arrays.asList(finishSetError));
-		response.addAll(Arrays.asList(finishSetError));
+		response.addAll(Arrays.asList(finishSetSucess));
 		
 		return response.toArray(new Execution[response.size()]);
 		
@@ -248,6 +249,19 @@ public class ServiceGestionImpl implements ServiceGestion {
 			throw new BussinessException("Fallo en la obtención de ejecucion");
 		}
 		return execution;
+	}
+
+	@Override
+	public Project getProjectOfExecution(Execution execution) throws BussinessException {
+		// TODO Auto-generated method stub
+		UniApiFactoryDAO dao=new UniApiFactoryDAO();
+		try {
+			return dao.getActions().getProjectUseForExecution(execution);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new BussinessException("Fallo en la busqueda del proyecto relacionado con la ejecucion");
+		}
+		
 	}
 
 }

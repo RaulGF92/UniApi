@@ -53,7 +53,7 @@ public class MakeReferenceDAOImpl {
 				makeReference=new MakeReference(null,null);
 			}
 		}
-		
+		session.close();
 		return makeReference;
 	}
 	

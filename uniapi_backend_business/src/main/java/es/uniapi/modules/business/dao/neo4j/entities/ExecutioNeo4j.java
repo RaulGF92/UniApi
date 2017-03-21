@@ -35,8 +35,10 @@ public class ExecutioNeo4j implements ExecutionDAO {
 		// TODO Auto-generated method stub
 		Session session = driver.session();
 		String statement="CREATE (e:Execution "
-				+ "{stateOfExecution:{stateOfExecution}"
-				+ ",inputJson:{inputJson},"
+				+ "{nameExecution:{nameExecution},"
+				+ "groupOfExecution:{groupOfExecution},"
+				+ "stateOfExecution:{stateOfExecution},"
+				+ "inputJson:{inputJson},"
 				+ "creationDate:{creationDate},"
 				+ "finishDate:{finishDate},"
 				+ "response:{response},"
@@ -44,7 +46,9 @@ public class ExecutioNeo4j implements ExecutionDAO {
 				+ "hashcode:{hashcode}})";
 		
 		StatementResult result=session.run(statement
-				,parameters("stateOfExecution",execution.getStateOfExecution().toString()
+				,parameters("stateOfExecution",execution.getStateOfExecution().toString(),
+						"nameExecution",execution.getNameExecution(),
+						"groupOfExecution",execution.getGroupOfExecution()
 						,"inputJson",execution.getInputJson()
 						,"creationDate",new Date().getTime(),
 						"finishDate",(long)0,
@@ -61,7 +65,9 @@ public class ExecutioNeo4j implements ExecutionDAO {
 		System.out.println(hash);
 		Session session = driver.session();
 		String statement="MATCH (e:Execution {hashcode:{hash}}) "
-				+ "SET e.stateOfExecution={stateOfExecution},"
+				+ "SET e.nameExecution={nameExecution},"
+				+ "e.groupOfExecution={groupOfExecution},"
+				+ "e.stateOfExecution={stateOfExecution},"
 				+ "e.inputJson={inputJson},"
 				+ "e.creationDate={creationDate},"
 				+ "e.finishDate={finishDate},"
@@ -72,7 +78,9 @@ public class ExecutioNeo4j implements ExecutionDAO {
 		StatementResult result=session.run(statement
 				,parameters(
 						"hash",hash,
-						"stateOfExecution",execution.getStateOfExecution().toString()
+						"stateOfExecution",execution.getStateOfExecution().toString(),
+						"nameExecution",execution.getNameExecution(),
+						"groupOfExecution",execution.getGroupOfExecution()
 						,"inputJson",execution.getInputJson()
 						,"creationDate",execution.getCreationDate().getTime(),
 						"finishDate",execution.getFinishDate().getTime(),
@@ -91,6 +99,8 @@ public class ExecutioNeo4j implements ExecutionDAO {
 		
 		String statement="MATCH (e:Execution {hashcode:{hash}} ) RETURN  "
 				+ "e.stateOfExecution AS stateOfExecution,"
+				+ "e.nameExecution AS nameExecution,"
+				+ "e.groupOfExecution AS groupOfExecution,"
 				+ "e.inputJson AS inputJson,"
 				+ "e.creationDate AS creationDate,"
 				+ "e.finishDate AS finishDate,"
@@ -102,7 +112,9 @@ public class ExecutioNeo4j implements ExecutionDAO {
 		while(result.hasNext()){
 			Record record = result.next();
 			execution=new Execution(
-					ExecutionState.valueOf(record.get("stateOfExecution").asString()), 
+					record.get("nameExecution").asString(),
+					record.get("groupOfExecution").asString(),
+					ExecutionState.valueOf(record.get("stateOfExecution").asString()),
 					record.get("inputJson").asString(), 
 					new DateTime(record.get("creationDate").asLong()).toDate(), 
 					new DateTime(record.get("finishDate").asLong()).toDate(), 
@@ -123,6 +135,8 @@ public class ExecutioNeo4j implements ExecutionDAO {
 		
 		String statement="MATCH (e:Execution) RETURN  "
 				+ "e.stateOfExecution AS stateOfExecution,"
+				+ "e.nameExecution AS nameExecution,"
+				+ "e.groupOfExecution AS groupOfExecution,"
 				+ "e.inputJson AS inputJson,"
 				+ "e.creationDate AS creationDate,"
 				+ "e.finishDate AS finishDate,"
@@ -133,6 +147,8 @@ public class ExecutioNeo4j implements ExecutionDAO {
 		while(result.hasNext()){
 			Record record = result.next();
 			execution=new Execution(
+					record.get("nameExecution").asString(),
+					record.get("groupOfExecution").asString(),
 					ExecutionState.valueOf(record.get("stateOfExecution").asString()), 
 					record.get("inputJson").asString(), 
 					new DateTime(record.get("creationDate").asLong()).toDate(), 
@@ -156,6 +172,8 @@ public class ExecutioNeo4j implements ExecutionDAO {
 		String statement="MATCH (e:Execution) "
 				+ "WHERE e.stateOfExecution={stateOfExecution1} RETURN  "
 				+ "e.stateOfExecution AS stateOfExecution,"
+				+ "e.nameExecution AS nameExecution,"
+				+ "e.groupOfExecution AS groupOfExecution,"
 				+ "e.inputJson AS inputJson,"
 				+ "e.creationDate AS creationDate,"
 				+ "e.finishDate AS finishDate,"
@@ -167,7 +185,9 @@ public class ExecutioNeo4j implements ExecutionDAO {
 		while(result.hasNext()){
 			Record record = result.next();
 			execution=new Execution(
-					ExecutionState.valueOf(record.get("stateOfExecution").asString()), 
+					record.get("nameExecution").asString(),
+					record.get("groupOfExecution").asString(),
+					ExecutionState.valueOf(record.get("stateOfExecution").asString()),
 					record.get("inputJson").asString(), 
 					new DateTime(record.get("creationDate").asLong()).toDate(), 
 					new DateTime(record.get("finishDate").asLong()).toDate(), 
