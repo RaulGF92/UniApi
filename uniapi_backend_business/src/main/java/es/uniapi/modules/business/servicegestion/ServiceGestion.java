@@ -17,6 +17,7 @@ public interface ServiceGestion {
 	public Execution getExecution(UserLogin user,String hash) throws BussinessException;
 	public Execution[] getAllExecutionsRunning() throws BussinessException;
 	public Execution[] getAllExecutionsFinish() throws BussinessException;
+	public Project getProjectOfExecution(Execution execution) throws BussinessException;
 	
 	public Execution[] getAllUserRunningExecutions(UserLogin user) throws BussinessException;
 	public Execution[] getAllUserExecutionsByState(UserLogin user,ExecutionState state) throws BussinessException;

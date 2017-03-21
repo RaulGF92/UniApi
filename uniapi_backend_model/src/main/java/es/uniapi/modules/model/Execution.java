@@ -8,6 +8,8 @@ public class Execution {
 
 
 
+	private String nameExecution;
+	private String groupOfExecution;
 	private ExecutionState stateOfExecution;
 	private String inputJson;
 	private Date creationDate;
@@ -16,9 +18,11 @@ public class Execution {
 	private String console;
 	private String hashcode;
 	
-	public Execution(ExecutionState stateOfExecution, String inputJson, Date creationDate, Date finishDate,
+	public Execution(String nameExecution,String groupOfExecution,ExecutionState stateOfExecution, String inputJson, Date creationDate, Date finishDate,
 			String response, String console) {
 		super();
+		this.nameExecution=nameExecution;
+		this.groupOfExecution=groupOfExecution;
 		this.stateOfExecution = stateOfExecution;
 		this.inputJson = inputJson;
 		this.creationDate = creationDate;
@@ -92,5 +96,29 @@ public class Execution {
 
 	public void setConsole(String console) {
 		this.console = console;
+	}
+
+	public String getNameExecution() {
+		return nameExecution;
+	}
+
+	public void setNameExecution(String nameExecution) {
+		this.nameExecution = nameExecution;
+	}
+
+	public String getGroupOfExecution() {
+		return groupOfExecution;
+	}
+
+	public void setGroupOfExecution(String groupOfExecution) {
+		this.groupOfExecution = groupOfExecution;
+	}
+
+	public String getHashcode() {
+		return hashcode;
+	}
+
+	public void setHashcode(String hashcode) {
+		this.hashcode = hashcode;
 	};
 }

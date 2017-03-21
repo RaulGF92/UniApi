@@ -59,8 +59,8 @@ public class SessionGestorMap implements SessionGestor {
 			userLogin = dao.getUserLoginDAO().findByEmail(user);
 			if(userLogin==null)
 				return new Message(1,codificatedToken,new String[0]);
-			System.out.println(userLogin.toString());
-			System.out.println("pass:"+pass+" codificated:"+SHA1.encryptPassword(pass));
+			//System.out.println(userLogin.toString());
+			//System.out.println("pass:"+pass+" codificated:"+SHA1.encryptPassword(pass));
 			if(userLogin.getPass().compareTo(SHA1.encryptPassword(pass))==0){
 				//exist
 				String[] relatedIDs={userLogin.hash()};

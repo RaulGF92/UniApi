@@ -11,7 +11,7 @@ import es.uniapi.modules.model.UserLogin;
 public class TestProjectGestion {
 
 	public static void main(String args []){
-		ProjectGestionImpl gest=new ProjectGestionImpl();
+		ProjectGestionImpl gest=ProjectGestionImpl.getProjectGestionImpl();
 		Project project=new Project(new Date(),"Prueba1",
 				ProjectType.PYTHON,"description", 
 				"https://github.com/RaulGF92/prueba.git", 

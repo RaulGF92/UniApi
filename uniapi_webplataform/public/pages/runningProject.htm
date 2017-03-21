@@ -1,0 +1,29 @@
+<div id="runExecution" class="modal">
+		<!-- Modal content -->
+	<div id="runExecutionContent" style="width: 70%;margin-left: 25%;margin-top:7%" class="modal-content">
+
+	</div>
+</div>
+<h1 class="page-header">Proyectos en ejecución:</h1>
+<div class="row">
+	<div class="col-md-3">
+		<button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-chevron-left"></span></button>	
+	</div>
+	<div class="col-md-3">
+	</div>
+	<div class="col-md-3">
+	</div>
+	<div class="col-md-3">
+		<button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-chevron-right"></span></button>
+	</div>	
+</div>
+<div class="row placeholders">
+	<div ng-repeat="exe in exes track by (exe.hashcode + $index)" class="col-xs-6 col-sm-3 placeholder">
+		<div ng-click="clickEnterExecution(exe.hashcode)">
+			<img src="resource/img/hex-loader2.gif" width="200" height="200" class="img-responsive img-circle carga" alt="Generic placeholder thumbnail">
+			<h4>{{exe.nameExecution}}</h4>
+			<span class="text-muted">{{exe.groupOfExecution}}</span>
+		</div>
+	</div>
+</div>
+

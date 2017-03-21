@@ -46,6 +46,7 @@ public class UserLoginNeo4j implements UserLoginDAO {
 		
 		String statement="MATCH (a:UserLogin) WHERE a.user = {user} AND a.pass = {pass} AND a.creationTime = {creationTime} AND a.rol = {rol} DELETE a";
 		StatementResult result=session.run(statement,parameters("user",userLogin.getUser(),"pass",userLogin.getPass(),"creationTime",userLogin.getCreationDate().getTime(),"rol",userLogin.getRol()));
+		session.close();
 	}
 
 	@Override
@@ -96,7 +97,7 @@ public class UserLoginNeo4j implements UserLoginDAO {
 					new DateTime(record.get("creationTime").asLong()).toDate(), 
 					record.get("rol").asString());
 		}
-		
+		session.close();
 		return userLogin;
 	}
 
@@ -124,7 +125,7 @@ public class UserLoginNeo4j implements UserLoginDAO {
 			
 			userLogins.add(userLogin);
 		}
-		
+		session.close();
 		return userLogins.toArray(new UserLogin[userLogins.size()]);
 	}
 

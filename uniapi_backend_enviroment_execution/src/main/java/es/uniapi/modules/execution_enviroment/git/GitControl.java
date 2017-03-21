@@ -49,6 +49,7 @@ public class GitControl {
 
     public void cloneRepo() throws IOException, NoFilepatternException, GitAPIException {
         Git.cloneRepository()
+        		.setCredentialsProvider(cp)
                 .setURI(remotePath)
                 .setDirectory(new File(localPath))
                 .call();
@@ -86,9 +87,6 @@ public class GitControl {
             InvalidRemoteException, CanceledException, RefNotFoundException,
             NoHeadException, GitAPIException {
         git.pull().call();
-        
-       
-        
     }
     
     public static void init(String directoryPath) throws IllegalStateException, GitAPIException{
