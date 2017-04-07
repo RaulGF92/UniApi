@@ -42,7 +42,9 @@ public class PathController {
 		String objetiveGroup="public";
 		if(user == null)
 			return new Message(4, token, relatedIDs);
-		
+		/*
+		 * MATCH t=(u:UserLogin {user:"raulgf92@gmail.com"})-[k:KNOWS]-(g:Group) WHERE NOT (g)<-[:IS_SUBGROUP]-(:Group) AND NOT g.name="Public"  return g
+		 */
 		try{
 			Group[] groups=Modules.getPathModule().getMainPath(user);
 			groupIDs=new String[groups.length];
