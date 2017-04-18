@@ -105,6 +105,27 @@ public class ExecutionController {
 	
 		
 	}
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value="/{token}/{executionID}",method=RequestMethod.DELETE)
+	public Message deleteExecution(@PathVariable String token,
+			@PathVariable String executionID){
+		String[] relatedID={executionID};
+		UserLogin user=this.checkSession(token);
+		if(user==null)
+			return new Message(4, token,new String[0]);
+		
+		try {
+			
+			
+		} catch (BussinessException e) {
+			// TODO Auto-generated catch block
+			return new Message(53,token,relatedID);
+		}
+	
+		
+	}
+	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value="/{token}/{executionID}/project",method=RequestMethod.GET)
 	public Message getProjectOfExecution(@PathVariable String token,
