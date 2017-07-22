@@ -19,21 +19,21 @@ public class TestGroup {
 		 *[2]:removeProjectsInGroup;
 		 *[3]:removeExternalProjectInGroup;
 		*/
-		String[] sharingGroupPermissions={"YES","YES","YES","NO"};
+		String[] sharingGroupPermissions={"YES","YES","YES","YES"};
 		
 		/* Project Properties permisions:
 		 *[0]:ALL
 		 *[1]:executionProjects,
 		 *[2]:modifyInputsParams
 		 */
-		String[] projectPropertiesPermissions={"YES","YES","NO"};
+		String[] projectPropertiesPermissions={"YES","YES","YES"};
 		
 		/* Member Gestion permissions:
 		 *[0]:ALL;
 		 *[2]:addMember;
 		 *[3]:removeMember;
 		 */
-		String[] memberGestionPermissions={"NO","NO","NO"};
+		String[] memberGestionPermissions={"YES","YES","YES"};
 		
 		/* Group creation Permissions:
 		 *[0]:ALL
@@ -41,14 +41,14 @@ public class TestGroup {
 		 *[2]:createRestrictedGroup;
 		 *[3]:createPublicGroup;
 		 */
-		String[] groupCreationPermissions={"NO","NO","NO","NO"};
+		String[] groupCreationPermissions={"YES","YES","YES","YES"};
 		
-		Group publicGroup=new Group("Public", new Date(),GroupType.MAIN_GROUP
+		Group publicGroup=new Group("Informatica", new Date(),GroupType.MAIN_GROUP
 				,sharingGroupPermissions, 
 				projectPropertiesPermissions, 
 				memberGestionPermissions, 
 				groupCreationPermissions,
-				"pollas");
+				"Grupo del departamento de informatica");
 		UniApiFactoryDAO dao=new UniApiFactoryDAO();
 		
 		try {

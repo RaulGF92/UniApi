@@ -49,7 +49,7 @@ public class ExecutionController {
 		UserLogin user=this.checkSession(token);
 		if(user==null)
 			return new Message(4, token,new String[0]);
-		
+		System.out.println(response);
 		JSONObject jsonObject=new JSONObject(response);
 		
 		try {
@@ -115,13 +115,7 @@ public class ExecutionController {
 		if(user==null)
 			return new Message(4, token,new String[0]);
 		
-		try {
-			
-			
-		} catch (BussinessException e) {
-			// TODO Auto-generated catch block
-			return new Message(53,token,relatedID);
-		}
+		return null;
 	
 		
 	}
@@ -163,8 +157,7 @@ public class ExecutionController {
 			return new Message(4, token,new String[0]);
 		
 		try {
-			Execution[] execution=Modules.getExecutionModule()
-					.getAllExecutionsRunning();
+			Execution[] execution=Modules.getExecutionModule().getAllUserRunningExecutions(user);
 			String[] relatedID=new String[execution.length];
 			for(int i=0;i<execution.length;i++){
 				relatedID[i]=execution[i].hash();

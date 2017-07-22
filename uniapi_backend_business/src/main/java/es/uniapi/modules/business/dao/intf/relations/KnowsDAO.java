@@ -13,6 +13,7 @@ public interface KnowsDAO {
 	public Knows getInfoGroupKnowByUser(UserLogin user,Group group) throws Exception;
 	public UserLogin[] getAllUserKnowsGroup(Group group)throws Exception;
 	public void deleteUserKnowsGroup(UserLogin user,Group group) throws Exception;
+	public Group[] getAllGroupsKnowsByUserMainPath(UserLogin user);
 	
 	
 }

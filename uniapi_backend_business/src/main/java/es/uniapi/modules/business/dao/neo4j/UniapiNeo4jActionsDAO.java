@@ -32,7 +32,6 @@ public class UniapiNeo4jActionsDAO implements UniapiActionsDAO {
 		return;
 	}
 
-	@Override
 	public Person getPersonReferenceToUserLogin(UserLogin user) throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -151,7 +150,6 @@ public class UniapiNeo4jActionsDAO implements UniapiActionsDAO {
 		// TODO Auto-generated method stub
 		dao= new UniapiNeo4jDAO();
 		return dao.getSubgroupDAO().getAllSubgroupOfGroup(group);
-		
 	}
 
 	@Override
@@ -247,5 +245,9 @@ public class UniapiNeo4jActionsDAO implements UniapiActionsDAO {
 		return dao.getUseDAO().getExecutionsUsingProject(project);
 	}
 
-
+	public Group[] getMainPath(UserLogin user) throws Exception{
+		
+		dao = new UniapiNeo4jDAO();
+		return dao.getKnowsDAO().getAllGroupsKnowsByUserMainPath(user);
+	}
 }

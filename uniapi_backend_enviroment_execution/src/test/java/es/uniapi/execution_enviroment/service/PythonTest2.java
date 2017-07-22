@@ -2,6 +2,10 @@ package es.uniapi.execution_enviroment.service;
 
 import java.util.ArrayList;
 
+import es.uniapi.modules.execution_enviroment.service.programming.Impl.ServiceOctave;
+import es.uniapi.modules.model.Project;
+import es.uniapi.modules.model.Project.ProjectType;
+
 
 
 public class PythonTest2 {
@@ -14,36 +18,9 @@ public class PythonTest2 {
 	 * 
 	 * @param args
 	 */
-	/*
+	
 	public static void main(String[] args){
-		Proyect proyectoPython=new Proyect("ProyectoBasico2","C:\\pruebasUniApi\\ProyectoBasico2", ProyectType.PYTHON);
-		
-		ArrayList<String> arguments=new ArrayList<String>();
-		String responsePath="C:\\pruebasUniApi\\ProyectoBasico2\\respuesta";
-		arguments.add("1000");
-		InfoPython info=new InfoPython("main.py", "output_Program_Pesado_1000", "response_Program_Pesado_1000", arguments);
-		proyectoPython.getServiceInfo().add(info);
-		
-		ServiceProgrammingFactory factory=new ServiceProgrammingFactory();
-		try {
-			ServicePython service=factory.requestServicePython();
-			service.InicializateService(proyectoPython);
-			service.executedProyect(responsePath);
-			
-			int contador=0;
-			while(contador<1000){
-				System.out.println("do something");
-				contador++;
-			}
-			System.out.println("we gonna stoped the program");
-			if(service.getState()==ExecutionState.Running){
-				service.stopedCurrentExecution();
-			}
-				
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ServiceOctave octave=new ServiceOctave(0);
 	}
-	*/
+	
 }

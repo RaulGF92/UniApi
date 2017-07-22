@@ -11,6 +11,7 @@ import es.uniapi.modules.apirest.model.Message;
 import es.uniapi.modules.apirest.model.MessagePath;
 import es.uniapi.modules.apirest.model.SessionGestionException;
 import es.uniapi.modules.business.Modules;
+import es.uniapi.modules.business.dao.intf.UniApiFactoryDAO;
 import es.uniapi.modules.business.exception.BussinessException;
 import es.uniapi.modules.model.Group;
 import es.uniapi.modules.model.Project;
@@ -47,6 +48,10 @@ public class PathController {
 		 */
 		try{
 			Group[] groups=Modules.getPathModule().getMainPath(user);
+			if(groups.length == 0) {
+				UniApiFactoryDAO dao =new UniApiFactoryDAO();
+				groups=dao.getActions().getGroupsKnowsByUser(user);
+			}
 			groupIDs=new String[groups.length];
 			for(int i=0;i<groups.length;i++){
 				groupIDs[i]=groups[i].hash();
@@ -116,7 +121,7 @@ public class PathController {
 	}
 	
 	public Group getPublicGroup(){
-		String publicHash="9a6e2acfcbc1a5464754cdf847c4122ed9f65153";
+		String publicHash="f2e07c5daa643d64591febde2184807b45c88512";
 		try {
 			return Modules.getGroupModule().findByHash(publicHash);
 		} catch (Exception e) {

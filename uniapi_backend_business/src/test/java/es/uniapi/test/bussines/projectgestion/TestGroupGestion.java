@@ -13,19 +13,20 @@ public class TestGroupGestion {
 
 		UniApiFactoryDAO dao=new UniApiFactoryDAO();
 		try {
-			UserLogin raul=dao.getUniApiDao().getUserLoginDAO().findByEmail("raulgf92@gmail.com");
-			UserLogin ludy=dao.getUniApiDao().getUserLoginDAO().findByEmail("ludyff@gmail.com");
+			UserLogin raul=dao.getUniApiDao().getUserLoginDAO().findByEmail("raulgf92@uniapi.es");
+			//UserLogin ludy=dao.getUniApiDao().getUserLoginDAO().findByEmail("ludyff@gmail.com");
 			Group[] gruops=dao.getActions().getAllTypeGroups(GroupType.MAIN_GROUP);
 			Group publicGroup=null;
 			for(int i=0;i<gruops.length;i++){
-				if(gruops[i].getName().compareTo("Public")==0)
+				if(gruops[i].getName().compareTo("Public")!=0)
 					publicGroup=gruops[i];
+				if(publicGroup!=null){
+					dao.getActions().userKnowsGroup(raul,publicGroup);
+					//dao.getActions().userKnowsGroup(ludy,publicGroup);
+					
+				}
 			}
-			if(publicGroup!=null){
-				//dao.getActions().userKnowsGroup(raul,publicGroup);
-				//dao.getActions().userKnowsGroup(ludy,publicGroup);
-				
-			}
+			
 			UserLogin[] users=dao.getActions().getAllUserKnowGroup(publicGroup);
 			System.out.println(users.length);
 			System.out.println(dao.getActions().getGroupsKnowsByUser(raul)[0].especialtoString());

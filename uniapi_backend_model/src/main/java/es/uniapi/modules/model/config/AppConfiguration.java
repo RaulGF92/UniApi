@@ -65,9 +65,10 @@ public class AppConfiguration {
 
 	public AppConfiguration(){
 		File file = new File(" ");
-		this.configPath = file.getAbsolutePath();
-		String[] vector=configPath.split("uniapi");
-		this.configPath=vector[0]+"data/conf/";
+		this.configPath = "/home/raulgf92/Escritorio/Proyectos/uniapi/data/conf/";
+		//String[] vector=configPath.split("uniapi");
+		//this.configPath=vector[0]+"data/conf/";
+		//this.configPath=configPath+"data/conf/";
 		try {
 			this.loadProperties();
 		} catch (CriticalAppExcepction | ConfigurationException e) {

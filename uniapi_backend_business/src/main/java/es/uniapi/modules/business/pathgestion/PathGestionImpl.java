@@ -17,7 +17,7 @@ public class PathGestionImpl implements PathGestion {
 		// TODO Auto-generated method stub
 		UniApiFactoryDAO dao=new UniApiFactoryDAO();
 		try {
-			return dao.getActions().getGroupsKnowsByUser(user);
+			return dao.getActions().getMainPath(user);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			return new Group[0];

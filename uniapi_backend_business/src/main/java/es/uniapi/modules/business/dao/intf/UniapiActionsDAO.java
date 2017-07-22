@@ -46,5 +46,5 @@ public interface UniapiActionsDAO {
 	public void executionUseProject(Execution execution,Project project)throws Exception; 
 	public Project getProjectUseForExecution(Execution execution)throws Exception;
 	public Execution[] getExecutionsUsingProject(Project project)throws Exception;
-	
+	public Group[] getMainPath(UserLogin user) throws Exception;
 }
